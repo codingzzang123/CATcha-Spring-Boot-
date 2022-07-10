@@ -51,7 +51,7 @@ public class MainService {
 
     /* 최근 게시물 5개 */
     public List<BoardTopDto> getBoardTop(){
-        List<Board> ls = boardRepository.findTop5ByOrderByNoDesc();
+        List<Board> ls = boardRepository.getBoardTop();
         List<BoardTopDto> btd = new ArrayList<>();
 
         for(Board b : ls){
