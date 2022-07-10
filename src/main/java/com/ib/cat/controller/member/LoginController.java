@@ -15,7 +15,7 @@ public class LoginController {
     }
 
     @PostMapping("member/login")
-    public String postLogin(HttpServletRequest req, ){
+    public String postLogin(HttpServletRequest req){
         return "member/login";
     }
 }
