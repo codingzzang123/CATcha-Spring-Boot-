@@ -6,6 +6,7 @@ import com.ib.cat.utils.SearchInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Service
@@ -30,8 +31,12 @@ public class SearchService {
 
     public SearchCountDto scd(String query) {
         return searchInfoUtil.contents(query);
+
     }
 
+    public List<ContentsDto> movie(Integer page, String query){
+        return searchInfoUtil.getMovieList(page, query);
+    }
 //    public List<MainDTO> board(int page,String query){
 //        return contentsService.getBoardList(page, query);
 //    }

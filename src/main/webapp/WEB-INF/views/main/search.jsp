@@ -102,30 +102,30 @@
     <ul class="pagination">
 
         <!-- 페이징 맨앞으로 버튼
-	  	<li class="page-item"><a class="page-link" href="<c:url value='/search/movie?query=${query }&page=${now-1 }'/>">START</a></li> -->
+	  	<li class="page-item"><a class="page-link" href="<c:url value='/search/movie?query=${query }&page=${paging.curPage-1 }'/>">START</a></li> -->
 
         <!-- 페이징 << 버튼 -->
-        <c:if test="${now ne 1 }">
+        <c:if test="${paging.curPage ne 1 }">
             <c:choose>
                 <c:when test="${type eq 'm' }">
-                    <li class="page-item"><a class="page-link" href="<c:url value='/search/movie?query=${query }&page=${now-1 }'/>">&laquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="<c:url value='/search/movie?query=${query }&page=${paging.curPage-1 }'/>">&laquo;</a></li>
                 </c:when>
                 <c:when test="${type eq 't' }">
-                    <li class="page-item"><a class="page-link" href="<c:url value='/search/tv?query=${query }&page=${now-1 }'/>">&laquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="<c:url value='/search/tv?query=${query }&page=${paging.curPage-1 }'/>">&laquo;</a></li>
                 </c:when>
                 <c:otherwise>
-                    <li class="page-item"><a class="page-link" href="<c:url value='/search/board?query=${query }&page=${now-1 }'/>">&laquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="<c:url value='/search/board?query=${query }&page=${paging.curPage-1 }'/>">&laquo;</a></li>
                 </c:otherwise>
             </c:choose>
         </c:if>
 
 
         <!-- 페이징 블럭 번호  -->
-        <c:forEach begin="${blockStartNum }" end="${blockLastNum }" var="i">
+        <c:forEach begin="${paging.blockStartNum }" end="${paging.blockLastNum }" var="i">
             <c:choose>
                 <c:when test="${type eq 'm' }">
                     <c:choose>
-                        <c:when test="${i eq now }">
+                        <c:when test="${i eq paging.curPage }">
                             <li class="page-item active"><a class="page-link" href="<c:url value='/search/movie?query=${query }&page=${i }'/>">${i }</a></li>
                         </c:when>
                         <c:otherwise>
@@ -136,7 +136,7 @@
 
                 <c:when test="${type eq 't' }">
                     <c:choose>
-                        <c:when test="${i eq now }">
+                        <c:when test="${i eq paging.curPage }">
                             <li class="page-item active"><a class="page-link" href="<c:url value='/search/tv?query=${query }&page=${i }'/>">${i }</a></li>
                         </c:when>
                         <c:otherwise>
@@ -147,7 +147,7 @@
 
                 <c:otherwise>
                     <c:choose>
-                        <c:when test="${i eq now }">
+                        <c:when test="${i eq paging.curPage }">
                             <li class="page-item active"><a class="page-link" href="<c:url value='/search/board?query=${query }&page=${i }'/>">${i }</a></li>
                         </c:when>
                         <c:otherwise>
@@ -160,16 +160,16 @@
 
 
         <!-- 페이징 >> 버튼 -->
-        <c:if test="${now ne end }">
+        <c:if test="${paging.curPage ne paging.lastPageNum }">
             <c:choose>
                 <c:when test="${type eq 'm' }">
-                    <li class="page-item"><a class="page-link" href="<c:url value='/search/movie?query=${query }&page=${now+1 }'/>">&raquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="<c:url value='/search/movie?query=${query }&page=${paging.curPage +1 }'/>">&raquo;</a></li>
                 </c:when>
                 <c:when test="${type eq 't' }">
-                    <li class="page-item"><a class="page-link" href="<c:url value='/search/tv?query=${query }&page=${now+1 }'/>">&raquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="<c:url value='/search/tv?query=${query }&page=${paging.curPage +1 }'/>">&raquo;</a></li>
                 </c:when>
                 <c:otherwise>
-                    <li class="page-item"><a class="page-link" href="<c:url value='/search/board?query=${query }&page=${now+1 }'/>">&raquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="<c:url value='/search/board?query=${query }&page=${paging.curPage +1 }'/>">&raquo;</a></li>
                 </c:otherwise>
             </c:choose>
         </c:if>

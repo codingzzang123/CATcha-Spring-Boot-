@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class SearchController {
@@ -27,21 +28,48 @@ public class SearchController {
 
     private SearchCountDto scd;
 
-    @RequestMapping(value={"/search", "/search/movie"}) //추가
-    public String searchform1(Model model, HttpServletRequest request) {
-        String query = request.getParameter("query");
-        String pageNum = request.getParameter("page");
-        int page;
+//    @RequestMapping(value={"/search", "/search/movie"}) //추가
+//    public String searchform1(Model model, HttpServletRequest request) {
+//        String query = request.getParameter("query");
+//        String pageNum = request.getParameter("page");
+//        int page;
+//
+//        if(pageNum==null)
+//            page=1;
+//        else
+//            page = Integer.parseInt(pageNum);
+//
+//        scd = searchService.scd(query);
+//        int blocks = scd.getMovie();
+//
+//        pagingUtil.startPaging(page, blocks);
+//
+//        List<ContentsDto> movieList = searchService.movie(page,query);
+//        Collections.sort(movieList, new SortMovieByVote());
+//
+//        model.addAttribute("contents", movieList);
+//        model.addAttribute("page", page);
+//        model.addAttribute("query", query);
+//        model.addAttribute("scd", scd);
+//
+//        /* 페이징 attribute 추가 */
+//        model.addAttribute("blockStartNum",pagingUtil.getBlockStartNum()); //블럭 시작 넘버 ,
+//        model.addAttribute("blockLastNum",pagingUtil.getBlockLastNum()); //추가한것1.
+//        model.addAttribute("now",pagingUtil.getCurPage()); //현재 페이지 위치
+//        model.addAttribute("end",pagingUtil.getLastPageNum()); //블럭 마지막 번호
+//        model.addAttribute("type","m");
+//
+//        return "main/search";
+//    }
 
-        if(pageNum==null)
-            page=1;
-        else
-            page = Integer.parseInt(pageNum);
+    @RequestMapping(value={"/search", "/search/movie"}) //추가
+    public String searchform1(Model model,
+                              @RequestParam(value="query", defaultValue=" ")String query,
+                              @RequestParam(value="page", defaultValue="1")Integer page) {
+
 
         scd = searchService.scd(query);
-        int blocks = scd.getMovie();
-
-        pagingUtil.startPaging(page, blocks);
+        pagingUtil.startPaging(page, scd.getMovie());
 
         List<ContentsDto> movieList = searchService.movie(page,query);
         Collections.sort(movieList, new SortMovieByVote());
@@ -52,15 +80,11 @@ public class SearchController {
         model.addAttribute("scd", scd);
 
         /* 페이징 attribute 추가 */
-        model.addAttribute("blockStartNum",pagingUtil.getBlockStartNum()); //블럭 시작 넘버 ,
-        model.addAttribute("blockLastNum",pagingUtil.getBlockLastNum()); //추가한것1.
-        model.addAttribute("now",pagingUtil.getCurPage()); //현재 페이지 위치
-        model.addAttribute("end",pagingUtil.getLastPageNum()); //블럭 마지막 번호
+        model.addAttribute("paging",pagingUtil);
         model.addAttribute("type","m");
 
         return "main/search";
     }
-
     @RequestMapping(value="/search/tv")
     public String searchform2(Model model, HttpServletRequest request) {
         String query = request.getParameter("query");
@@ -85,10 +109,7 @@ public class SearchController {
         model.addAttribute("scd", scd);
 
         /* 페이징 attribute 추가 */
-        model.addAttribute("blockStartNum",pagingUtil.getBlockStartNum()); //블럭 시작 넘버 ,
-        model.addAttribute("blockLastNum",pagingUtil.getBlockLastNum()); //추가한것1.
-        model.addAttribute("now",pagingUtil.getCurPage()); //현재 페이지 위치
-        model.addAttribute("end",pagingUtil.getLastPageNum()); //블럭 마지막 번호
+        model.addAttribute("paging",pagingUtil);
         model.addAttribute("type","t");
         return "main/search";
     }
