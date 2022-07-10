@@ -23,7 +23,7 @@
 <nav class="navbar navbar-expand-lg navbar-light customNav">
     <div class="navbar__logo">
         <a href="${pageContext.request.contextPath }/main">
-            <img src="img/main/logo.jpg" height="42px;">
+            <img src="/img/main/logo.jpg" height="42px;">
         </a>
         <span style="margin-left: 1em;">CATcha</span>
     </div>

@@ -286,5 +286,6 @@
         </div>
     </section>
     <br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <jsp:include page="/WEB-INF/views/templates/footer.jsp"></jsp:include>
 </body>
 </html>
