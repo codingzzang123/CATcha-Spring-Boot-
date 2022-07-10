@@ -1,10 +1,13 @@
 package com.ib.cat.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-public class BoardEntity {
+@Data
+public class Board {
     @Id
     @SequenceGenerator(name="seq", sequenceName="SEQ_BOARD", allocationSize=1)
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="seq")

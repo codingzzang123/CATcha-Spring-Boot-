@@ -1,7 +1,7 @@
 package com.ib.cat.utils;
 
-import com.ib.cat.dto.ContentsDto;
-import com.ib.cat.dto.main.SearchCountDTO;
+import com.ib.cat.dto.media.ContentsDto;
+import com.ib.cat.dto.main.SearchCountDto;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -26,7 +26,7 @@ public class SearchInfoUtil {
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private final String date = "0001-01-01";
     @Autowired
-    SearchCountDTO scd;
+    SearchCountDto scd;
 
     public List<ContentsDto> getMovieList(int page, String query){
         String apiURL =API_URL+ "search/movie?api_key=" + KEY +"&language=ko-KR&query="+query+"&page="+page;
@@ -131,7 +131,7 @@ public class SearchInfoUtil {
 //        return boardList;
 //    }
 
-    public SearchCountDTO contents(String query){
+    public SearchCountDto contents(String query){
         String apiMovieURL =API_URL+ "search/movie?api_key=" + KEY +"&language=ko-KR&query="+query;
         String apiTvURL =API_URL+ "search/tv?api_key=" + KEY +"&language=ko-KR&query="+query;
 

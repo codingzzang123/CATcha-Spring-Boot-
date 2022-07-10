@@ -1,12 +1,9 @@
 package com.ib.cat.repository;
 
-import com.ib.cat.entity.MemberEntity;
+import com.ib.cat.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.Repository;
 
-import java.util.List;
-
-public interface MemberRepository extends JpaRepository<MemberEntity, String> {
+public interface MemberRepository extends JpaRepository<Member, String> {
     public int countById(String id);
     public int countByName(String name);
 }

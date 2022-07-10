@@ -1,7 +1,7 @@
 package com.ib.cat.controller.main;
 
-import com.ib.cat.dto.ContentsDto;
-import com.ib.cat.dto.main.SearchCountDTO;
+import com.ib.cat.dto.media.ContentsDto;
+import com.ib.cat.dto.main.SearchCountDto;
 import com.ib.cat.service.main.SearchService;
 import com.ib.cat.utils.PagingUtil;
 
@@ -25,7 +25,7 @@ public class SearchController {
     @Autowired
     PagingUtil pagingUtil;
 
-    private SearchCountDTO scd;
+    private SearchCountDto scd;
 
     @RequestMapping(value={"/search", "/search/movie"}) //추가
     public String searchform1(Model model, HttpServletRequest request) {

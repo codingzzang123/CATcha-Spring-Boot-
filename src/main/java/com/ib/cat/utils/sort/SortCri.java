@@ -1,4 +1,4 @@
-package com.ib.cat.dto;
+package com.ib.cat.utils.sort;
 
 import lombok.Data;
 

@@ -1,9 +1,8 @@
 package com.ib.cat.controller.media;
 
-import com.ib.cat.dto.ContentsDto;
-import com.ib.cat.dto.CreditsDto;
-import com.ib.cat.service.ContentsService;
-import com.ib.cat.utils.SortByDate;
+import com.ib.cat.dto.media.ContentsDto;
+import com.ib.cat.dto.media.CreditsDto;
+import com.ib.cat.service.media.ContentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Controller

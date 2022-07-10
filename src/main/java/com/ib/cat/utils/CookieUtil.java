@@ -9,7 +9,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Component
-public class CheckCookie {
+public class CookieUtil {
     private String ip;
 
     public boolean isCookie(HttpServletRequest request) {

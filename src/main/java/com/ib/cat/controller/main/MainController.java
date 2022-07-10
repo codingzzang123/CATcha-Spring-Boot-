@@ -1,8 +1,8 @@
 package com.ib.cat.controller.main;
 
-import com.ib.cat.dto.ContentsDto;
-import com.ib.cat.service.ContentsService;
-import com.ib.cat.utils.CheckCookie;
+import com.ib.cat.dto.media.ContentsDto;
+import com.ib.cat.service.media.ContentsService;
+import com.ib.cat.utils.CookieUtil;
 import com.ib.cat.utils.sort.SortMovieByVote;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,7 @@ import java.util.List;
 public class MainController {
 
     @Autowired
-    private CheckCookie co;
+    private CookieUtil co;
 
     @Autowired
     ContentsService contentsService;

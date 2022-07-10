@@ -1,8 +1,8 @@
-package com.ib.cat.service;
+package com.ib.cat.service.media;
 
-import com.ib.cat.dto.ContentsDto;
-import com.ib.cat.dto.CreditsDto;
-import com.ib.cat.dto.GenresDto;
+import com.ib.cat.dto.media.ContentsDto;
+import com.ib.cat.dto.media.CreditsDto;
+import com.ib.cat.dto.media.GenresDto;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

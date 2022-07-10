@@ -1,14 +1,9 @@
-package com.ib.cat.entity;
+package com.ib.cat.dto.member;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
 @Data
-@Entity(name = "member")
-public class MemberEntity {
-    @Id
+public class MemberDto {
     private String id;
     private String pw;
     private String name;

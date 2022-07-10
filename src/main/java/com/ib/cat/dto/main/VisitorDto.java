@@ -3,7 +3,7 @@ package com.ib.cat.dto.main;
 import lombok.Data;
 
 @Data
-public class VisitorDTO {
+public class VisitorDto {
     private int today;
     private int total;
 }

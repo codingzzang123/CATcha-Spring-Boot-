@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Setter @Getter
-public class SearchCountDTO {
+public class SearchCountDto {
     private int movie;
     private int tv;
     private int board;
