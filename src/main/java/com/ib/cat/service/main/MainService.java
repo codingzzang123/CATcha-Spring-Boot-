@@ -30,13 +30,12 @@ public class MainService {
 
     /* 쿠키 -> 방문자 카운트 */
     public void isCookie(HttpServletRequest request, HttpServletResponse response){
-//        if(!cookieUtil.isCookie(request)) {
-//            cookieUtil.createCookie(response);
+        if(!cookieUtil.isCookie(request)) {
+            cookieUtil.createCookie(response);
             Visit visit = new Visit();
             visit.setReg(LocalDate.now());
             visitRepository.save(visit);
-            System.out.printf("실행");
-//        }
+        }
     }
 
     public Integer getTotal(){
