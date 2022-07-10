@@ -50,7 +50,8 @@ public class MainController {
         mainService.isCookie(request,response);
         mav.addObject("today",mainService.getToday());
         mav.addObject("total",mainService.getTotal());
-
+        mav.addObject("ls",mainService.getBoardTop());
+        
         return mav;
     }
 
