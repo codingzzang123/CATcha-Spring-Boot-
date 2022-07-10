@@ -80,9 +80,6 @@ public class ContentsService {
                 vo.setPosterPath(contents.get("poster_path").toString());
             }
 
-            //runtime
-//				String runtime = String.valueOf(contents.get("runtime"));
-//				vo.setRuntime(runtime);
             String runtime = String.valueOf(contents.get("runtime"));
             int hour = Integer.parseInt(runtime) / 60;
             int minute = Integer.parseInt(runtime) % 60;
@@ -295,6 +292,28 @@ public class ContentsService {
             e.printStackTrace();
         }
         return infoList;
+    }
+
+    public int getPages(String type, String sortBy) {
+        int pages = 0;
+
+        try {
+            URL url = new URL("https://api.themoviedb.org/3/discover/"+type+"?api_key="+KEY
+                    +"&language=ko&sort_by="+sortBy);
+            BufferedReader bf;
+            bf = new BufferedReader(new InputStreamReader(url.openStream(),"UTF-8"));
+            result = bf.readLine();
+
+            JSONParser jsonParser = new JSONParser();
+
+            JSONObject jsonObject = (JSONObject)jsonParser.parse(result);
+            String pagesS = jsonObject.get("total_pages").toString();
+            pages = Integer.parseInt(pagesS);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return pages;
     }
 
 
