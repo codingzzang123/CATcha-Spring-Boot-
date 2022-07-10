@@ -14,12 +14,11 @@
         body{
             text-align:center;
         }
-        nav{
-            display: inline-block;
-        }
         .test{width: 60px; height: 100px;}
         tr{vertical-align: middle;}
     </style>
+
+    <link href="/css/jieun/paging.css" rel="stylesheet"/>
 </head>
 <body class="text-center">
 <jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/templates/navbar.jsp"></jsp:include>
@@ -28,20 +27,20 @@
 <span>🔎 Search by ${query }, SearchType : ${type }</span>
 
 
-<span>
-		<a href="<c:url value='/search/movie?query=${query }&page=${page }'/>">
+    <span>
+		<a href="<c:url value='/search/movie?query=${query }&page=1'/>">
 			<button>영화 : ${scd.movie }개</button>
 		</a>
 	</span>
 
-<span>
-		<a href="<c:url value='/search/tv?query=${query }&page=${page }'/>">
+    <span>
+		<a href="<c:url value='/search/tv?query=${query }&page=1'/>">
 			<button>TV : ${scd.tv }개</button>
 		</a>
 	</span>
 
-<span>
-		<a href="<c:url value='/search/board?query=${query }&page=${page }'/>">
+    <span>
+		<a href="<c:url value='/search/board?query=${query }&page=1'/>">
 			<button>게시판 : ${scd.board }개</button>
 		</a>
 	</span>
@@ -99,7 +98,7 @@
 </c:choose>
 
 
-<nav aria-label="Page navigation example">
+<nav aria-label="Page navigation example" class="css-paging">
     <ul class="pagination">
 
         <!-- 페이징 맨앞으로 버튼
