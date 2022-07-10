@@ -1,6 +1,7 @@
 package com.ib.cat.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -13,7 +14,9 @@ public class Member {
     private String pw;
     private String name;
     private String email;
+    @ColumnDefault(value = "default.png")
     private String imgo;
+    @ColumnDefault(value = "default.png")
     private String imgs;
     private int auth;
 }

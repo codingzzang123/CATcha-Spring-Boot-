@@ -17,7 +17,7 @@ public class FileService {
         String[] uuids = uuid.toString().split("-");
         String imgs = uuids[0] + "."+fileExtension;
 
-        String[] img = {imgo, imgs};
+        String[] img = {imgo, imgs, String.valueOf(uuid)};
 
         File file = new File(path+imgs);
 
@@ -33,15 +33,15 @@ public class FileService {
         return img;
     }
 
-    public String[] nullFileUpload() {
-        String imgo = "default.png";
-
-        UUID uuid = UUID.randomUUID();
-        String[] uuids = uuid.toString().split("-");
-        String imgs = uuids[0] + ".png";
-
-        String[] img = {imgo, imgs};
-
-        return img;
-    }
+//    public String[] nullFileUpload() {
+//        String imgo = "default.png";
+//
+//        UUID uuid = UUID.randomUUID();
+//        String[] uuids = uuid.toString().split("-");
+//        String imgs = uuids[0] + ".png";
+//
+//        String[] img = {imgo, imgs};
+//
+//        return img;
+//    }
 }
