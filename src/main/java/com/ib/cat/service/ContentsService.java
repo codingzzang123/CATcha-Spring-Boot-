@@ -24,7 +24,8 @@ import java.util.List;
 @Service
 public class ContentsService {
 
-    private final String KEY="e8b937d602d4a3d3bda9a5be4c9a6a44";
+    private static final String KEY = "e8b937d602d4a3d3bda9a5be4c9a6a44";
+    private static final String API_URL = "https://api.themoviedb.org/3/";
     //API를 통해 추출한 json 형태의 결과값을 저장할 변수
     private String result ="";
 
@@ -296,28 +297,6 @@ public class ContentsService {
         return infoList;
     }
 
-
-    public int getPages(String type, String sortBy) {
-        int pages = 0;
-
-        try {
-            URL url = new URL("https://api.themoviedb.org/3/discover/"+type+"?api_key="+KEY
-                    +"&language=ko&sort_by="+sortBy);
-            BufferedReader bf;
-            bf = new BufferedReader(new InputStreamReader(url.openStream(),"UTF-8"));
-            result = bf.readLine();
-
-            JSONParser jsonParser = new JSONParser();
-
-            JSONObject jsonObject = (JSONObject)jsonParser.parse(result);
-            String pagesS = jsonObject.get("total_pages").toString();
-            pages = Integer.parseInt(pagesS);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return pages;
-    }
 
     public List<String> getImages(String type, int id) {
         //이미지 주소 - String
