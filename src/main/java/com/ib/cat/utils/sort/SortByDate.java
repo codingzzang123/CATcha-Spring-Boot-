@@ -1,6 +1,6 @@
-package com.ib.cat.utils;
+package com.ib.cat.utils.sort;
 
-import com.ib.cat.dto.ContentsDto;
+import com.ib.cat.dto.media.ContentsDto;
 
 import java.util.Comparator;
 import java.util.Date;

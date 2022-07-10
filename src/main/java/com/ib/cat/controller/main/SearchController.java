@@ -1,6 +1,6 @@
 package com.ib.cat.controller.main;
 
-import com.ib.cat.dto.ContentsDto;
+import com.ib.cat.dto.media.ContentsDto;
 import com.ib.cat.dto.main.SearchCountDTO;
 import com.ib.cat.service.main.SearchService;
 import com.ib.cat.utils.PagingUtil;

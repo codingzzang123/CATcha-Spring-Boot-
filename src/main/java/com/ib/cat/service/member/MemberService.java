@@ -1,4 +1,4 @@
-package com.ib.cat.service;
+package com.ib.cat.service.member;
 
 import com.ib.cat.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
