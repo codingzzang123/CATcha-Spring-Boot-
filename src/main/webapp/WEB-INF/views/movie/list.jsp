@@ -16,20 +16,15 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <script src="${pageContext.request.contextPath}/resources/js/hosun/jquery-3.6.0.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/hosun/main.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/hosun/scroll.js"></script>
     <%
         request.setCharacterEncoding("utf-8");
     %>
-    <link href="${pageContext.request.contextPath}/resources/css/hosun/main.css" rel="stylesheet"/>
+    <link href="/css/hosun/main.css" rel="stylesheet"/>
+    <link href="/css/jieun/paging.css" rel="stylesheet"/>
     <style>
-
         body{
             text-align:center;
         }
-
-
         h5{font-size:10px; padding:20px;}
         .category{}
         .category select{}
@@ -44,40 +39,11 @@
         }
         .category select option:hover{background-color:yellowgreen; color:white;}
 
-        .nav{
-            display: inline-block;
-            list-style-type:none;
-            text-align:center;
-            margin:0;
-            padding:0;
-        }
-
-        .pagination {
-            text-align:center;
-            font-size: 14px;
-        }
-
-        .pagination a{
-            border: 1px solid #ccc;
-            color:#000;
-            font-weight: 600;
-            text-decoration: none;
-            padding:3px 7px;
-            margin-left: 3px;
-            vertical-align: middle;
-        }
-
-        .pagination : first-child {
-            margin-left: 0;
-        }
-
         .container {
             width: 700px;
             margin: 30px auto;
             text-align: center;
         }
-
-
     </style>
     <title>Insert title here</title>
 </head>
@@ -128,7 +94,7 @@
         </table>
     </div>
 
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Page navigation example" class="css-paging">
         <ul class="pagination">
 
             <!-- 페이징 맨앞으로 버튼

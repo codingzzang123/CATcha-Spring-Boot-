@@ -1,11 +1,15 @@
 package com.ib.cat.controller.main;
 
 import com.ib.cat.dto.media.ContentsDto;
+import com.ib.cat.repository.BoardRepository;
+import com.ib.cat.repository.VisitRepository;
+import com.ib.cat.service.main.MainService;
 import com.ib.cat.service.media.ContentsService;
 import com.ib.cat.utils.CookieUtil;
 import com.ib.cat.utils.sort.SortMovieByVote;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -16,14 +20,13 @@ import java.util.List;
 
 @Controller
 public class MainController {
-
-    @Autowired
-    private CookieUtil co;
-
     @Autowired
     ContentsService contentsService;
 
-    @RequestMapping("/main")
+    @Autowired
+    MainService mainService;
+
+    @GetMapping("/main")
     public ModelAndView mainForm(HttpServletRequest request, HttpServletResponse response) {
 
         List<ContentsDto> nowPlay = null;
@@ -44,14 +47,9 @@ public class MainController {
         mav.addObject("highLate", highLate);
 
         /* 쿠키+최근 게시물 관련 Object 추가 */
-        if(!co.isCookie(request)) {
-            /*쿠키가 없다면*/
-            co.createCookie(response);
-//            dao.insert();
-        }
-//        mav.addObject("ls",dao.getTopFive());
-//        mav.addObject("today",dao.getToday());
-//        mav.addObject("total",dao.getTotal());
+        mainService.isCookie(request,response);
+        mav.addObject("today",mainService.getToday());
+        mav.addObject("total",mainService.getTotal());
 
         return mav;
     }
