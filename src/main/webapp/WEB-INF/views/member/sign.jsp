@@ -29,13 +29,13 @@
       </div>
 
       <div class="mb-3 form-group">
-        <label for="pw">비밀번호</label>
+        <label for="pass">비밀번호</label>
         <input class="form-control" type="password" placeholder="비밀번호를 입력해주세요." name="pw"  required class="pass" id=pass oninput="checkPw()">
         <div class="eheck_font" id="pw_check"></div>
       </div>
 
       <div class="mb-3 form-group">
-        <label for="pw2">비밀번호 확인</label>
+        <label for="pass">비밀번호 확인</label>
         <input  class="form-control"  type="password" placeholder="비밀번호를 다시 입력해주세요." name="pwcheck" required class="pass" id="repwd" oninput="matchPw()">
         <div class="eheck_font" id="pw_match"></div>
       </div>
