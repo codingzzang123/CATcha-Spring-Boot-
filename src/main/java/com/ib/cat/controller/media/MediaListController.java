@@ -1,8 +1,8 @@
 package com.ib.cat.controller.media;
 
-import com.ib.cat.dto.media.ContentsDto;
-import com.ib.cat.utils.sort.SortCri;
-import com.ib.cat.service.media.ContentsService;
+import com.ib.cat.dto.ContentsDto;
+import com.ib.cat.dto.SortCri;
+import com.ib.cat.service.ContentsService;
 import com.ib.cat.utils.PagingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

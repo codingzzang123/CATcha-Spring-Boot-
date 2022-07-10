@@ -1,7 +1,8 @@
 package com.ib.cat.service.main;
 
-import com.ib.cat.dto.media.ContentsDto;
+import com.ib.cat.dto.ContentsDto;
 import com.ib.cat.dto.main.SearchCountDTO;
+import com.ib.cat.service.ContentsService;
 import com.ib.cat.utils.SearchInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

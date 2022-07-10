@@ -1,6 +1,6 @@
 package com.ib.cat.controller.member;
 
-import com.ib.cat.service.member.MemberService;
+import com.ib.cat.service.MemberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

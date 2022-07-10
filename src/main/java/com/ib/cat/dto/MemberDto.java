@@ -1,4 +1,4 @@
-package com.ib.cat.dto.member;
+package com.ib.cat.dto;
 
 import lombok.Data;
 
