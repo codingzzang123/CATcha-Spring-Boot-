@@ -11,7 +11,7 @@ import java.util.List;
 public interface BoardRepository extends JpaRepository<Board, Integer> {
 
 //    public List<Board> findTop5ByNoDesc();
-    public List<Board> findTop5ByOrderByNo();
+    public List<Board> findTop5ByOrderByNoDesc();
 
 //    @Query("select r from board r where r.reg = :date")
 //    public List<Board> customFind();
