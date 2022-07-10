@@ -10,7 +10,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Component
 public class CookieUtil {
-    private String ip;
+    private String ip; /*change*/
 
     public boolean isCookie(HttpServletRequest request) {
         Cookie[] list = request.getCookies();
