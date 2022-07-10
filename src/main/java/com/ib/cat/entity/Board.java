@@ -17,7 +17,7 @@ public class Board {
     private String cate;
     private String title;
     private String Content;
-    private Timestamp regDate;
+    private Timestamp regdate;
 
     @ColumnDefault(value= "0")
     private int views;
