@@ -400,5 +400,61 @@ public class ContentsService {
         return creditList;
     }
 
+    public List<ContentsDto> getMovieList(int type){
+        String apiURL = null;
+        List<ContentsDto> test = null;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String date = "0001-01-01";
+        /*
+         * case 1 = 현재 상영중인 영화
+         * case 2 = 인기있는 영화
+         * case 3 = 평점이 높은 영화
+         * */
 
+        switch(type){
+            case 1: apiURL=API_URL+ "movie/now_playing"  + "?api_key=" + KEY
+                    + "&language=ko-KR&region=KR"; break;
+            case 2: apiURL=API_URL+ "movie/popular"  + "?api_key=" + KEY
+                    + "&language=ko-KR&region=KR"; break;
+            case 3: apiURL=API_URL+ "movie/top_rated"  + "?api_key=" + KEY
+                    + "&language=ko-KR"; break;
+        }
+
+        try {
+            URL url = new URL(apiURL);
+            System.out.println("URL url = "+ url);
+            BufferedReader bf;
+
+            bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+
+
+            String result = bf.readLine();
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
+            JSONArray list = (JSONArray) jsonObject.get("results");
+
+            test = new ArrayList<ContentsDto>();
+            for (int j = 0; j < list.size(); j++) {
+                ContentsDto vo = new ContentsDto();
+                JSONObject contents = (JSONObject) list.get(j);
+
+                vo.setContentsNum(Integer.parseInt(contents.get("id").toString()));
+                vo.setOverview(contents.get("overview").toString());
+                vo.setTitle(contents.get("title").toString());
+                vo.setVoteAverage(Float.parseFloat(String.valueOf(contents.get("vote_average"))));
+                vo.setPosterPath(contents.get("poster_path").toString());
+                if(contents.get("release_date") == null || contents.get("release_date").equals("")) {
+                    vo.setReleaseDate(dateFormat.parse(date));
+                } else {
+                    Date releaseDate = dateFormat.parse((String)contents.get("release_date"));
+                    vo.setReleaseDate(releaseDate);
+                }
+
+                test.add(vo);
+            }
+        }catch(Exception e) {
+
+        }
+        return test;
+    }
 }
