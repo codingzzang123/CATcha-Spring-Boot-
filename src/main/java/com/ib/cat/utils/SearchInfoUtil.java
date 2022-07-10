@@ -1,6 +1,6 @@
 package com.ib.cat.utils;
 
-import com.ib.cat.dto.ContentsDto;
+import com.ib.cat.dto.media.ContentsDto;
 import com.ib.cat.dto.main.SearchCountDTO;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

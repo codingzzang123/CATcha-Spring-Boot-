@@ -1,4 +1,4 @@
-package com.ib.cat.dto;
+package com.ib.cat.dto.media;
 
 import lombok.Data;
 
