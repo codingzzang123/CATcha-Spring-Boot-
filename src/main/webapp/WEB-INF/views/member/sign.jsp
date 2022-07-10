@@ -14,11 +14,11 @@
   <meta charset="UTF-8">
 </head>
 <body>
-<jsp:include page="/views/templates/navbar.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include>
 
 
 <div class="container-fluid py-5">
-  <form action="<c:url value="/member/login"/>" method="post"  name="member" enctype="multipart/form-data">
+  <form action="${pageContext.request.contextPath}/member/login" method="post"  name="member" enctype="multipart/form-data">
     <div class="container mt-5 mb-5" style="width: 50%; font-weight: bold; font-size: 20px;">
       <h1><b>회원 가입 📑</b></h1>
 
@@ -62,7 +62,7 @@
                style="font-weight: bold; float: left; background-color:black; border-radius: 12px;" value="회원가입"/>
       </div>
       <div class="mb-3 form-group text-end">
-        <input type="button" class="btn btn-secondary" onclick="location.href='<c:url value="/member/login"/>';"
+        <input type="button" class="btn btn-secondary" onclick="location.href='/member/login';"
                style="font-weight:bold;float:left;margin-left:8px;background-color:black; border-radius: 12px;" value="취소"/>
       </div>
     </div>
@@ -76,10 +76,10 @@
 
   function checkId(){
     var idReg = /^[0-9a-zA-Z][0-9a-zA-Z]{5,12}$/;
-    var id = $('#id').val(); //id값이 "id"인 입력란의 값을 저장
+    var id = $('#id').val();//id값이 "id"인 입력란의 값을 저장
     $("#id_check").css("font-size", "12px");
     $.ajax({
-      url:'<c:url value="/member/idCheck"/>', //Controller에서 인식할 주소
+      url:'/member/idCheck', //Controller에서 인식할 주소
       type:'post', //POST 방식으로 전달
       data:{id:id},
       success:function(data){
@@ -140,7 +140,7 @@
     $("#name_check").css("font-size", "12px");
 
     $.ajax({
-      url:'<c:url value="/member/nameCheck"/>', //Controller에서 인식할 주소
+      url:'/member/nameCheck', //Controller에서 인식할 주소
       type:'post', //POST 방식으로 전달
       data:{name:name},
       success:function(data){

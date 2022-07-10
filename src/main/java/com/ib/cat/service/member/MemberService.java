@@ -1,8 +1,10 @@
-package com.ib.cat.service;
+package com.ib.cat.service.member;
 
 import com.ib.cat.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class MemberService{
