@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,14 +24,16 @@ public class MediaContentsController {
     @Autowired
     private ContentsService contentsService;
 
+//    @RequestMapping(value="{/tv/content/{contentsNum},/movie/content/{contentsNum}}", method= RequestMethod.GET)
     @RequestMapping(value="/movie/content/{contentsNum}", method= RequestMethod.GET)
-    public ModelAndView detail(Model model,
+    public ModelAndView detail(Model model, HttpServletRequest request,
                                @RequestParam(value="type", defaultValue="movie") String contentsType,
                                @RequestParam(value="sortBy", defaultValue="popularity.desc") String sortBy,
                                @PathVariable("contentsNum") int contentsNum) {
         System.out.println("Controller 작동중");
         System.out.println("type: " + contentsType);
         System.out.println("contentsNum: "+ contentsNum);
+
 
         model.addAttribute("contentsNum", contentsNum);
         //contentsNum(id) 컨텐츠VO 가져옴
@@ -76,7 +79,13 @@ public class MediaContentsController {
 //		}
 //
         ModelAndView mav = new ModelAndView();
+//        if (request.getServletPath().equals("/tv/content/{contentsNum}")) {
+//            mav.setViewName("tv/content");
+//        } else {
+//            mav.setViewName("movie/content");
+//        }
         mav.setViewName("movie/content");
+
         mav.addObject("contents", contents);
         mav.addObject("imageList", imageList);
         mav.addObject("cast", cast);
@@ -86,49 +95,49 @@ public class MediaContentsController {
         return mav;
     }
 
-    @RequestMapping("/content/search")
-    public ModelAndView process(@RequestParam String keywordHeader,
-                                @RequestParam(value="category", defaultValue="contents") String category,
-                                @RequestParam String sortBy) {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("contentsSearch");
-
-        if (category.equals("contents") || category == null ) {
-            ContentsService util = new ContentsService();
-
-            /*영화에 해당하는 검색 결과와 시리즈에 해당하는 검색 결과를
-             * 각각 추출하여 별도의 새로운 List 객체에 담기 위한 List 생성*/
-            List<ContentsDto> searchResult = new ArrayList<ContentsDto>();
-
-            List<ContentsDto> movie = null;
-            movie = util.getInfoList("movie", sortBy);
-            for (int i = 0 ; i < movie.size() ; i++) {
-                //전체 영화 목록 중 제목,줄거리에 keyword가 포함된 vo객체만 따로 추출
-                if(movie.get(i).getTitle().contains(keywordHeader) || movie.get(i).getOverview().contains(keywordHeader)) {
-                    ContentsDto contents = new ContentsDto();
-                    contents = movie.get(i); // 조건에 해당하는 경우만 vo에 저장...
-                    searchResult.add(contents);
-                }
-            }
-
-            List<ContentsDto> tv = null;
-            tv = util.getInfoList("tv", sortBy);
-            for (int i = 0 ; i < movie.size() ; i++) {
-                //전체 TV 목록 중 제목,줄거리에 keyword가 포함된 vo객체만 따로 추출
-                if(tv.get(i).getTitle().contains(keywordHeader) || movie.get(i).getOverview().contains(keywordHeader)) {
-                    ContentsDto contents = new ContentsDto();
-                    contents = tv.get(i); // 조건에 해당하는 경우만 vo에 저장...
-                    searchResult.add(contents);
-                }
-            }
-
-            Collections.sort(searchResult, new SortByDate());
-            mav.addObject("searchResult", searchResult);
-        }
-
-        return mav;
-
-    }
+//    @RequestMapping("/content/search")
+//    public ModelAndView process(@RequestParam String keywordHeader,
+//                                @RequestParam(value="category", defaultValue="contents") String category,
+//                                @RequestParam String sortBy) {
+//        ModelAndView mav = new ModelAndView();
+//        mav.setViewName("contentsSearch");
+//
+//        if (category.equals("contents") || category == null ) {
+//            ContentsService util = new ContentsService();
+//
+//            /*영화에 해당하는 검색 결과와 시리즈에 해당하는 검색 결과를
+//             * 각각 추출하여 별도의 새로운 List 객체에 담기 위한 List 생성*/
+//            List<ContentsDto> searchResult = new ArrayList<ContentsDto>();
+//
+//            List<ContentsDto> movie = null;
+//            movie = util.getInfoList("movie", sortBy);
+//            for (int i = 0 ; i < movie.size() ; i++) {
+//                //전체 영화 목록 중 제목,줄거리에 keyword가 포함된 vo객체만 따로 추출
+//                if(movie.get(i).getTitle().contains(keywordHeader) || movie.get(i).getOverview().contains(keywordHeader)) {
+//                    ContentsDto contents = new ContentsDto();
+//                    contents = movie.get(i); // 조건에 해당하는 경우만 vo에 저장...
+//                    searchResult.add(contents);
+//                }
+//            }
+//
+//            List<ContentsDto> tv = null;
+//            tv = util.getInfoList("tv", sortBy);
+//            for (int i = 0 ; i < movie.size() ; i++) {
+//                //전체 TV 목록 중 제목,줄거리에 keyword가 포함된 vo객체만 따로 추출
+//                if(tv.get(i).getTitle().contains(keywordHeader) || movie.get(i).getOverview().contains(keywordHeader)) {
+//                    ContentsDto contents = new ContentsDto();
+//                    contents = tv.get(i); // 조건에 해당하는 경우만 vo에 저장...
+//                    searchResult.add(contents);
+//                }
+//            }
+//
+//            Collections.sort(searchResult, new SortByDate());
+//            mav.addObject("searchResult", searchResult);
+//        }
+//
+//        return mav;
+//
+//    }
 
 
 }

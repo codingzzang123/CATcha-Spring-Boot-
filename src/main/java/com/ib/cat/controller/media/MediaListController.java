@@ -21,7 +21,8 @@ public class MediaListController {
     @Autowired
     private PagingUtil pagingUtil;
 
-    @RequestMapping(value="movie/list")
+//    @RequestMapping(value="movie/list")
+    @RequestMapping(value={"/tv/list", "/movie/list"})
     public ModelAndView main(
             HttpServletRequest request,
             Model model, SortCri cri,
@@ -38,20 +39,20 @@ public class MediaListController {
 //			System.out.println("Controller currentPage: " + currentPage);
         }
 
-        List<ContentsDto> movieList = null;
-        movieList = contentsService.getInfoPageList(contentsType, category, currentPage);
+        List<ContentsDto> mediaList = null;
+        mediaList = contentsService.getInfoPageList(contentsType, category, currentPage);
 //		System.out.println("Ctrl - contentsType: "+contentsType);
 //		System.out.println("Ctrl - category: "+category);
         pagingUtil.startPaging(currentPage, 10000);
 
         //PagingUtil작업..!!
-        String paging = null;
-        /*pagingUtil 생성자에 들어갈 totalPage - json 파싱 결과물에서 가져오기*/
-//		int totalPage = movieList.get(0).getTotalPages();
-        int totalPage = 500;//무료 API로 호출시 500page까지만 제공돼서 그냥 500으로 기재
-        if(currentPage > totalPage) {
-            currentPage = totalPage;
-        }
+//        String paging = null;
+//        /*pagingUtil 생성자에 들어갈 totalPage - json 파싱 결과물에서 가져오기*/
+////		int totalPage = movieList.get(0).getTotalPages();
+//        int totalPage = 500;//무료 API로 호출시 500page까지만 제공돼서 그냥 500으로 기재
+//        if(currentPage > totalPage) {
+//            currentPage = totalPage;
+//        }
 //		String listUrl = request.getContextPath()+"/movie/list";
 //
 //		paging = pagingUtil.paging(currentPage, totalPage, listUrl);
@@ -59,8 +60,13 @@ public class MediaListController {
 //		System.out.println(paging);
 
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("movie/list");
-        mav.addObject("movieList", movieList);
+        if (request.getServletPath().equals("/tv/list")) {
+            mav.setViewName("/tv/list");
+            System.out.println("/tv/list");
+        } else {
+            mav.setViewName("/movie/list");
+        }
+        mav.addObject("mediaList", mediaList);
         mav.addObject("category", category);
         mav.addObject("scmd", cri);
         mav.addObject("page", currentPage);
