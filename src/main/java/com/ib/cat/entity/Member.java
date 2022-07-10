@@ -14,9 +14,9 @@ public class Member {
     private String pw;
     private String name;
     private String email;
-    @ColumnDefault(value = "default.png")
+    @ColumnDefault("default.png")
     private String imgo;
-    @ColumnDefault(value = "default.png")
+    @ColumnDefault("default.png")
     private String imgs;
     private int auth;
 }

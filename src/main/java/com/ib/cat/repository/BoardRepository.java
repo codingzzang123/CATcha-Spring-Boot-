@@ -9,10 +9,7 @@ import java.util.List;
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Integer> {
+    @Query(value = "select * from BOARD WHERE ROWNUM <= 5 order by NO desc", nativeQuery = true)
+    public List<Board> getBoardTop();
 
-//    public List<Board> findTop5ByNoDesc();
-    public List<Board> findTop5ByOrderByNoDesc();
-
-//    @Query("select r from board r where r.reg = :date")
-//    public List<Board> customFind();
 }
