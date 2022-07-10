@@ -56,7 +56,7 @@ public class MainService {
 
         for(Board b : ls){
             btd.add(new BoardTopDto(
-                    b.getNo(), b.getTitle(),b.getName(),b.getRegDate()
+                    b.getNo(), b.getTitle(),b.getName(),b.getRegdate()
             ));
         }
 
