@@ -1,4 +1,4 @@
-package com.ib.cat.service.member;
+package com.ib.cat.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

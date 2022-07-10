@@ -1,9 +1,9 @@
 package com.ib.cat.controller.media;
 
-import com.ib.cat.dto.media.ContentsDto;
-import com.ib.cat.dto.media.CreditsDto;
-import com.ib.cat.service.media.ContentsService;
-import com.ib.cat.utils.sort.SortByDate;
+import com.ib.cat.dto.ContentsDto;
+import com.ib.cat.dto.CreditsDto;
+import com.ib.cat.service.ContentsService;
+import com.ib.cat.utils.SortByDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
