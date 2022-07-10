@@ -17,7 +17,7 @@
     <link href="/css/hosun/main.css" rel="stylesheet"/>
 </head>
 <body>
-    <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include>
+    <jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/templates/navbar.jsp"/>
     <c:set var="Image_URL" value="https://image.tmdb.org/t/p/original"/>
 
 
