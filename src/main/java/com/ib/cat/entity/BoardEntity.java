@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-public class EntityBoard {
+public class BoardEntity {
     @Id
     @SequenceGenerator(name="seq", sequenceName="SEQ_BOARD", allocationSize=1)
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="seq")
