@@ -14,7 +14,7 @@ public class MediaLikeService {
     private final MediaLikeRepository mediaLikeRepository;
 
     public Boolean pushLikeButton(MediaLikeDto mediaLikeDto) {
-        mediaLikeRepository.findAllById(mediaLikeDto.getMember().getId())
-
+//        mediaLikeRepository.findAllById(mediaLikeDto.getMember().getId());
+return true;
     }
 }
