@@ -25,7 +25,7 @@ public class MediaContentsController {
     @RequestMapping(value="/{type}/content/{contentsNum}", method= RequestMethod.GET)
     public ModelAndView detail(Model model,
                                @PathVariable(value="type") String contentsType,
-                               @RequestParam(value="sortBy", defaultValue="popularity.desc") String sortBy,
+
                                @PathVariable("contentsNum") int contentsNum) {
         System.out.println("Controller 작동중");
         System.out.println("type: " + contentsType);
