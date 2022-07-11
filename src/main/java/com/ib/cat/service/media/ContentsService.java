@@ -38,8 +38,9 @@ public class ContentsService {
         try {
             sContent = new ContentsDto();
 
-            URL url = new URL("https://api.themoviedb.org/3/"+type+"/"+contentsNum+"?api_key="+KEY+"&language=ko");
+            URL url = new URL(API_URL+type+"/"+contentsNum+"?api_key="+KEY+"&language=ko");
             BufferedReader bf;
+            System.out.println("getSpecificContent - 실행된 api: "+API_URL+type+"/"+contentsNum+"?api_key="+KEY+"&language=ko");
 
             bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
 
@@ -79,12 +80,16 @@ public class ContentsService {
             } else {
                 vo.setPosterPath(contents.get("poster_path").toString());
             }
+            
+            if (type.equals("movie")) {
+                String runtime = String.valueOf(contents.get("runtime"));
+                int hour = Integer.parseInt(runtime) / 60;
+                int minute = Integer.parseInt(runtime) % 60;
+                vo.setHour(hour);
+                vo.setMinute(minute);
+            } //tv일때 런타임 설정??
 
-            String runtime = String.valueOf(contents.get("runtime"));
-            int hour = Integer.parseInt(runtime) / 60;
-            int minute = Integer.parseInt(runtime) % 60;
-            vo.setHour(hour);
-            vo.setMinute(minute);
+            
 
             //장르
             JSONArray genreListJ = (JSONArray)contents.get("genres");
@@ -130,11 +135,13 @@ public class ContentsService {
 
         try {
             infoList = new ArrayList<ContentsDto>();
-            URL url = new URL("https://api.themoviedb.org/3/discover/"+type+"?api_key="+KEY
+            URL url = new URL(API_URL+"discover/"+type+"?api_key="+KEY
                     +"&language=ko&sort_by="+sortBy+"&include_adult=false&page="+page);
 //				System.out.println("MovieData - sortBy: " + sortBy);
 //				System.out.println("MovieData - type: "+type);
 //				System.out.println("MovieData - page: "+page);
+            System.out.println("getInfoPageList - 실행된 api: "+API_URL+"/discover/"+type+"?api_key="+KEY
+                    +"&language=ko&sort_by="+sortBy+"&include_adult=false&page="+page);
             BufferedReader bf;
 
             bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
@@ -226,7 +233,7 @@ public class ContentsService {
 
             for (int i = 1; i <= pages ; i++) {
 
-                URL url = new URL("https://api.themoviedb.org/3/discover/"+type+"?api_key="+KEY
+                URL url = new URL(API_URL+"discover/"+type+"?api_key="+KEY
                         +"&language=ko&sort_by="+sortBy+"&include_adult=false&page="+i);
 
                 BufferedReader bf;
@@ -298,7 +305,7 @@ public class ContentsService {
         int pages = 0;
 
         try {
-            URL url = new URL("https://api.themoviedb.org/3/discover/"+type+"?api_key="+KEY
+            URL url = new URL(API_URL+"discover/"+type+"?api_key="+KEY
                     +"&language=ko&sort_by="+sortBy);
             BufferedReader bf;
             bf = new BufferedReader(new InputStreamReader(url.openStream(),"UTF-8"));
@@ -323,7 +330,7 @@ public class ContentsService {
 
         try {
             imageList = new ArrayList<String>();
-            String apiURL = "https://api.themoviedb.org/3/" + type + "/" + id + "/images?api_key=" + KEY;
+            String apiURL = API_URL + type + "/" + id + "/images?api_key=" + KEY;
             URL url = new URL(apiURL);
             BufferedReader bf;
             bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
@@ -351,7 +358,7 @@ public class ContentsService {
 
         try {
             creditList = new ArrayList<CreditsDto>();
-            String apiURL = "https://api.themoviedb.org/3/" + type + "/" + id + "/credits?api_key=" + KEY;
+            String apiURL = API_URL + type + "/" + id + "/credits?api_key=" + KEY;
             URL url = new URL(apiURL);
 
             BufferedReader bf;
