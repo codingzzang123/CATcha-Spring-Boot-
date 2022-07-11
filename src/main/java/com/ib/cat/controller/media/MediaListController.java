@@ -25,14 +25,13 @@ public class MediaListController {
 //    @RequestMapping(value="movie/list")
     @RequestMapping(value="/{type}/list")
     public ModelAndView main(Model model, SortCri cri,
-            @PathVariable(value="type")String contentsType,
-            @RequestParam(value="page", defaultValue="1")Integer currentPage) {
+            @PathVariable(value="type") String contentsType,
+            @RequestParam(value="page", defaultValue="1") Integer currentPage,
+            @RequestParam(value="category", defaultValue="popularity.desc") String category) {
 
-        String category;
         category = cri.getCategory(); //cri.getCategory -> String sortBy
         if (category==null) {		//기본값 인기도 내림차순
             category="popularity.desc";
-
         }
 
         List<ContentsDto> mediaList = null;
@@ -41,13 +40,27 @@ public class MediaListController {
 
         ModelAndView mav = new ModelAndView();
         if (contentsType.equals("tv")) {
+            System.out.println("/tv/list 실행");
             mav.setViewName("/tv/list");
-            System.out.println("/tv/list");
+            if (category.equals("popularity.desc")) {
+                mav.addObject("category", "popularity.desc");
+            } else {
+                mav.addObject("category", "vote_average.desc");
+            }
+//            mav.setViewName("/tv/list");
         } else {
+            System.out.println("/movie/list 실행");
             mav.setViewName("/movie/list");
+            if (category.equals("popularity.desc")) {
+                mav.addObject("category", "popularity.desc");
+            } else {
+                mav.addObject("category", "vote_average.desc");
+            }
         }
+//            mav.setViewName("/movie/list");
+
         mav.addObject("mediaList", mediaList);
-        mav.addObject("category", category);
+//        mav.addObject("category", category);
         mav.addObject("scmd", cri);
         mav.addObject("page", currentPage);
         mav.addObject("paging", pagingUtil);

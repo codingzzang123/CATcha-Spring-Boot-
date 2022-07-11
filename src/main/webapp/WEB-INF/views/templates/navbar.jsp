@@ -34,16 +34,16 @@
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle customLi" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Movie</a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item fontKo" href="${pageContext.request.contextPath }/movie/list">인기</a></li>
-                <li><a class="dropdown-item fontKo" href="#">높은 평점</a></li>
+                <li><a class="dropdown-item fontKo" href="${pageContext.request.contextPath }/movie/list?category=popularity.desc">인기</a></li>
+                <li><a class="dropdown-item fontKo" href="${pageContext.request.contextPath }/movie/list?category=vote_average.desc">높은 평점</a></li>
             </ul>
         </li>
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle customLi" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tv</a>
             <ul class="dropdown-menu fontKo" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item fontKo" href="${pageContext.request.contextPath }/tv/list">인기</a></li>
-                <li><a class="dropdown-item fontKo" href="#">높은 평점</a></li>
+                <li><a class="dropdown-item fontKo" href="${pageContext.request.contextPath }/tv/list?category=popularity.desc">인기</a></li>
+                <li><a class="dropdown-item fontKo" href="${pageContext.request.contextPath }/tv/list?category=vote_average.desc">높은 평점</a></li>
             </ul>
         </li>
 
