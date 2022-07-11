@@ -27,8 +27,8 @@ public class LoginController {
     MemberService memberService;
     @Autowired
     MailService mailService;
-    @Autowired
-    PasswordEncoder passwordEncoder;
+//    @Autowired
+//    PasswordEncoder passwordEncoder;
     @Autowired
     AuthService authService;
 
