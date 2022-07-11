@@ -7,7 +7,7 @@ import com.ib.cat.service.member.FileService;
 import com.ib.cat.service.member.MailService;
 import com.ib.cat.service.member.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;

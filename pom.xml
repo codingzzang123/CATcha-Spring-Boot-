@@ -125,19 +125,25 @@
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
-            <version>1.1</version>
+            <version>1.1.1</version>
         </dependency>
 
         <!-- 네이버 -->
+<!--        <dependency>-->
+<!--            <groupId>com.github.scribejava</groupId>-->
+<!--            <artifactId>scribejava-core</artifactId>-->
+<!--        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/com.github.scribejava/scribejava-core -->
         <dependency>
             <groupId>com.github.scribejava</groupId>
             <artifactId>scribejava-core</artifactId>
+            <version>6.9.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.googlecode.json-simple</groupId>
-            <artifactId>json-simple</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.googlecode.json-simple</groupId>-->
+<!--            <artifactId>json-simple</artifactId>-->
+<!--        </dependency>-->
 
 
         <!-- 구글 카카오  -->
