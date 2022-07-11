@@ -54,7 +54,7 @@ public class LoginController {
             member.setImgs(img[1]);
         }
         member.setAuth(authService.authCode());
-        member.setPw(passwordEncoder.encode(member.getPw()));
+//        member.setPw(passwordEncoder.encode(member.getPw()));
         mailService.emailSend(member.getEmail());
         memberService.memberInsert(member);
         return "member/login";
