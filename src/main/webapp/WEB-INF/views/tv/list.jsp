@@ -23,6 +23,7 @@
         request.setCharacterEncoding("utf-8");
     %>
     <link href="${pageContext.request.contextPath}/resources/css/hosun/main.css" rel="stylesheet"/>
+    <link href="/css/jieun/paging.css" rel="stylesheet"/>
     <style>
 
         body{
@@ -43,49 +44,20 @@
         }
         .category select option:hover{background-color:yellowgreen; color:white;}
 
-        .nav{
-            display: inline-block;
-            list-style-type:none;
-            text-align:center;
-            margin:0;
-            padding:0;
-        }
-
-        .pagination {
-            text-align:center;
-            font-size: 14px;
-        }
-
-        .pagination a{
-            border: 1px solid #ccc;
-            color:#000;
-            font-weight: 600;
-            text-decoration: none;
-            padding:3px 7px;
-            margin-left: 3px;
-            vertical-align: middle;
-        }
-
-        .pagination : first-child {
-            margin-left: 0;
-        }
-
         .container {
             width: 700px;
             margin: 30px auto;
             text-align: center;
         }
-
-
     </style>
-    <title>Insert title here</title>
+    <title>TV List</title>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include>
 <br><br><br>
 <nav>
     <div class="sort">
-        <h5>Movie</h5>
+        <h5>TV</h5>
         <form:form action="${pageContext.request.contextPath}/tv/list" modelAttribute="scmd">
             <select name="category" id="category">
                 <option value="popularity.desc" <c:if test="${category eq 'popularity.desc'}">selected="selected"</c:if>>인기도 내림차순</option>
@@ -112,10 +84,12 @@
                     <tr>
                 </c:if>
                 <td>
+                    <a href="<c:url value='/tv/content/${tvList.contentsNum}'/>">
                     <img src="https://image.tmdb.org/t/p/w200${tvList.posterPath}">
-                    <a href="<c:url value='/tv/content/${tvList.contentsNum}'/>"></a>
+
                     <p>${tvList.title}</p>
                     <p><fmt:formatDate value="${tvList.releaseDate}" pattern="yyyy.MM.dd"/></p>
+                    </a>
                 </td>
                 <c:if test="${i%j == j-1 }">
                     </tr>

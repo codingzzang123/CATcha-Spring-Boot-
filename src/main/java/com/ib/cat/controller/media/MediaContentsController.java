@@ -22,9 +22,9 @@ public class MediaContentsController {
     private ContentsService contentsService;
 
 //    @RequestMapping(value="{/tv/content/{contentsNum},/movie/content/{contentsNum}}", method= RequestMethod.GET)
-    @RequestMapping(value="/movie/content/{contentsNum}", method= RequestMethod.GET)
-    public ModelAndView detail(Model model, HttpServletRequest request,
-                               @RequestParam(value="type", defaultValue="movie") String contentsType,
+    @RequestMapping(value="/{type}/content/{contentsNum}", method= RequestMethod.GET)
+    public ModelAndView detail(Model model,
+                               @PathVariable(value="type") String contentsType,
                                @RequestParam(value="sortBy", defaultValue="popularity.desc") String sortBy,
                                @PathVariable("contentsNum") int contentsNum) {
         System.out.println("Controller 작동중");
@@ -76,12 +76,14 @@ public class MediaContentsController {
 //		}
 //
         ModelAndView mav = new ModelAndView();
-//        if (request.getServletPath().equals("/tv/content/{contentsNum}")) {
-//            mav.setViewName("tv/content");
-//        } else {
-//            mav.setViewName("movie/content");
-//        }
-        mav.setViewName("movie/content");
+        if (contentsType.equals("tv")) {
+            mav.setViewName("tv/content");
+            System.out.println("tv/content");
+        } else {
+            mav.setViewName("movie/content");
+            System.out.println("movie/content");
+        }
+//        mav.setViewName("movie/content");
 
         mav.addObject("contents", contents);
         mav.addObject("imageList", imageList);
