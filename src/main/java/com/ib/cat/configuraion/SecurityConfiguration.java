@@ -8,14 +8,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
-@Configuration
-@EnableWebSecurity
-public class SecurityConfiguration {
-    @Autowired
-    public AuthenticationFailureHandler authenticationFailureHandler;
-
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
-}
+//@Configuration
+//@EnableWebSecurity
+//public class SecurityConfiguration {
+//    @Autowired
+//    public AuthenticationFailureHandler authenticationFailureHandler;
+//
+//    @Bean
+//    public PasswordEncoder passwordEncoder(){
+//        return new BCryptPasswordEncoder();
+//    }
+//}
