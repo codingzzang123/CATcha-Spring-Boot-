@@ -9,9 +9,14 @@ import java.util.List;
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Integer> {
+    /* 최근 게시물 5개 불러오기
+    * 누구는 findTop 메소드로 할 경우 오류가 발생 됨(해결 방법 못찾음) */
     @Query(value = "select * from (select * from board order by No desc) where ROWNUM <= 5", nativeQuery = true)
     public List<Board> getBoardTop();
 
     public List<Board> findTop5ByOrderByNoDesc();
 
+    public List<Board> findByTitleContainingOrContentContainingIgnoreCase(String query,String query2);
+
+    public Integer countByTitleContainingOrContentContainingIgnoreCase(String query,String query2);
 }

@@ -5,16 +5,16 @@ import com.ib.cat.dto.main.SearchCountDto;
 import com.ib.cat.service.main.SearchService;
 import com.ib.cat.utils.PagingUtil;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
-
-import com.ib.cat.utils.sort.SortMovieByVote;
-import com.ib.cat.utils.sort.SortTvByVote;
+import com.ib.cat.utils.sort.SortByVote;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -22,126 +22,47 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class SearchController {
     @Autowired
     SearchService searchService;
-
     @Autowired
     PagingUtil pagingUtil;
 
-    private SearchCountDto scd;
+@RequestMapping(value = {"/search", "/search/{path}"})
+    public String searchFrom(Model model, @PathVariable Optional<String> path,
+                             @RequestParam(value="query", defaultValue=" ")String query,
+                             @RequestParam(value="page", defaultValue="1")Integer page){
 
-//    @RequestMapping(value={"/search", "/search/movie"}) //추가
-//    public String searchform1(Model model, HttpServletRequest request) {
-//        String query = request.getParameter("query");
-//        String pageNum = request.getParameter("page");
-//        int page;
-//
-//        if(pageNum==null)
-//            page=1;
-//        else
-//            page = Integer.parseInt(pageNum);
-//
-//        scd = searchService.scd(query);
-//        int blocks = scd.getMovie();
-//
-//        pagingUtil.startPaging(page, blocks);
-//
-//        List<ContentsDto> movieList = searchService.movie(page,query);
-//        Collections.sort(movieList, new SortMovieByVote());
-//
-//        model.addAttribute("contents", movieList);
-//        model.addAttribute("page", page);
-//        model.addAttribute("query", query);
-//        model.addAttribute("scd", scd);
-//
-//        /* 페이징 attribute 추가 */
-//        model.addAttribute("blockStartNum",pagingUtil.getBlockStartNum()); //블럭 시작 넘버 ,
-//        model.addAttribute("blockLastNum",pagingUtil.getBlockLastNum()); //추가한것1.
-//        model.addAttribute("now",pagingUtil.getCurPage()); //현재 페이지 위치
-//        model.addAttribute("end",pagingUtil.getLastPageNum()); //블럭 마지막 번호
-//        model.addAttribute("type","m");
-//
-//        return "main/search";
-//    }
+        String resultPath="";
+        if(path.isPresent())
+            resultPath=path.get();
 
-    @RequestMapping(value={"/search", "/search/movie"}) //추가
-    public String searchform1(Model model,
-                              @RequestParam(value="query", defaultValue=" ")String query,
-                              @RequestParam(value="page", defaultValue="1")Integer page) {
+        SearchCountDto scd = new SearchCountDto();
+        scd = searchService.scd(query); // query가 포함된 movie,tv 수
+        scd.setBoard(searchService.boardTuples(query)); // query가 포함된 게시물의 수
 
+        List<ContentsDto> contents= new ArrayList<>();
+        String type=null;
 
-        scd = searchService.scd(query);
-        pagingUtil.startPaging(page, scd.getMovie());
+        if(resultPath.equals("")||resultPath.equals("movie")||resultPath==null){
+            contents = searchService.movie(page,query); Collections.sort(contents, new SortByVote());
+            pagingUtil.startPaging(page, scd.getMovie());
+            type = "movie";
 
-        List<ContentsDto> movieList = searchService.movie(page,query);
-        Collections.sort(movieList, new SortMovieByVote());
+        }else if(resultPath.equals("tv")){
+            contents = searchService.tv(page,query); Collections.sort(contents, new SortByVote());
+            pagingUtil.startPaging(page, scd.getTv());
+            type = "tv";
 
-        model.addAttribute("contents", movieList);
+        }else{
+            pagingUtil.startPaging(page, scd.getBoard());
+            type="board";
+            model.addAttribute("content",searchService.board(query)); //게시물 같은 경우 content로 반환
+        }
+
+        model.addAttribute("contents", contents);
         model.addAttribute("page", page);
         model.addAttribute("query", query);
+        model.addAttribute("type", type);
         model.addAttribute("scd", scd);
-
-        /* 페이징 attribute 추가 */
         model.addAttribute("paging",pagingUtil);
-        model.addAttribute("type","m");
-
         return "main/search";
     }
-    @RequestMapping(value="/search/tv")
-    public String searchform2(Model model, HttpServletRequest request) {
-        String query = request.getParameter("query");
-        String pageNum = request.getParameter("page");
-        int page;
-
-        if(pageNum==null)
-            page=1;
-        else
-            page = Integer.parseInt(pageNum);
-
-        scd = searchService.scd(query);
-        int blocks = scd.getTv();
-        pagingUtil.startPaging(page, blocks);
-
-        List<ContentsDto> tvList = searchService.tv(page,query);
-        Collections.sort(tvList, new SortTvByVote());
-
-        model.addAttribute("contents", tvList);
-        model.addAttribute("page", page);
-        model.addAttribute("query", query);
-        model.addAttribute("scd", scd);
-
-        /* 페이징 attribute 추가 */
-        model.addAttribute("paging",pagingUtil);
-        model.addAttribute("type","t");
-        return "main/search";
-    }
-
-//    @RequestMapping(value="/search/board")
-//    public String searchform3(Model model, HttpServletRequest request) {
-//        String query = request.getParameter("query");
-//        String pageNum = request.getParameter("page");
-//        int page;
-//
-//        if(pageNum==null)
-//            page=1;
-//        else
-//            page = Integer.parseInt(pageNum);
-//
-//        scd = search.scd(query);
-//        int blocks = scd.getBoard();
-//        paging.startPaging(page, blocks);
-//
-//        List<MainDTO> boardList = search.board(page, query);
-//        model.addAttribute("content", boardList);
-//        model.addAttribute("page", page);
-//        model.addAttribute("query", query);
-//        model.addAttribute("scd", scd);
-//
-//        /* 페이징 attribute 추가 */
-//        model.addAttribute("blockStartNum",paging.getBlockStartNum()); //블럭 시작 넘버 ,
-//        model.addAttribute("blockLastNum",paging.getBlockLastNum()); //추가한것1.
-//        model.addAttribute("now",paging.getCurPage()); //현재 페이지 위치
-//        model.addAttribute("end",paging.getLastPageNum()); //블럭 마지막 번호
-//        model.addAttribute("type","b");
-//        return "main/search";
-//    }
-
 }

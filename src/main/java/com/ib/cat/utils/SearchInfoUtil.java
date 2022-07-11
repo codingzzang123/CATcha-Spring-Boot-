@@ -2,6 +2,7 @@ package com.ib.cat.utils;
 
 import com.ib.cat.dto.media.ContentsDto;
 import com.ib.cat.dto.main.SearchCountDto;
+import com.ib.cat.repository.BoardRepository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -27,6 +28,9 @@ public class SearchInfoUtil {
     private final String date = "0001-01-01";
     @Autowired
     SearchCountDto scd;
+
+//    @Autowired
+//    BoardRepository boardRepository;
 
     public List<ContentsDto> getMovieList(int page, String query){
         String apiURL =API_URL+ "search/movie?api_key=" + KEY +"&language=ko-KR&query="+query+"&page="+page;
@@ -159,7 +163,7 @@ public class SearchInfoUtil {
             e.printStackTrace();
         }
 
-//        scd.setBoard(dao.searchBoardCount(query));
+//        scd.setBoard(boardRepository.countByTitleLike(query));
         return scd;
     }
 }
