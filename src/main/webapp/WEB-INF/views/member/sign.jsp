@@ -89,7 +89,7 @@
           $("#id_check").css("color", "grey");
         }else if(data == 1){
           $("#id_check").prop("disabled", true);
-          $("#id_check").text("사용불가능한 아이디 입니다.");
+          $("#id_check").text("사용중인 아이디 입니다.");
           $("#id_check").css("color", "red");
         }else if(data == 0){
           $("#id_check").prop("disabled", true);

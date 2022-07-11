@@ -2,6 +2,7 @@ package com.ib.cat.controller.member;
 
 import com.ib.cat.dto.member.MemberDto;
 import com.ib.cat.entity.Member;
+import com.ib.cat.service.member.AuthService;
 import com.ib.cat.service.member.FileService;
 import com.ib.cat.service.member.MailService;
 import com.ib.cat.service.member.MemberService;
@@ -28,6 +29,8 @@ public class LoginController {
     MailService mailService;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    AuthService authService;
 
 
     @GetMapping("member/login")
@@ -39,19 +42,20 @@ public class LoginController {
     @PostMapping("member/login")
     public String postLogin(
             HttpServletRequest req, @Valid MemberDto memberDto, Member member, MultipartFile file, BindingResult bindingResult){
+        String[] img = null;
         if(bindingResult.hasErrors()){
             return "member/sign";
         }
 
         String path = System.getProperty("user.dir")+"/src/main/resources/static/img/profile/";
         if(!file.isEmpty()) {
-            String img[] = fileService.fileUpload(file, path);
+            img = fileService.fileUpload(file, path);
             member.setImgo(img[0]);
             member.setImgs(img[1]);
-            System.out.println(img[2].toString());
         }
+        member.setAuth(authService.authCode());
         member.setPw(passwordEncoder.encode(member.getPw()));
-//        mailService.emailSend(member.getEmail());
+        mailService.emailSend(member.getEmail());
         memberService.memberInsert(member);
         return "member/login";
     }
