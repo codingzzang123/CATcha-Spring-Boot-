@@ -12,8 +12,8 @@ import java.util.List;
 @Entity(name = "member")
 public class Member {
     @Id
-    @Column(name="marker") //MediaLike 테이블 - reference 대상키
-    private String id;
+
+    private String id; //MediaLike 테이블 - reference 대상키
     private String pw;
     private String name;
     private String email;
