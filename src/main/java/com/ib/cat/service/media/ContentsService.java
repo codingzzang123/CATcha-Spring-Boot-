@@ -87,7 +87,10 @@ public class ContentsService {
                 int minute = Integer.parseInt(runtime) % 60;
                 vo.setHour(hour);
                 vo.setMinute(minute);
-            } //tv일때 런타임 설정??
+            } else {
+                String runtime = String.valueOf(contents.get("episode_run_time"));
+                vo.setRuntime(runtime);
+            }
 
             
 
