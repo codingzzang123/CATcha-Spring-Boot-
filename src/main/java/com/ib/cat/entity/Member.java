@@ -21,13 +21,13 @@ public class Member {
     private String imgo;
     @ColumnDefault("default.png")
     private String imgs;
-    private int auth;
+    private String auth;
 
     protected Member(){
     }
 
     @Builder
-    public Member(String id, String pw, String name, String email, String imgo, String imgs, int auth){
+    public Member(String id, String pw, String name, String email, String imgo, String imgs, String auth){
         this.id=id;
         this.pw=pw;
         this.name=name;
@@ -37,8 +37,8 @@ public class Member {
         this.auth=auth;
     }
 
-    @OneToMany(mappedBy="members")
-    List<Member> members = new ArrayList<>();
+//    @OneToMany(mappedBy="marker")
+//    List<Member> members = new ArrayList<>();
 }
 
 

@@ -26,4 +26,6 @@ public class MediaLike {
         this.member = member;
         this.contentsNum = contentsNum;
     }
+
+    public MediaLike(){}
 }
