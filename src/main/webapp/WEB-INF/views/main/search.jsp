@@ -46,57 +46,62 @@
 	</span>
 
 <br><br>
-<c:choose>
-    <c:when test="${type eq 'b' }"> <!-- 게시판 -->
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th scope="col">글 번호</th>
-                <th scope="col">제목</th>
-                <th scope="col">작성자 </th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach var="content" items="${content }">
+<div class="container mt-5" style="width:100%">
+    <c:choose>
+        <c:when test="${type eq 'board' }"> <!-- 게시판 -->
+            <table class="table table-hover">
+                <thead>
                 <tr>
-                    <td>${content.no }</td>
-                    <td>${content.title }</td>
-                    <td>${content.name }</td>
+                    <th scope="col">글 번호</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">내용</th>
+                    <th scope="col">작성자</th>
+                    <th scope="col">작성일</th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </c:when>
+                </thead>
+                <tbody>
+                <c:forEach var="content" items="${content }">
+                    <tr>
+                        <td>${content.no }</td>
+                        <td>${content.title }</td>
+                        <td>${content.content }</td>
+                        <td>${content.name }</td>
+                        <td>${content.regdate }</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:when>
 
 
-    <c:otherwise>
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th scope="col" class="center">포스터</th>
-                <th scope="col">제목</th>
-                <th scope="col">평점</th>
-                <th scope="col" style="width: 20%">개봉일 </th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach var="content" items="${contents }">
+        <c:otherwise>
+            <table class="table table-hover mt-4">
+                <thead>
                 <tr>
-                    <td>
-                        <a href="<c:url value='/movie/content/${content.contentsNum }'/>">
-                            <img class="test" src="${Image_URL }${content.posterPath }">
-                        </a>
-                    </td>
-                    <td><a href="<c:url value='/movie/content/${content.contentsNum }'/>">${content.title }</a></td>
-                    <td>${Math.ceil((content.voteAverage)/2*10)/10}</td>
-                    <td>${content.releaseDate }</td>
+                    <th scope="col" class="center">포스터</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">평점</th>
+                    <th scope="col" style="width: 20%">개봉일 </th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </c:otherwise>
-</c:choose>
-
+                </thead>
+                <tbody>
+                <c:forEach var="content" items="${contents }">
+                    <tr>
+                        <td>
+                            <a href="<c:url value='/movie/content/${content.contentsNum }'/>">
+                                <img class="test" src="${Image_URL }${content.posterPath }">
+                            </a>
+                        </td>
+                        <td><a href="<c:url value='/movie/content/${content.contentsNum }'/>">${content.title }</a></td>
+                        <td>${Math.ceil((content.voteAverage)/2*10)/10}</td>
+                        <td>${content.releaseDate }</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:otherwise>
+    </c:choose>
+</div>
 
 <nav aria-label="Page navigation example" class="css-paging">
     <ul class="pagination">
@@ -107,10 +112,10 @@
         <!-- 페이징 << 버튼 -->
         <c:if test="${paging.curPage ne 1 }">
             <c:choose>
-                <c:when test="${type eq 'm' }">
+                <c:when test="${type eq 'movie' }">
                     <li class="page-item"><a class="page-link" href="<c:url value='/search/movie?query=${query }&page=${paging.curPage-1 }'/>">&laquo;</a></li>
                 </c:when>
-                <c:when test="${type eq 't' }">
+                <c:when test="${type eq 'tv' }">
                     <li class="page-item"><a class="page-link" href="<c:url value='/search/tv?query=${query }&page=${paging.curPage-1 }'/>">&laquo;</a></li>
                 </c:when>
                 <c:otherwise>
@@ -123,7 +128,7 @@
         <!-- 페이징 블럭 번호  -->
         <c:forEach begin="${paging.blockStartNum }" end="${paging.blockLastNum }" var="i">
             <c:choose>
-                <c:when test="${type eq 'm' }">
+                <c:when test="${type eq 'movie' }">
                     <c:choose>
                         <c:when test="${i eq paging.curPage }">
                             <li class="page-item active"><a class="page-link" href="<c:url value='/search/movie?query=${query }&page=${i }'/>">${i }</a></li>
@@ -134,7 +139,7 @@
                     </c:choose>
                 </c:when>
 
-                <c:when test="${type eq 't' }">
+                <c:when test="${type eq 'tv' }">
                     <c:choose>
                         <c:when test="${i eq paging.curPage }">
                             <li class="page-item active"><a class="page-link" href="<c:url value='/search/tv?query=${query }&page=${i }'/>">${i }</a></li>
@@ -162,10 +167,10 @@
         <!-- 페이징 >> 버튼 -->
         <c:if test="${paging.curPage ne paging.lastPageNum }">
             <c:choose>
-                <c:when test="${type eq 'm' }">
+                <c:when test="${type eq 'movie' }">
                     <li class="page-item"><a class="page-link" href="<c:url value='/search/movie?query=${query }&page=${paging.curPage +1 }'/>">&raquo;</a></li>
                 </c:when>
-                <c:when test="${type eq 't' }">
+                <c:when test="${type eq 'tv' }">
                     <li class="page-item"><a class="page-link" href="<c:url value='/search/tv?query=${query }&page=${paging.curPage +1 }'/>">&raquo;</a></li>
                 </c:when>
                 <c:otherwise>

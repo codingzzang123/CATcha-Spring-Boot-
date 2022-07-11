@@ -31,24 +31,9 @@
                     <div class="search-container">
 
                         <!-- 검색 -->
-                        <form action="<c:url value="/search"/>" method="get" onsubmit="return submit()">
-                            <input class="search-input" type="text" name="query"
-                                   value="${query }" placeholder="     Search for Movie, TV ">
+                        <form action="<c:url value="/search"/>" method="get" >
+                            <input class="search-input" type="text" name="query" placeholder="     Search for Movie, TV ">
                         </form>
-
-                        <script>
-                            function submit(){
-                                let val = $("input[name='query']").val();
-                                searchForm.find("input[name='query']").val(val);
-
-                                if(val != null){
-                                    return true;
-                                }else{
-                                    return false;
-                                }
-                            }
-                        </script>
-
                     </div>
                 </div>
             </div>

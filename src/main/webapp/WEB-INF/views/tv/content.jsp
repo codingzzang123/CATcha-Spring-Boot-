@@ -30,7 +30,7 @@ Title : ${contents.title}
 <br>
 Release Date : <fmt:formatDate value="${contents.releaseDate}" pattern="yyyy-MM-dd"/>
 <br>
-runtime : ${contents.hour}h${contents.minute}m
+runtime : 시즌;;
 <br>
 Genre :
 <c:forEach var="genres" items="${contents.ls}">

@@ -1,12 +1,17 @@
 package com.ib.cat.service.main;
 
+import com.ib.cat.dto.main.BoardTopDto;
+import com.ib.cat.dto.main.SearchBoardDto;
 import com.ib.cat.dto.media.ContentsDto;
 import com.ib.cat.dto.main.SearchCountDto;
+import com.ib.cat.entity.Board;
+import com.ib.cat.repository.BoardRepository;
 import com.ib.cat.utils.SearchInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,6 +19,9 @@ public class SearchService {
 
     @Autowired
     SearchInfoUtil searchInfoUtil;
+
+    @Autowired
+    BoardRepository boardRepository;
 
     public List<ContentsDto> movie(int page, String query){
 
@@ -37,7 +45,21 @@ public class SearchService {
     public List<ContentsDto> movie(Integer page, String query){
         return searchInfoUtil.getMovieList(page, query);
     }
-//    public List<MainDTO> board(int page,String query){
-//        return contentsService.getBoardList(page, query);
-//    }
+
+    public List<SearchBoardDto> board(String query){
+        List<Board> tmp = boardRepository.findByTitleContainingOrContentContainingIgnoreCase(query,query);
+        List<SearchBoardDto> list = new ArrayList<>();
+
+        for(Board board : tmp){
+            list.add(new SearchBoardDto(
+                board.getNo(),board.getTitle(),board.getContent(),board.getName(),board.getRegdate()
+            ));
+        }
+        return list;
+    }
+
+    public Integer boardTuples(String query){
+        System.out.println("query = "+query);
+        return boardRepository.countByTitleContainingOrContentContainingIgnoreCase(query,query);
+    }
 }

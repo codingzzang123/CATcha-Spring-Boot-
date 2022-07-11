@@ -45,7 +45,7 @@
             text-align: center;
         }
     </style>
-    <title>Insert title here</title>
+    <title>MOVIE List</title>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include>
