@@ -75,7 +75,7 @@
 <script type="text/javascript">
 
   function checkId(){
-    var idReg = /^[0-9a-zA-Z][0-9a-zA-Z]{5,12}$/;
+    var idReg = /^[0-9a-zA-Z][0-9a-zA-Z]{6,12}$/;
     var id = $('#id').val();//id값이 "id"인 입력란의 값을 저장
     $("#id_check").css("font-size", "12px");
     $.ajax({
@@ -119,6 +119,7 @@
   }
 
   function matchPw() {
+    var passReg = /^^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,14}$/;
     var inputed = $('#pass').val();
     var reinputed = $('#repwd').val();
     $("#pw_match").css("font-size", "12px");
@@ -127,7 +128,7 @@
       $("#pw_match").prop("disabled", true);
       $("#pw_match").text("비밀번호 맞습니다");
       $("#pw_match").css("color", "green");
-    }else if(inputed != reinputed){
+    }else if(inputed != reinputed || passReg.test(reinputed)){
       $("#pw_match").prop("disabled", true);
       $("#pw_match").text("비밀번호 틀립니다");
       $("#pw_match").css("color", "red");

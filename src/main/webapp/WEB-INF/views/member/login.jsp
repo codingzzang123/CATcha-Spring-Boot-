@@ -19,7 +19,7 @@
 <body>
 <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include>
 <div class="container-fluid py-5">
-    <form method="post" action="/auth" >
+    <form method="post" action="/member/auth" >
         <div class="container mt-5 mb-5" style="width: 30%; font-weight: bold; font-size: 20px;">
             <h1><b>로그인 📑</b></h1>
 
