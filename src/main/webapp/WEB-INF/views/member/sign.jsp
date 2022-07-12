@@ -18,7 +18,7 @@
 
 
 <div class="container-fluid py-5">
-  <form action="${pageContext.request.contextPath}/member/login" method="post"  name="member" enctype="multipart/form-data">
+  <form action="/member/insert" method="post"  name="loginForm" enctype="multipart/form-data">
     <div class="container mt-5 mb-5" style="width: 50%; font-weight: bold; font-size: 20px;">
       <h1><b>회원 가입 📑</b></h1>
 
@@ -54,15 +54,16 @@
 
       <div class="mb-3 form-group">
         <label for="file">프로필</label>
-        <input type="file" class="form-control" id="file" name="file" accept="image/*">
+        <input type="file" class="form-control" id="file" name="file" accept="image/jpg, image/jpeg,image/png" onchange="fileCheck(file)">
+        <div class="eheck_font" id="file_check"></div>
       </div>
 
       <div class="mb-3 form-group text-end">
-        <input type="submit" class="btn btn-secondary"
+        <input type="button" class="btn btn-secondary" onclick="allCheck()"
                style="font-weight: bold; float: left; background-color:black; border-radius: 12px;" value="회원가입"/>
       </div>
       <div class="mb-3 form-group text-end">
-        <input type="button" class="btn btn-secondary" onclick="location.href='/member/login';"
+        <input type="button" class="btn btn-secondary" onclick="history.back()"
                style="font-weight:bold;float:left;margin-left:8px;background-color:black; border-radius: 12px;" value="취소"/>
       </div>
     </div>
@@ -73,6 +74,30 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript">
+  var id_check = false;
+  var pw_check = false;
+  var pwReg_check = false;
+  var name_check = false;
+  var email_check = false;
+  var img_check = false;
+  function allCheck(){
+    var loginForm = document.loginForm;
+    var inputed = $('#pass').val();
+    var reinputed = $('#repwd').val();
+    if(inputed != reinputed){
+      $("#pw_match").prop("disabled", true);
+      $("#pw_match").text("비밀번호 틀립니다");
+      $("#pw_match").css("color", "red");
+    }else if(id_check == true &&
+            pw_check == true &&
+            pwReg_check == true &&
+            name_check == true &&
+            email_check == true &&
+            img_check == true){
+      loginForm.submit();
+    }
+
+  }
 
   function checkId(){
     var idReg = /^[0-9a-zA-Z][0-9a-zA-Z]{6,12}$/;
@@ -95,6 +120,7 @@
           $("#id_check").prop("disabled", true);
           $("#id_check").text("사용가능한 아이디 입니다.");
           $("#id_check").css("color", "green");
+          id_check = true;
         }
       },
     });
@@ -110,6 +136,7 @@
       $("#pw_check").prop("disabled", true);
       $("#pw_check").text("사용가능한 비밀번호 입니다.");
       $("#pw_check").css("color", "green");
+      pw_check = true;
 
     }else if(!passReg.test(inputed)){
       $("#pw_check").prop("disabled", true);
@@ -128,6 +155,7 @@
       $("#pw_match").prop("disabled", true);
       $("#pw_match").text("비밀번호 맞습니다");
       $("#pw_match").css("color", "green");
+      pwReg_check = true;
     }else if(inputed != reinputed || passReg.test(reinputed)){
       $("#pw_match").prop("disabled", true);
       $("#pw_match").text("비밀번호 틀립니다");
@@ -157,6 +185,7 @@
           $("#name_check").prop("disabled", true);
           $("#name_check").text("사용가능한 아이디 입니다.");
           $("#name_check").css("color", "green");
+          name_check = true;
         }
       },
     });
@@ -171,10 +200,31 @@
       $("#email_check").prop("disabled", true);
       $("#email_check").text("정상적인 이메일입니다.");
       $("#email_check").css("color", "green");
+      email_check = true;
     }else if(!emailReg.test(email)){
       $("#email_check").prop("disabled", true);
       $("#email_check").text("맞지 않은 이메일 입니다.");
       $("#email_check").css("color", "red");
+    }
+  }
+
+  function fileCheck(obj) {
+    $("#file_check").css("font-size", "12px");
+    var file_kind = obj.value.lastIndexOf('.');
+    var file_name = obj.value.substring(file_kind+1,obj.length);
+    var file_type = file_name.toLowerCase();
+    var check_file_type=new Array();
+    check_file_type=['jpg','png','jpeg'];
+
+    if(check_file_type.indexOf(file_type)==-1){
+      $("#file_check").prop("disabled", true);
+      $("#file_check").text("맞지 않은 확장자 입니다.");
+      $("#file_check").css("color", "red");
+    }else{
+      $("#file_check").prop("disabled", true);
+      $("#file_check").text("정상적인 확장자입니다.");
+      $("#file_check").css("color", "green");
+      img_check = true;
     }
   }
 
