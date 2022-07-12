@@ -29,13 +29,13 @@ public class MediaLikeService {
         mediaLikeRepository.delete(mediaLike);
     }
     //id 기준으로 좋아요 한 contents인지 확인 - MediaContentsController에서 활용
-    public int checkMediaLike(MediaLike mediaLike) {
-        int result=0;
-        if (mediaLikeRepository.findById(Long.valueOf(mediaLike.getMember().getId())).isPresent()) {
-            result = 1; //있으면 1
-        } else result=0; //없으면 0
-        return result;
-    }
+//    public int checkMediaLike(MediaLike mediaLike) {
+//        int result=0;
+//        if (mediaLikeRepository.findById(Long.valueOf(mediaLike.getMember().getId())).isPresent()) {
+//            result = 1; //있으면 1
+//        } else result=0; //없으면 0
+//        return result;
+//    }
 
     //id 기준으로 좋아요한 contents List 반환 - 관심목록보기에서 활용
 //    public List<MediaLike> checkAllMediaLike(MediaLike mediaLike) {
