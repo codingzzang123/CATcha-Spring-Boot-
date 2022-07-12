@@ -1,5 +1,6 @@
 package com.ib.cat.controller.member;
 
+import com.ib.cat.dto.member.LoginDto;
 import com.ib.cat.dto.member.MemberDto;
 import com.ib.cat.entity.Member;
 import com.ib.cat.service.member.AuthService;
@@ -7,17 +8,17 @@ import com.ib.cat.service.member.FileService;
 import com.ib.cat.service.member.MailService;
 import com.ib.cat.service.member.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
-import sun.security.util.Password;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.sql.Time;
 
 @Controller
 public class LoginController {
@@ -35,7 +36,6 @@ public class LoginController {
 
     @GetMapping("member/login")
     public String getLogin(){
-
         return "member/login";
     }
 
@@ -60,5 +60,15 @@ public class LoginController {
         return "member/login";
     }
 
+    @RequestMapping(value = "/member/auth", method = RequestMethod.POST)
+    public String auth(HttpServletRequest req, HttpSession session ,String id, String pw){
+        Member member = memberService.findById(id);
+        LoginDto loginDto = new LoginDto();
+        loginDto.setId(id);
+        loginDto.setName(member.getName());
+        session = req.getSession();
+        session.setAttribute("auth", loginDto);
+        return "redirect:/main";
+    }
 
 }

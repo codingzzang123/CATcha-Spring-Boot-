@@ -273,5 +273,7 @@
     </section>
     <br><br><br><br><br><br><br><br><br><br><br><br><br>
     <jsp:include page="/WEB-INF/views/templates/footer.jsp"></jsp:include>
+    세션 값 = ${auth.id}
+    세션 닉네임 = ${auth.name}
 </body>
 </html>
