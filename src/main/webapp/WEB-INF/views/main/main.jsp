@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <html>
 <head>
     <title>Main Page</title>
@@ -272,8 +274,16 @@
         </div>
     </section>
     <br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <jsp:include page="/WEB-INF/views/templates/footer.jsp"></jsp:include>
-    세션 값 = ${auth.id}
-    세션 닉네임 = ${auth.name}
+<%--    <jsp:include page="/WEB-INF/views/templates/footer.jsp"></jsp:include>--%>
+<%--        세션 값 =--%>
+<%--        <input type="text" value="<sec:authentication property="principal.username"/>"/>--%>
+<%--        세션 닉네임 = <span>${principal.username}</span>--%>
+<%--    <sec:authorize access="!isAuthenticated()">--%>
+<%--        인증 안됨--%>
+<%--    </sec:authorize>--%>
+<%--    <sec:authorize access="isAuthenticated()">--%>
+<%--    <sec:authentication property="principal.username"/>--%>
+<%--        <a href="${pageContext.request.contextPath}/logout">로그아우우우웃!!!!</a>--%>
+<%--    </sec:authorize>--%>
 </body>
 </html>
