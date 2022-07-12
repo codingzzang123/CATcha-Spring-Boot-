@@ -12,6 +12,7 @@ public class SignController {
 
     @GetMapping("/member/sign")
     public String getSign(){
+        System.out.println("test");
         return "member/sign";
     }
 

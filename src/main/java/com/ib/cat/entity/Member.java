@@ -2,24 +2,21 @@ package com.ib.cat.entity;
 
 import lombok.Builder;
 import lombok.Data;
-import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Data
 @Entity(name = "member")
+@DynamicInsert
 public class Member {
     @Id
-
     private String id; //MediaLike 테이블 - reference 대상키
     private String pw;
     private String name;
     private String email;
-    @ColumnDefault("default.png")
     private String imgo;
-    @ColumnDefault("default.png")
     private String imgs;
     private String auth;
 
