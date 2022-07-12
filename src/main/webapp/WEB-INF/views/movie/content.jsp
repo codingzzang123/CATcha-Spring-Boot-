@@ -8,16 +8,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
 
-    <script src="${pageContext.request.contextPath}/resources/js/hosun/jquery-3.6.0.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/hosun/main.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/hosun/scroll.js"></script>
+
+
+
     <link href="/css/jieun/content.css" rel="stylesheet"/>
 
     <title>컨텐츠 디테일 화면</title>
@@ -25,7 +24,7 @@
     <style>
         * {
             margin: 0;
-            padding;
+            padding:0;
         }
         .container {
             /*너비 고정 and 중앙 정렬*/
@@ -64,7 +63,12 @@
 <br>
 <div class="cell-content" style="background-color: #cccccc">
     <div class="contentsTitle" style="background-color: antiquewhite">
-        ${contents.title}       <span>!!!좋아요!!!</span><br> </div>
+        ${contents.title}
+        <button type="button" id="b1" class="like">좋아요!</button>
+            <c:if test="${flag eq false}">flag=false</c:if>
+            <c:if test="${flag eq true}">flag=true</c:if>
+            <br>
+    </div>
     <div class="contentsOthers" style="background-color: aquamarine">
         <fmt:formatDate value="${contents.releaseDate}" pattern="yyyy-MM-dd"/>
         <c:forEach var="genres" items="${contents.ls}">
@@ -133,8 +137,19 @@
     </section>
 
 </div>
-
+${auth.id}
 <br>
+<input type="hidden" id="contentsNum" value="${contents.contentsNum}">
+<input type="hidden" id="check" value="${check}">
+<input type="hidden" id="userNum" value="${auth.id}">
+<input type="hidden" id="contentsType" value="${contents.contentsType}">
+
+<script src="${pageContext.request.contextPath}/js.hosun/jquery-3.6.0.min.js"></script>
+<script src="${pageContext.request.contextPath}/js.hosun/main.js"></script>
+<script src="${pageContext.request.contextPath}/js.hosun/scroll.js"></script>
+<script src="${pageContext.request.contextPath}/js.jieun/mediaLike.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 </body>
 </html>

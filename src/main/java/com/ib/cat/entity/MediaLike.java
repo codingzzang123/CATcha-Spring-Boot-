@@ -14,16 +14,16 @@ public class MediaLike {
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
     private int no;
 
-    @ManyToOne
-    @JoinColumn(name="id")
-    private Member member; //member.id - foreign key
+//    @ManyToOne
+    @Column(name="id")
+    private String id; //member.id - foreign key
 
     @Column(name="contents_num")
     private int contentsNum; //api - json반환값
 
     @Builder
-    public MediaLike(Member member, int contentsNum) {
-        this.member = member;
+    public MediaLike(String id, int contentsNum) {
+        this.id = id;
         this.contentsNum = contentsNum;
     }
 
