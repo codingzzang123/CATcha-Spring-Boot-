@@ -10,14 +10,16 @@ import javax.mail.internet.MimeMessage;
 
 @Service
 public class MailService {
+    String url = "http://localhost:8080/auth";
     @Autowired
     private JavaMailSenderImpl mailSender;
 
-    public void emailSend(String email) {
+    public void emailSend(String email, String id, String auth) {
         String setFrom = "catchaservice@gmail.com"; // email-config에 설정한 자신의 이메일 주소를 입력
         String toMail = email;
         String title = "회원 가입 인증 이메일 입니다.";
-        String content = "홈페이지를 방문해주셔서 감사합니다.";
+        String content = "Catcha에 가입 해주셔서 감사합니다. 아래 링크로 이동하시면 이메일 인증이 완료 됩니다. " +
+                url+"?id="+id+"&auth="+auth;
         mailSend(setFrom, toMail, title, content);
     }
 

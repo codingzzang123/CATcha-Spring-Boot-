@@ -18,6 +18,9 @@ public class MemberService implements UserDetailsService {
     public void memberInsert(Member member){
         memberRepository.save(member);
     }
+    public void memberUpdate(Member member){
+        memberRepository.save(member);
+    }
     public Member findById(String id){
         return memberRepository.findById(id).get();
     }
