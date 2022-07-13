@@ -9,6 +9,8 @@
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%--<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>--%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -64,10 +66,7 @@
 <div class="cell-content" style="background-color: #cccccc">
     <div class="contentsTitle" style="background-color: antiquewhite">
         ${contents.title}
-        <button type="button" id="b1" class="like" onclick="like()">좋아요!</button>
-            <c:if test="${flag eq false}">flag=false</c:if>
-            <c:if test="${flag eq true}">flag=true</c:if>
-            <br>
+        <button type="button" id="b1" onclick="like()">보고싶어요</button>
     </div>
     <div class="contentsOthers" style="background-color: aquamarine">
         <fmt:formatDate value="${contents.releaseDate}" pattern="yyyy-MM-dd"/>
@@ -80,17 +79,6 @@
         ${contents.overview}</div>
 </div>
 <br>
-<%--<c:forEach var="images" items="${imageList}">
-    <img src="https://image.tmdb.org/t/p/w300${images}">
-</c:forEach>--%>
-
-<%--<div class="cell-footer">--%>
-
-
-
-
-
-
     <section class="css-7klu3x">
     <div class="css-lufi3b">
         <div class="css-pbseb6-StyledHomeListTitleRow">
@@ -136,21 +124,117 @@
 </div>
     </section>
 </div>
-id : ${auth.id}
-flag : ${flag}
+
+
+
 <br>
 <input type="hidden" id="contentsNum" value="${contents.contentsNum}">
-<input type="hidden" id="userId" value="${auth.id}">
+<%--<input type="hidden" id="userId2" name="userId" value="<sec:authentication property="principal.username">">--%>
+<%--<input type="hidden" id="userId" value="${auth.id}">--%>
+<input type="hidden" id="userId" value="test1234">
 <input type="hidden" id="title" value="${contents.title}">
 <input type="hidden" id="overview" value="${contents.overview}">
 <input type="hidden" id="posterPath" value="${contents.posterPath}">
+<input type="hidden" id="flag" value="">
 
 <script src="${pageContext.request.contextPath}/js/hosun/jquery-3.6.0.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/hosun/main.js"></script>
 <script src="${pageContext.request.contextPath}/js/hosun/scroll.js"></script>
-<script src="${pageContext.request.contextPath}/js/jieun/mediaLike.js"></script>
+<%--<script src="${pageContext.request.contextPath}/js/jieun/mediaLike.js"></script>--%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+
+    window.onload=function(){
+
+        let userId = $('#userId').val();
+        let contentsNum = $('#contentsNum').val();
+        // let flag = $('#flag').val();
+
+        let object1 = {
+            'contentsNum': contentsNum,
+            'userId': userId,
+            'code': '0'
+        }
+        $
+        .ajax({
+            url: '../../likeCheck',
+            type: 'post',
+            data: {
+            object: JSON.stringify(object1),
+            // 'flag': flag
+            },
+            success:function(data) {
+                console.log("onload function 실행 - flag:" + data);
+                $('#flag').val(data);
+                if(data == 'true') {
+                    document.getElementById("b1").style.background='red';
+                }
+                if (data == 'false') {
+                    document.getElementById("b1").style.background="#ffffff";
+                }
+                // return flag;
+            }, error: function (){
+                console.log("onload function 실패")
+            }
+        })
+
+
+
+    }
+
+    function like() {
+        console.log("script - like() 실행")
+
+        let userId = $('#userId').val();
+        // let flag = $('#flag').val();
+        let flag = document.getElementById("flag").value;
+        let contentsNum = $('#contentsNum').val();
+        let title = $('#title').val();
+        let overview = $('#overview').val();
+        let posterPath = $('#posterPath').val();
+
+
+        if (userId != 'default') {
+
+            var object2 = {
+                'contentsNum': contentsNum,
+                'title': title,
+                'overview': overview,
+                'posterPath': posterPath,
+                'userId': userId,
+                'code': '0'
+            }
+            $
+            .ajax({
+                url: '../../like',
+                type: 'post',
+                // dataType:"json",
+                data: {
+                object: JSON.stringify(object2),
+                'flag': flag
+                },
+                success: function(data){
+                    console.log("likeController 동작 성공: "+data);
+                    //버튼 누르면 컬러 바꾸기..
+                    if(data == 'true') {
+                        document.getElementById("b1").style.background='red';
+                    } else {
+                        document.getElementById("b1").style.background="#ffffff";
+                    }
+                }, error: function(request,error){
+                    console.log("likeController 동작 fail");
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                }
+            });
+
+        }
+    }
+
+    </script>
+<%--    id : ${auth.id}--%>
+<%--&lt;%&ndash;    id2 : <sec:authentication property="principal.username"/>&ndash;%&gt;--%>
+<%--    <br>flag : ${flag}--%>
 
 </body>
 </html>
