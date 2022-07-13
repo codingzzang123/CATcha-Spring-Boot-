@@ -19,7 +19,6 @@
     <link href="/css/hosun/main.css" rel="stylesheet"/>
 </head>
 <body>
-    <br>
     <jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/templates/navbar.jsp"/>
     <c:set var="Image_URL" value="https://image.tmdb.org/t/p/original"/>
 
@@ -274,7 +273,8 @@
         </div>
     </section>
     <br><br><br><br><br><br><br><br><br><br><br><br><br>
-<%--    <jsp:include page="/WEB-INF/views/templates/footer.jsp"></jsp:include>--%>
+    <jsp:include page="/WEB-INF/views/templates/footer.jsp"></jsp:include>
+
 <%--        세션 값 =--%>
 <%--        <input type="text" value="<sec:authentication property="principal.username"/>"/>--%>
 <%--        세션 닉네임 = <span>${principal.username}</span>--%>
