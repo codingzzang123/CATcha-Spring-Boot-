@@ -8,11 +8,4 @@ import java.util.List;
 
 public interface LikeRepository extends JpaRepository<Like,Long> {
 
-    //CRUD!
-    Like findByNameAndContentsNum(String name, int contentsNum);
-    Like findByNameAndContentsNumAndCode(String name, int contentsNum, int code);
-
-    /* info -> memberlike */
-    List<Like> findAllByNameAndCode(String memberId, int code);
-
 }
