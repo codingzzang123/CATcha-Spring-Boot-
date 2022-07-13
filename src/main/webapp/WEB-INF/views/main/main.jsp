@@ -282,8 +282,10 @@
 <%--        인증 안됨--%>
 <%--    </sec:authorize>--%>
     <sec:authorize access="isAuthenticated()">
+        id : ${auth.id} name : ${auth.name} imgs : ${auth.imgs}
 <%--    <sec:authentication property="principal.username"/>--%>
         <a href="${pageContext.request.contextPath}/logout">로그아우우우웃!!!!</a>
     </sec:authorize>
+    id : ${auth.id} name : ${auth.name} imgs : ${auth.imgs}
 </body>
 </html>
