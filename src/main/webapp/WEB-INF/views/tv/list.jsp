@@ -24,32 +24,8 @@
     %>
     <link href="${pageContext.request.contextPath}/resources/css/hosun/main.css" rel="stylesheet"/>
     <link href="/css/jieun/paging.css" rel="stylesheet"/>
-    <style>
+    <link href="/css/jieun/contentList.css" rel="stylesheet"/>
 
-        body{
-            text-align:center;
-        }
-
-        h5{font-size:10px; padding:20px;}
-        .category{}
-        .category select{}
-
-        .category select option{
-            height:30px;
-            line-height:30px;
-            display:block;
-            padding:20 20px;
-            font-size:12px;
-            color:#555;
-        }
-        .category select option:hover{background-color:yellowgreen; color:white;}
-
-        .container {
-            width: 700px;
-            margin: 30px auto;
-            text-align: center;
-        }
-    </style>
     <title>TV List</title>
 </head>
 <body>
@@ -84,11 +60,11 @@
                     <tr>
                 </c:if>
                 <td>
-                    <a href="<c:url value='/tv/content/${tvList.contentsNum}'/>">
-                    <img src="https://image.tmdb.org/t/p/w200${tvList.posterPath}">
+                    <a href="<c:url value='/tv/content/${tvList.contentsNum}'/>" class="cursor">
+                        <img src="https://image.tmdb.org/t/p/w200${tvList.posterPath}">
 
-                    <p>${tvList.title}</p>
-                    <p><fmt:formatDate value="${tvList.releaseDate}" pattern="yyyy.MM.dd"/></p>
+                        <p>${tvList.title}</p>
+                        <p><fmt:formatDate value="${tvList.releaseDate}" pattern="yyyy.MM.dd"/></p>
                     </a>
                 </td>
                 <c:if test="${i%j == j-1 }">

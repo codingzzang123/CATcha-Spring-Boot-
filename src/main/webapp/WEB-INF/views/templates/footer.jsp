@@ -8,7 +8,7 @@
 <footer>
         <section class="new_index">
             <div class="css-footer css-lufi3b">
-                <img class="footer-img" src="${pageContext.request.contextPath }/resources/image/main/logo.jpg">
+                <img class="footer-img" src="/img/main/logo.jpg">
                 <div class="css-pbseb6-StyledHomeListTitleRow">
                     <div class="search-container">
                         <span class="css-footer-Font">Copyright  CATcha</span>

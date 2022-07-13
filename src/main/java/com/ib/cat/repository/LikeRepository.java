@@ -14,5 +14,6 @@ public interface LikeRepository extends JpaRepository<Like,Long> {
 
     /* info -> memberlike */
     List<Like> findAllByNameAndCode(String memberId, int code);
+    Integer countByNameAndCode(String memberId, int code);
 
 }
