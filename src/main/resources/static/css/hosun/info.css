@@ -1,0 +1,120 @@
+@charset "UTF-8";
+
+.css-Like-header{
+    margin: auto;
+    width: 1320px;
+    background:url('https://png.pngtree.com/thumb_back/fh260/back_our/20190625/ourmid/pngtree-gray-green-fresh-solid-background-image_258276.jpg');
+    height: 300px;
+    border-radius: 3%;
+}
+
+.container {
+    /*너비 고정 and 중앙 정렬*/
+    width: 960px;
+    margin: 0 auto;
+    /*그리드 구성하기*/
+    display: grid;
+    grid-template: 5px 1fr 10px / 400px 1fr;
+    grid-gap: 3px;
+}
+
+.cell-header {
+    grid-column: 1/4;
+}
+
+.css-memImg{
+    width:260px;
+    height:260px;
+}
+
+div.cell-header > img{
+    display:inline-block;
+    vertical-align:middle;
+}
+
+.cell-content1{
+    grid-column: 2/4;
+}
+
+.css-Like-Body{
+    margin: auto;
+    margin-top: 20px;
+    width: 1320px;
+    background:url('https://png.pngtree.com/thumb_back/fh260/back_our/20190625/ourmid/pngtree-gray-green-fresh-solid-background-image_258276.jpg');
+    height: 790px;
+    border-radius: 2em;
+    /*border: 1px dotted red;*/
+}
+
+
+.css-listImg {
+    vertical-align: top;
+    width: 200px;
+    height: 260px;
+    opacity: 1;
+    object-fit: cover;
+    transition: opacity 420ms ease 0s;
+}
+.css-infoItem{
+    margin-top: 10px;
+    height: 240px;
+    width: 98%;
+    display: inline-block;
+    border-radius: 2em;
+    border: 1px dotted rgb(27, 26, 26);
+    margin-left: 12px;
+}
+.css-infoItem .item-img{
+    height: 240px;
+}
+.item-img{
+    margin-top: 10px;
+    
+}
+
+.item-img > img{
+    height: 220px;
+    width: 170px;
+}
+.item-text{
+    height: 220px;
+}
+
+#con{
+    display: flex;	/*flex 컨테이너 생성*/
+    flex-direction: column;	/*default value*/
+    padding: 10px;
+    overflow: hidden;
+    word-break: break-all;
+}
+
+#con2{
+    height: 40px;
+}
+
+#con2 > a{
+    text-decoration:none;
+    color: black;
+}
+a{color: black;}
+a:link{ text-decoration:none; color: black;}
+a:visited{ text-decoration:none; color: black;}
+a:hover{ text-decoration:none; color: black;}
+a:active{ text-decoration:none; color: black;}
+
+.button {
+    background-color: #ff82ff; /* Green */
+    border: none;
+    color: black;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.css-circle{
+    border-radius: 50%;
+}

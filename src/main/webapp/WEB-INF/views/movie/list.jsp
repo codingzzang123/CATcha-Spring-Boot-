@@ -21,30 +21,8 @@
     %>
     <link href="/css/hosun/main.css" rel="stylesheet"/>
     <link href="/css/jieun/paging.css" rel="stylesheet"/>
-    <style>
-        body{
-            text-align:center;
-        }
-        h5{font-size:10px; padding:20px;}
-        .category{}
-        .category select{}
+    <link href="/css/jieun/contentList.css" rel="stylesheet"/>
 
-        .category select option{
-            height:30px;
-            line-height:30px;
-            display:block;
-            padding:0 20px;
-            font-size:12px;
-            color:#555;
-        }
-        .category select option:hover{background-color:yellowgreen; color:white;}
-
-        .container {
-            width: 700px;
-            margin: 30px auto;
-            text-align: center;
-        }
-    </style>
     <title>MOVIE List</title>
 </head>
 <body>
@@ -79,11 +57,11 @@
                     <tr>
                 </c:if>
                 <td>
-                    <a href="<c:url value='/movie/content/${movieList.contentsNum}'/>">
-                    <img src="https://image.tmdb.org/t/p/w200${movieList.posterPath}">
+                    <a href="<c:url value='/movie/content/${movieList.contentsNum}'/>" class="cursor">
+                        <img src="https://image.tmdb.org/t/p/w200${movieList.posterPath}">
 
-                    <p>${movieList.title}</p>
-                    <p><fmt:formatDate value="${movieList.releaseDate}" pattern="yyyy.MM.dd"/></p>
+                        <p>${movieList.title}</p>
+                        <p><fmt:formatDate value="${movieList.releaseDate}" pattern="yyyy.MM.dd"/></p>
                     </a>
                 </td>
                 <c:if test="${i%j == j-1 }">
