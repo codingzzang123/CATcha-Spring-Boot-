@@ -64,7 +64,7 @@
 <div class="cell-content" style="background-color: #cccccc">
     <div class="contentsTitle" style="background-color: antiquewhite">
         ${contents.title}
-        <button type="button" id="b1" class="like">좋아요!</button>
+        <button type="button" id="b1" class="like" onclick="like()">좋아요!</button>
             <c:if test="${flag eq false}">flag=false</c:if>
             <c:if test="${flag eq true}">flag=true</c:if>
             <br>
@@ -135,19 +135,20 @@
     </div>
 </div>
     </section>
-
 </div>
-${auth.id}
+id : ${auth.id}
+flag : ${flag}
 <br>
 <input type="hidden" id="contentsNum" value="${contents.contentsNum}">
-<input type="hidden" id="check" value="${check}">
-<input type="hidden" id="userNum" value="${auth.id}">
-<input type="hidden" id="contentsType" value="${contents.contentsType}">
+<input type="hidden" id="userId" value="${auth.id}">
+<input type="hidden" id="title" value="${contents.title}">
+<input type="hidden" id="overview" value="${contents.overview}">
+<input type="hidden" id="posterPath" value="${contents.posterPath}">
 
-<script src="${pageContext.request.contextPath}/js.hosun/jquery-3.6.0.min.js"></script>
-<script src="${pageContext.request.contextPath}/js.hosun/main.js"></script>
-<script src="${pageContext.request.contextPath}/js.hosun/scroll.js"></script>
-<script src="${pageContext.request.contextPath}/js.jieun/mediaLike.js"></script>
+<script src="${pageContext.request.contextPath}/js/hosun/jquery-3.6.0.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/hosun/main.js"></script>
+<script src="${pageContext.request.contextPath}/js/hosun/scroll.js"></script>
+<script src="${pageContext.request.contextPath}/js/jieun/mediaLike.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
