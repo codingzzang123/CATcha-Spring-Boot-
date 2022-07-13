@@ -70,11 +70,25 @@
                     }
                 }
             </script>
+        <c:choose>
+            <c:when test="${auth.name eq null}">
+                <li class="nav-link active">
+                    <a class="css-memberButton" href="${pageContext.request.contextPath }/member/login" >로그인</a>
+                    <a class="css-memberButton" href="${pageContext.request.contextPath }/member/sign" >회원가입</a>
+                </li>
+            </c:when>
+            <c:otherwise>
+                <li class="nav-link active">
+                    <!-- Alert 이미지 -->
+                    <a>알림</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="">Info</a></li>
+                        <li><a class="dropdown-item" href="">Logout</a></li>
+                    </ul>
+                </li>
+            </c:otherwise>
+        </c:choose>
 
-        <li class="nav-link active">
-            <a class="css-memberButton" href="${pageContext.request.contextPath }/member/login" >로그인</a>
-            <a class="css-memberButton" href="${pageContext.request.contextPath }/member/sign" >회원가입</a>
-        </li>
         </li>
     </ul>
 </nav>
@@ -82,4 +96,3 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
-<!-- 잘할 수 있을까? -->
