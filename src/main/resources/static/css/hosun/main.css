@@ -40,6 +40,7 @@ body {
 }
 
 
+
 .css-header-Font1{
 	font-size: 45px;
     color: rgb(255, 255, 255);
@@ -785,7 +786,7 @@ body {
 	margin: auto;
 	width: 1320px;
 	background:url('../../img/main/footerBackImg.PNG');
-    height: 250px;
+    height: 100px;
 }
 
 .footer-btn{
