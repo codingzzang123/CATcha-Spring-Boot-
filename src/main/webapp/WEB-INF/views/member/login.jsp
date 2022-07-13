@@ -54,7 +54,6 @@
         </div>
     </form>
     <br>
-    <hr width="50%" text-align=right margin-right="100">
 </div>
 
 </body>
