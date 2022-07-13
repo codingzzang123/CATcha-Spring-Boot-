@@ -10,7 +10,7 @@ import javax.persistence.Id;
 @Data
 @Entity(name = "member")
 @DynamicInsert
-public class Member {
+public class Member{
     @Id
     private String id; //MediaLike 테이블 - reference 대상키
     private String pw;

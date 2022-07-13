@@ -18,7 +18,7 @@
 
 
 <div class="container-fluid py-5">
-  <form action="/member/insert" method="post"  name="loginForm" enctype="multipart/form-data">
+  <form action="/member/insert" method="post"  name="signForm" enctype="multipart/form-data">
     <div class="container mt-5 mb-5" style="width: 50%; font-weight: bold; font-size: 20px;">
       <h1><b>회원 가입 📑</b></h1>
 
@@ -79,9 +79,9 @@
   var pwReg_check = false;
   var name_check = false;
   var email_check = false;
-  var img_check = false;
+  var img_check = true;
   function allCheck(){
-    var loginForm = document.loginForm;
+    var signForm = document.signForm;
     var inputed = $('#pass').val();
     var reinputed = $('#repwd').val();
     if(inputed != reinputed){
@@ -94,7 +94,7 @@
             name_check == true &&
             email_check == true &&
             img_check == true){
-      loginForm.submit();
+      signForm.submit();
     }
 
   }
@@ -220,6 +220,7 @@
       $("#file_check").prop("disabled", true);
       $("#file_check").text("맞지 않은 확장자 입니다.");
       $("#file_check").css("color", "red");
+      img_check = false;
     }else{
       $("#file_check").prop("disabled", true);
       $("#file_check").text("정상적인 확장자입니다.");

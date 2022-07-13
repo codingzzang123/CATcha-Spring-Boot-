@@ -38,7 +38,7 @@ public class SecurityConfiguration{
                 .usernameParameter("id")
                 .passwordParameter("pw")
                 .loginProcessingUrl("/member/auth")
-                .defaultSuccessUrl("/main")
+                .defaultSuccessUrl("/member/session")
                 .and()
                         .logout()
                         .logoutSuccessUrl("/main")
