@@ -69,27 +69,46 @@
                         return false;
                     }
                 }
-            </script>
+            </script
+        </li>
         <c:choose>
-            <c:when test="${auth.name eq null}">
+            <c:when test="${auth eq null}">
                 <li class="nav-link active">
                     <a class="css-memberButton" href="${pageContext.request.contextPath }/member/login" >로그인</a>
                     <a class="css-memberButton" href="${pageContext.request.contextPath }/member/sign" >회원가입</a>
                 </li>
             </c:when>
             <c:otherwise>
-                <li class="nav-link active">
-                    <!-- Alert 이미지 -->
-                    <a>알림</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="alert" data-bs-toggle="dropdown" aria-expanded="true">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3602/3602145.png" class="css-alert">
+                    </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="">Info</a></li>
-                        <li><a class="dropdown-item" href="">Logout</a></li>
+                            <div style="width: auto; height: auto;  text-align: center;">
+                                <div>확인하지 않은 알림</div>
+                                <div style="background-color: antiquewhite">이 부분에 알림 목록이 들어갈 예정</div>
+                                <button type="button" class="btn btn-primary">확인</button>
+                            </div>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="/img/profile/${auth.imgs}" class="rounded-circle css-profile">
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="">${auth.name}</a></li>
+                        <li><a class="dropdown-item" href="#">프로필 보기</a></li>
+                        <hr>
+                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/memberlike/${auth.id}">관심목록</a></li>
+                        <li><a class="dropdown-item" href="">설정</a></li>
+                        <hr>
+                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout">로그아웃</a></li>
                     </ul>
                 </li>
             </c:otherwise>
         </c:choose>
 
-        </li>
+
     </ul>
 </nav>
 

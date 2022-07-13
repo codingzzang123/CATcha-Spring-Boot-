@@ -27,11 +27,11 @@
             <div class="css-Like-header css-lufi3b">
                 <div class="container">
                     <div class="cell-header">
-                        <img src="/img/profile/39cb7c95.jpg" class="rounded-circle css-memImg">
+                        <img src="/img/profile/${auth.imgs}" class="rounded-circle css-memImg">
                     </div>
                     <div class="cell-content1">
-                        <span class="css-16qa0p7">User(ID+NAME)</span><br>
-                        <span class="css-16qa0p7">User(Regdate)</span>
+                        <span class="css-16qa0p7">${auth.name}</span><br>
+                        <span class="css-16qa0p7">User(Regdate => 구현 예정)</span>
                     </div>
                 </div>
             </div>
