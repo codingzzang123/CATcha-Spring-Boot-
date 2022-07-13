@@ -1,4 +1,123 @@
 @charset "UTF-8";
-div.contentsHead {
-    background-color: #bbbbbb;
+.css-15hndx7-StylelessButton-ContentActionButton {
+    background: none;
+    padding: 0px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    flex-direction: column;
+    -webkit-box-align: center;
+    align-items: center;
+    color: #1eb0d9;
+    font-size: 12px;
+    letter-spacing: -0.1px;
+    line-height: 13px;
+    text-align: center;
+    width: calc(25% - 3px);
+    min-width: 60px;
+    height: 43px;
+    margin: 0px 1.5px;
+    font-size: 12px;
+}
+
+.css-15hndx7-StylelessButton-ContentActionButton:focus {
+    outline: none;
+}
+
+@media ( min-width : 719px) {
+    .css-15hndx7-StylelessButton-ContentActionButton {
+        line-height: 14px;
+        min-width: 55px;
+    }
+}
+
+@media ( min-width : 1023px) {
+    .css-15hndx7-StylelessButton-ContentActionButton {
+        -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        font-size: 14px;
+        line-height: 14px;
+        width: auto;
+        height: unset;
+        margin: 0 16px;
+    }
+}
+
+.css-1tc9iuk-StylelessButton-ContentActionButton {
+    background: none;
+    padding: 0;
+    border: none;
+    margin: 0;
+    cursor: pointer;
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    color: #292a32;
+    font-size: 12px;
+    -webkit-letter-spacing: -0.1px;
+    -moz-letter-spacing: -0.1px;
+    -ms-letter-spacing: -0.1px;
+    letter-spacing: -0.1px;
+    line-height: 13px;
+    text-align: center;
+    width: calc(25% -
+
+
+
+    3px);
+    min-width: 60px;
+    height: 43px;
+    margin: 0 1.5px;
+}
+
+@media ( min-width : 1023px) {
+    .css-1tc9iuk-StylelessButton-ContentActionButton {
+        -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        font-size: 14px;
+        line-height: 14px;
+        width: auto;
+        height: unset;
+        margin: 0 16px;
+    }
+}
+
+@media ( min-width : 719px) {
+    .css-1tc9iuk-StylelessButton-ContentActionButton {
+        line-height: 14px;
+        min-width: 55px;
+    }
+}
+.css-1q1i623-SVG {
+    display: block;
+    color: inherit;
+    font-family: "Inter", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+    "Segoe UI Emoji", "Segoe UI Symbol";
+    width: auto;
+    height: auto;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.css-1q1i623-SVG>div {
+    line-height: 0;
+}
+
+.css-1q1i623-SVG
+
+
+
+svg {
+    width: 24px;
+    height: auto;
 }

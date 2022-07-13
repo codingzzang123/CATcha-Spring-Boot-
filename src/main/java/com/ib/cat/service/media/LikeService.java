@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -28,29 +29,26 @@ public class LikeService {
         likeRepository.save(like);
     }
     //좋아요 cancel!!
-    public void cancelLike(int contentsNum, int code) {
-        Like like = likeRepository.findByContentsNumAndCode(contentsNum,code);
+    public void cancelLike(String name, int contentsNum, int code) {
+
+        Like like = likeRepository.findByNameAndContentsNumAndCode(name, contentsNum,code);
         if (like != null) {
             likeRepository.delete(like);
         }
 
     }
-    //id 기준으로 좋아요 한 contents인지 확인 - 1. contentsController에서 활용 2. Board에서도 활용
-    public boolean checkLike(LikeDto likeDto) {
-        boolean flag = false;
-        //id&contentsNum으로 조회했을 때, 있으면 entity 반환
-        if (likeRepository.findByNameAndContentsNum(likeDto.getName(), likeDto.getCode()) != null) {
-            flag = true; //좋아요 O
+    /*  id 기준으로 좋아요 한 contents인지 확인
+        1. contentsController에서 활용 2. Board에서도 활용 */
+    public String checkLike(LikeDto likeDto) {
+        String flag = "false";
+        //id&contentsNum&code으로 조회했을 때, 있으면 entity 반환
+        if (likeRepository.findByNameAndContentsNumAndCode(
+                likeDto.getName(),likeDto.getNum(), likeDto.getCode()) != null) {
+            flag = "true"; //좋아요 O
         } else {
-            flag=false; //좋아요 X
+            flag= "false"; //좋아요 X
         }
         return flag;
     }
 
-    //id 기준으로 좋아요한 contents List 반환 - 관심목록보기에서 활용
-//    public List<MediaLike> checkAllMediaLike(MediaLike mediaLike) {
-//        List<MediaLike> list = null;
-//        if(mediaLikeRepository.)
-//
-//    }
 }

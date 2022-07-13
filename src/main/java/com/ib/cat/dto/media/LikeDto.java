@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LikeDto {
-    private String name; //회원 닉네임 (${auth.name})
+    private String name; //회원 닉네임 (${auth.id})
     private int num; //contentsNum
     private String poster; //member image
     private String title;
