@@ -281,9 +281,9 @@
 <%--    <sec:authorize access="!isAuthenticated()">--%>
 <%--        인증 안됨--%>
 <%--    </sec:authorize>--%>
-<%--    <sec:authorize access="isAuthenticated()">--%>
+    <sec:authorize access="isAuthenticated()">
 <%--    <sec:authentication property="principal.username"/>--%>
-<%--        <a href="${pageContext.request.contextPath}/logout">로그아우우우웃!!!!</a>--%>
-<%--    </sec:authorize>--%>
+        <a href="${pageContext.request.contextPath}/logout">로그아우우우웃!!!!</a>
+    </sec:authorize>
 </body>
 </html>

@@ -31,7 +31,6 @@ public class SignController {
 
     @GetMapping("/member/sign")
     public String getSign(){
-        System.out.println("test");
         return "member/sign";
     }
 
@@ -51,7 +50,7 @@ public class SignController {
         }
         member.setAuth(authService.authCode());
         member.setPw(passwordEncoder.encode(member.getPw()));
-        mailService.emailSend(member.getEmail());
+        mailService.emailSend(member.getEmail(), member.getId(), member.getAuth());
         memberService.memberInsert(member);
         return "redirect:/member/login";
     }
