@@ -33,17 +33,6 @@ public class MediaContentsController {
                                @PathVariable("contentsNum") int contentsNum //@RequestParam(value="userId") String userId
                                ) { //HttpSession session,
         System.out.println("contentsController 작동중");
-        System.out.println("type: " + contentsType);
-        System.out.println("contentsNum: "+ contentsNum);
-//        String userId="";
-//        LoginDto loginDto = (LoginDto) session.getAttribute("auth");
-//        if (loginDto != null ) {
-//            userId = loginDto.getId();
-//        } else {
-//            System.out.println("auth 객체 없음??");
-//        }
-//
-//        System.out.println("userId : "+userId);
 
         model.addAttribute("contentsNum", contentsNum);
         //contentsNum(id) 컨텐츠 Dto 가져옴

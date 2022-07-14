@@ -10,13 +10,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%--<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>--%>
-
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-
-
 
     <link href="/css/hosun/main.css" rel="stylesheet"/>
     <link href="/css/jieun/content.css" rel="stylesheet"/>
@@ -41,49 +38,77 @@
         }
         [class *= cell] {
             box-sizing: border-box;
-            border: 1px solid black;
+            border: none;
             padding: 10px;
             border-radius: 10px;
         }
         .cell-header {
             grid-column: 1/4;
         }
-
-        /*.css-7klu3x {*/
-        /*    grid-column: 1/3;*/
-        /*}*/
     </style>
 </head>
 <body>
     <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include>
     <br><br>
-    <div class="container">
+    <div class="container" style="margin:auto">
         <div class="cell-header">
         </div>
-        <div class="cell-aside">
-            <img src="https://image.tmdb.org/t/p/w200${contents.posterPath}">
+        <div class="cell-aside" style="padding:5px">
+            <c:choose>
+                <c:when test="${contents.posterPath eq 'default'}">
+                    <img src="/img/media/cinema_default.png" width="400">
+                </c:when>
+                <c:otherwise>
+                    <img src="https://image.tmdb.org/t/p/w300${contents.posterPath}">
+                </c:otherwise>
+            </c:choose>
+
         </div>
         <br>
-        <div class="cell-content" style="background-color: #cccccc">
-            <div class="contentsTitle" style="background-color: antiquewhite">
-                ${contents.title}
-                <button type="button" id="b1" onclick="like()">보고싶어요</button>
-                <img src="" style="width: 50px; height: 50px; cursor:pointer;" onclick="" id="ex">
+        <div class="cell-content" style="padding:40px">
+            <div class="contentsTitle">
+                <p class="css-16qa0p7">
+                    ${contents.title}</p>
+                <c:choose>
+                    <c:when test="${auth eq null}"></c:when>
+                    <c:otherwise>
+                        <button type="button" id="b1" onclick="like()"><img src="" style="width: 50px; height: 50px; cursor:pointer; border:0px;" onclick="" id="ex"></button>
+                    </c:otherwise>
+                </c:choose>
             </div>
-            <div class="contentsOthers" style="background-color: aquamarine">
-                <fmt:formatDate value="${contents.releaseDate}" pattern="yyyy-MM-dd"/>
-                <c:forEach var="genres" items="${contents.ls}">
-                    ${genres.genreName}
-                </c:forEach>
-                ${contents.hour}h${contents.minute}m
+            <div class="contentsOthers">
+                Release Date :
+                <fmt:formatDate value="${contents.releaseDate}" pattern="yyyy-MM-dd"/><br>
+                장르 :
+                <c:choose>
+                    <c:when test="${empty contents.ls}">
+                        정보가 없습니다.
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach var="genres" items="${contents.ls}">
+                            ${genres.genreName}
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+                <br>
+                상영시간 :
+                ${contents.hour}h ${contents.minute}m
             </div>
-            <br>
-            <div class="contentsOverview" style="background-color: burlywood">
+            <br> Overview <br><br>
+            <div class="contentsOverview" style="border: 1px solid black; border-radius: 15px; padding:15px">
                 ${contents.overview}
             </div>
         </div>
         <br>
     </div>
+
+    <c:choose>
+        <c:when test="${empty cast}">
+                     출연진 정보가 없습니다.
+        </c:when>
+        <c:otherwise>
+
+
 
     <section class="css-7klu3x">
         <div class="css-lufi3b">
@@ -101,7 +126,10 @@
                                             <a>
                                                 <div class="css-1qmeemv">
                                                     <div class="css-1rdb949-StyledLazyLoadingImage ezcopuc0">
+
                                                         <img src="https://image.tmdb.org/t/p/w200${cast.profilePath}" class="css-qhzw1o-StyledImg ezcopuc1">
+
+
                                                     </div>
                                                 </div>
                                                 <div class="css-ixy093">
@@ -132,7 +160,8 @@
         </div>
     </section>
 
-
+        </c:otherwise>
+    </c:choose>
 
 
 <br>
@@ -176,12 +205,14 @@
                 console.log("onload function 실행 - flag:" + data);
                 $('#flag').val(data);
                 if(data == 'true') {
-                    document.getElementById("b1").style.background='red';
-                    document.querySelector("#ex").src='https://cdn-icons-png.flaticon.com/512/1405/1405110.png';
+                    document.getElementById("b1").style.background="grey"
+                    document.getElementById("b1").style.border="#ffffff";
+                    document.querySelector("#ex").src='https://img.icons8.com/ios/100/add-bookmark.png';
                 }
                 if (data == 'false') {
                     document.getElementById("b1").style.background="#ffffff";
-                    document.querySelector("#ex").src='https://cdn-icons-png.flaticon.com/512/1405/1405425.png';
+                    document.getElementById("b1").style.border="#ffffff";
+                    document.querySelector("#ex").src='https://img.icons8.com/ios/100/add-bookmark.png';
                 }
                 // return flag;
             }, error: function (){
@@ -228,11 +259,13 @@
                     console.log("likeController 동작 성공: "+data);
                     //버튼 누르면 컬러 바꾸기..
                     if(data == 'true') {
-                        document.getElementById("b1").style.background='red';
-                        document.querySelector("#ex").src='https://cdn-icons-png.flaticon.com/512/1405/1405110.png';
+                        document.getElementById("b1").style.background='grey';
+                        document.getElementById("b1").style.border="#ffffff";
+                        document.querySelector("#ex").src='https://img.icons8.com/ios/100/add-bookmark.png';
                     } else {
                         document.getElementById("b1").style.background="#ffffff";
-                        document.querySelector("#ex").src='https://cdn-icons-png.flaticon.com/512/1405/1405425.png';
+                        document.getElementById("b1").style.border="#ffffff";
+                        document.querySelector("#ex").src='https://img.icons8.com/ios/100/add-bookmark.png';
                     }
                 }, error: function(request,error){
                     console.log("likeController 동작 fail");
@@ -244,9 +277,5 @@
     }
 
     </script>
-<%--    id : ${auth.id}--%>
-<%--&lt;%&ndash;    id2 : <sec:authentication property="principal.username"/>&ndash;%&gt;--%>
-<%--    <br>flag : ${flag}--%>
-
 </body>
 </html>
