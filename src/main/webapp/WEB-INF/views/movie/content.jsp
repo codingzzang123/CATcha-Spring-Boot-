@@ -56,7 +56,7 @@
         <div class="cell-aside" style="padding:5px">
             <c:choose>
                 <c:when test="${contents.posterPath eq 'default'}">
-                    <img src="/img/media/cinema_default.png" width="400">
+                    <img src="/img/media/cinema_default.png" width="300">
                 </c:when>
                 <c:otherwise>
                     <img src="https://image.tmdb.org/t/p/w300${contents.posterPath}">
@@ -92,7 +92,11 @@
                 </c:choose>
                 <br>
                 상영시간 :
-                ${contents.hour}h ${contents.minute}m
+                <c:choose>
+                    <c:when test="${contents.runtime eq '0'}">정보가 없습니다.</c:when>
+                    <c:otherwise>${contents.hour}h ${contents.minute}m</c:otherwise>
+                </c:choose>
+
             </div>
             <br> Overview <br><br>
             <div class="contentsOverview" style="border: 1px solid black; border-radius: 15px; padding:15px">
@@ -127,8 +131,14 @@
                                                 <div class="css-1qmeemv">
                                                     <div class="css-1rdb949-StyledLazyLoadingImage ezcopuc0">
 
-                                                        <img src="https://image.tmdb.org/t/p/w200${cast.profilePath}" class="css-qhzw1o-StyledImg ezcopuc1">
-
+                                                        <c:choose>
+                                                            <c:when test="${cast.profilePath eq 'default'}">
+                                                                <img src="/img/profile/default.png" style="width: 270px; height: 400px; object-fit:cover;">
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <img src="https://image.tmdb.org/t/p/w200${cast.profilePath}" class="css-qhzw1o-StyledImg ezcopuc1">
+                                                            </c:otherwise>
+                                                            </c:choose>
 
                                                     </div>
                                                 </div>

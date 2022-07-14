@@ -22,7 +22,7 @@
     <%
         request.setCharacterEncoding("utf-8");
     %>
-    <link href="${pageContext.request.contextPath}/resources/css/hosun/main.css" rel="stylesheet"/>
+    <link href="/css/hosun/main.css" rel="stylesheet"/>
     <link href="/css/jieun/paging.css" rel="stylesheet"/>
     <link href="/css/jieun/contentList.css" rel="stylesheet"/>
 
@@ -31,7 +31,7 @@
 <body>
 <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include>
 <br><br><br>
-<nav>
+<nav class="sidebar" id="sidebar">
     <div class="sort">
         <h5>TV</h5>
         <form:form action="${pageContext.request.contextPath}/tv/list" modelAttribute="scmd">
@@ -48,18 +48,16 @@
 </nav>
 <br><br><br>
 
-<div class="container">
-    TV List - ${category}<br>
-
-    <div id="main-content">
+<div class="container" id="container">
+    <div id="main-content" style="margin:auto;">
         <c:set var="i" value="0" />
         <c:set var="j" value="5" />
-        <table>
+        <table style="margin:auto;">
             <c:forEach var="tvList" items="${mediaList}">
                 <c:if test="${i%j == 0 }">
                     <tr>
                 </c:if>
-                <td>
+                <td style="width:150px; height:250px; word-break:break-all;table-layout:fixed;">
                     <a href="<c:url value='/tv/content/${tvList.contentsNum}'/>" class="cursor">
 
                         <c:choose>
@@ -83,7 +81,7 @@
         </table>
     </div>
 
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Page navigation example" class="css-paging">
         <ul class="pagination">
 
             <!-- 페이징 맨앞으로 버튼

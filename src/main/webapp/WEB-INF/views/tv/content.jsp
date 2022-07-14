@@ -45,6 +45,11 @@
         .cell-header {
             grid-column: 1/4;
         }
+        img {
+
+            /*display:block;*/
+            /*margin:auto;*/
+        }
     </style>
 </head>
 <body>
@@ -56,7 +61,7 @@
     <div class="cell-aside" style="padding:5px">
         <c:choose>
             <c:when test="${contents.posterPath eq 'default'}">
-                <img src="/img/media/cinema_default.png" width="400">
+                <img src="/img/media/cinema_default.png" width="300">
             </c:when>
             <c:otherwise>
                 <img src="https://image.tmdb.org/t/p/w300${contents.posterPath}">
@@ -93,7 +98,12 @@
             </c:choose>
             <br>
             상영정보 :
-            ${contents.runtime}개의 episode
+            <c:choose>
+                <c:when test="${contents.runtime eq 'default'}">정보가 없습니다.</c:when>
+                <c:otherwise>
+                    ${contents.runtime}개의 episode
+                </c:otherwise>
+            </c:choose>
         </div>
         <br> Overview <br><br>
         <div class="contentsOverview" style="border: 1px solid black; border-radius: 15px; padding:15px">
@@ -103,17 +113,20 @@
     <br>
 </div>
 
-<c:choose>
-    <c:when test="${empty cast}">
-        출연진 정보가 없습니다.
-    </c:when>
-    <c:otherwise>
+
 
 <section class="css-7klu3x">
     <div class="css-lufi3b">
         <div class="css-pbseb6-StyledHomeListTitleRow">
             <p class="css-16qa0p7">주요 출연진</p>
         </div>
+
+        <c:choose>
+        <c:when test="${empty cast}">
+            출연진 정보가 없습니다.
+        </c:when>
+        <c:otherwise>
+
         <div class="css-1qq59e8">
             <div class="css-1kd6k5d">
                 <div class="css-9dnzub scroll">
@@ -125,7 +138,16 @@
                                         <a>
                                             <div class="css-1qmeemv">
                                                 <div class="css-1rdb949-StyledLazyLoadingImage ezcopuc0">
-                                                    <img src="https://image.tmdb.org/t/p/w200${cast.profilePath}" class="css-qhzw1o-StyledImg ezcopuc1">
+
+                                                    <c:choose>
+                                                        <c:when test="${cast.profilePath eq 'default'}">
+                                                            <img src="/img/profile/default.png" style="width: 270px; height: 400px; object-fit:cover;">
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <img src="https://image.tmdb.org/t/p/w200${cast.profilePath}" class="css-qhzw1o-StyledImg ezcopuc1">
+                                                        </c:otherwise>
+                                                    </c:choose>
+
                                                 </div>
                                             </div>
                                             <div class="css-ixy093">
