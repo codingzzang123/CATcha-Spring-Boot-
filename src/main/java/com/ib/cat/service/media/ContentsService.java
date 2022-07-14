@@ -49,6 +49,7 @@ public class ContentsService {
             ContentsDto vo = new ContentsDto();
             vo.setContentsNum(Integer.parseInt(String.valueOf(contents.get("id"))));
             vo.setContentsType(type);
+            System.out.println(type);
 
             if (contents.get("overview").equals("")) {
                 vo.setOverview("등록 전입니다.");
@@ -61,7 +62,7 @@ public class ContentsService {
                 //시리즈일 경우 release_date를 key로 데이터 파싱
                 if(contents.get("release_date") == null || contents.get("release_date").equals("")) {
                     vo.setReleaseDate(dateFormat.parse(date));
-                } else {
+                } else { //시리즈 아님
                     Date releaseDate = dateFormat.parse((String)contents.get("release_date"));
                     vo.setReleaseDate(releaseDate);
                 }
@@ -69,9 +70,11 @@ public class ContentsService {
             } else if (type.equals("tv")) {
                 //시리즈인 경우 releaseAirDate를 key로 데이터 파싱
                 if(contents.get("first_air_date") == null || contents.get("first_air_date").equals("")) {
+                    System.out.println("1");
                     vo.setReleaseDate(dateFormat.parse(date));
                 } else {
                     Date firstAirDate = dateFormat.parse((String)contents.get("first_air_date"));
+                    System.out.println("2");
                     vo.setReleaseDate(firstAirDate);
                 }
                 //시리즈일 경우 title이 아닌 name을 key로 데이터 파싱
@@ -86,18 +89,21 @@ public class ContentsService {
             
             if (type.equals("movie")) {
                 String runtime = String.valueOf(contents.get("runtime"));
+                System.out.println("runtime: "+runtime);
                 int hour = Integer.parseInt(runtime) / 60;
                 int minute = Integer.parseInt(runtime) % 60;
                 vo.setHour(hour);
                 vo.setMinute(minute);
+                vo.setRuntime(runtime);
             } else { /*  tv 런타임 파싱  */
                 List<Long> runtime = (List<Long>)contents.get("episode_run_time"); //[숫자]로 나옴
-                vo.setRuntime(runtime.get(0).toString());
+                if (runtime.isEmpty()) {
+                    vo.setRuntime("default");
+                } else {
+                    vo.setRuntime(runtime.get(0).toString());
+                }
 
             }
-
-            
-
             /*  장르  */
             JSONArray genreListJ = (JSONArray)contents.get("genres");
             List<GenresDto> tmpls = new ArrayList<>();
@@ -109,20 +115,12 @@ public class ContentsService {
                 gvo.setGenreId(tempId);
                 gvo.setGenreName(tempName);
                 tmpls.add(gvo);
-
-//					GenresVO genresVO = new GenresVO();
-//					JSONObject tmp = (JSONObject)genreListJ.get(k); //JSONObject : {"id": ,"name": } 하나!
-//					genresVO.setGenreId(Integer.parseInt(tmp.get("id").toString()));
-//					genresVO.setGenreName(tmp.get("name").toString());
-//					System.out.println(genresVO);
-//					vo.setGenresVO(genresVO);
             }
             vo.setLs(tmpls);
-            System.out.println(vo.getLs().size());
-            for(GenresDto g : vo.getLs())
-                System.out.println("id: "+g.getGenreId()+"\n"
-                        +"name : "+g.getGenreName());
-            System.out.println();
+//            System.out.println(vo.getLs().size());
+//            for(GenresDto g : vo.getLs())
+//                System.out.println("id: "+g.getGenreId()+"\n"
+//                        +"name : "+g.getGenreName());
             sContent = vo;
 
         }catch (Exception e) {
@@ -357,6 +355,7 @@ public class ContentsService {
             creditList = new ArrayList<CreditsDto>();
             String apiURL = API_URL + type + "/" + id + "/credits?api_key=" + KEY;
             URL url = new URL(apiURL);
+            System.out.println(apiURL);
 
             BufferedReader bf;
             bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
@@ -378,9 +377,7 @@ public class ContentsService {
                         } else {
                             vo.setProfilePath(credits.get("profile_path").toString());
                         }
-                        System.out.println("=======getCredit========");
-                        System.out.println("cast: " + credits.get("name"));
-                        creditList.add(vo);
+                            creditList.add(vo);
                     }
                 }
                 /*감독 목록*/

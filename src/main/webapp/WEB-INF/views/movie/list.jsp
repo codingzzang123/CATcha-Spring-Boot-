@@ -23,12 +23,12 @@
     <link href="/css/jieun/paging.css" rel="stylesheet"/>
     <link href="/css/jieun/contentList.css" rel="stylesheet"/>
 
-    <title>MOVIE List</title>
+    <title>Movie List</title>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include>
 <br><br><br>
-<nav>
+<nav class="sidebar" id="sidebar">
     <div class="sort">
         <h5>Movie</h5>
         <form:form action="${pageContext.request.contextPath}/movie/list" modelAttribute="scmd">
@@ -45,18 +45,16 @@
 </nav>
 <br><br><br>
 
-<div class="container">
-    Movie List - ${category}<br>
-
-    <div id="main-content">
+<div class="container" id="container">
+    <div id="main-content" style="margin:auto;">
         <c:set var="i" value="0" />
         <c:set var="j" value="5" />
-        <table>
+        <table style="margin:auto;">
             <c:forEach var="movieList" items="${mediaList}">
                 <c:if test="${i%j == 0 }">
                     <tr>
                 </c:if>
-                <td>
+                <td style="width:150px; height:250px; word-break:break-all;table-layout:fixed;">
                     <a href="<c:url value='/movie/content/${movieList.contentsNum}'/>" class="cursor">
 
                         <c:choose>
