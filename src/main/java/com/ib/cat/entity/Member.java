@@ -6,6 +6,7 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.sql.Timestamp;
 
 @Data
 @Entity(name = "member")
@@ -20,11 +21,12 @@ public class Member{
     private String imgs;
     private String auth;
 
+    private Timestamp regdate;
     protected Member(){
     }
 
     @Builder
-    public Member(String id, String pw, String name, String email, String imgo, String imgs, String auth){
+    public Member(String id, String pw, String name, String email, String imgo, String imgs, String auth,Timestamp regdate){
         this.id=id;
         this.pw=pw;
         this.name=name;
@@ -32,6 +34,7 @@ public class Member{
         this.imgo=imgo;
         this.imgs=imgs;
         this.auth=auth;
+        this.regdate = regdate;
     }
 
 //    @OneToMany(mappedBy="marker")

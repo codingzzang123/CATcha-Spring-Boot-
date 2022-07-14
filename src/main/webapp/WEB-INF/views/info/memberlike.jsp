@@ -31,7 +31,9 @@
                 </div>
                 <div class="cell-content1">
                     <span class="css-16qa0p7">${auth.name}</span><br>
-                    <span class="css-16qa0p7">User(Regdate => 구현 예정)</span>
+                    <span class="css-16qa0p7">
+                        <fmt:formatDate value="${auth.regdate }" pattern="yyyy년 MM월 dd일" /> 부터 회원
+                    </span>
                 </div>
             </div>
         </div>
