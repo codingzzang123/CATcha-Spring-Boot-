@@ -38,13 +38,7 @@
     </section>
     <section>
         <div class="css-Like-Body" scroll=auto style="overflow-x:hidden">
-
-            <!-- 1.이 부분은 실시간으로 데이터가 바뀌지 않음(나중에 수정해야할듯) -->
-            <input type="hidden" id="countMovie" name="countMovie" value="">
-            <input type="hidden" id="countTv" name="countTv" value="">
-            <input type="hidden" id="countBoard" name="countBoard" value="">
-
-            <div style="text-align: center;"><span>나의 관심 목록</span>
+           <div style="text-align: center;"><span>나의 관심 목록</span>
                 <span style="margin-left: 20px;">영화 : </span><input type="button" id="movie" value="" class="button css-circle"/>
                 <span style="margin-left: 20px;">TV : </span><input type="button" id="tv" value="" class="button css-circle"/>
                 <span style="margin-left: 20px;">게시판 :</span><input type="button" id="board" value="" class="button css-circle"/>
@@ -162,7 +156,6 @@
 
         $("#delete").click(function(){
             var d = $('#deleteModal').val()
-            console.log(d);
             deleteLike(d);
         });
 
@@ -195,8 +188,6 @@
                     $('#movie').val(data.movie);
                     $('#tv').val(data.tv);
                     $('#board').val(data.board);
-                    console.log(data);
-                    console.log(data.movie);
                 },error:function (){
                     console.log("fail");
                 }

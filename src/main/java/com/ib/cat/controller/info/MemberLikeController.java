@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -22,15 +21,7 @@ public class MemberLikeController {
     LikeService likeService;
 
     @GetMapping("/memberlike/{id}")
-    public String likeForm(@PathVariable String id, Model model){
-        /*
-        * jsp 파일로 카테고리 별 관심목록 갯수만 넘김
-        * 나머지 데이터는 jsp파일에서 ajax로 요청 */
-//        LikeCountDto likeCountDto = new LikeCountDto(
-//                memberLikeService.getCount(id,0),memberLikeService.getCount(id,1),
-//                memberLikeService.getCount(id,2)
-//        );
-//        model.addAttribute("count",likeCountDto);
+    public String likeForm(){
         return "info/memberlike";
     }
 
@@ -40,9 +31,6 @@ public class MemberLikeController {
                 memberLikeService.getCount(memberId,0),memberLikeService.getCount(memberId,1),
                 memberLikeService.getCount(memberId,2)
         );
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("likeCountDto",likeCountDto);
-        System.out.println("ajax 통신 성공");
         return likeCountDto;
     }
 
