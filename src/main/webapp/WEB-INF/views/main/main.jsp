@@ -285,6 +285,6 @@
 <%--&lt;%&ndash;    <sec:authentication property="principal.username"/>&ndash;%&gt;--%>
 <%--        --%>
 <%--    </sec:authorize>--%>
-<%--    id : ${auth.id} name : ${auth.name} imgs : ${auth.imgs}--%>
+    id : ${auth.id} name : ${auth.name} imgs : ${auth.imgs}
 </body>
 </html>
