@@ -37,7 +37,7 @@ public class SecurityConfiguration{
                 .loginPage("/member/login")
                 .usernameParameter("id")
                 .passwordParameter("pw")
-                .loginProcessingUrl("/member/auth")
+                .loginProcessingUrl("/member/loginProc")
                 .defaultSuccessUrl("/member/session")
                 .and()
                         .logout()
@@ -59,4 +59,9 @@ public class SecurityConfiguration{
         auth.userDetailsService(memberService)
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
+    
+//    @Bean
+//    public AuthenticationManager authenticationManagerBean() throws Exception {
+//        return this.authenticationManagerBean();
+//    }
 }

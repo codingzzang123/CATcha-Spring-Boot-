@@ -13,49 +13,57 @@
 <head>
 <meta charset="UTF-8">
 
-
+    <style>
+        #icons {
+            text-align: center;
+        }
+    </style>
 
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include>
-<div class="container-fluid py-5">
-    <form method="post" action="/member/auth" name="loginForm" id="loginForm">
-        <div class="container mt-5 mb-5" style="width: 30%; font-weight: bold; font-size: 20px;">
-            <h1><b>로그인 📑</b></h1>
-            <div class="eheck_font" id="auth_check"></div>
-            <div class="mb-3 mt-2 form-group">
-                <label for="id">아이디</label>
-                <input type="text"class="form-control"style="border-radius: 10px;" id="id" name="id" placeholder="아이디를 입력해주세요." required >
-                <div class="eheck_font" id="id_check"></div>
+    <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include>
+    <div class="container-fluid py-5">
+        <form method="post" action="/member/loginProc" name="loginForm" id="loginForm">
+            <div class="container mt-5 mb-5" style="width: 30%; font-weight: bold; font-size: 20px;">
+                <h1><b>로그인 📑</b></h1>
+                <div class="eheck_font" id="auth_check"></div>
+                <div class="mb-3 mt-2 form-group">
+                    <label for="id">아이디</label>
+                    <input type="text"class="form-control"style="border-radius: 10px;" id="id" name="id" placeholder="아이디를 입력해주세요." required >
+                    <div class="eheck_font" id="id_check"></div>
+                </div>
+
+                <div class="mb-3 form-group">
+                    <label for="pw">비밀번호</label>
+                    <input class="form-control" style="border-radius: 10px;" type="password" placeholder="비밀번호를 입력해주세요." name="pw"  required class="pass" id=pw >
+                    <div class="eheck_font" id="pw_check"></div>
+                </div>
+
+                <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
+                    <span style="color: red; font-size:12px;">
+                        <p>아이디, 비밀번호가 잘못되었습니다.</p>
+                        <c:remove var="SPRING_SECURITY_LAST_EXCEPTION" scope="session"/>
+                    </span>
+                </c:if>
+
+
+                <div class="mb-3 form-group text-end">
+                    <input type="button" id="login" class="btn btn-dark" style="font-weight: bold; float:left; background-color:black; border-radius: 12px;" value="로그인"/>
+                </div>
+
+                <div class="mb-3 form-group text-end">
+                    <input type="button" class="btn btn-secondary" onclick="location.href='/member/sign';"
+                           style="font-weight:bold;float:left;margin-left:8px;background-color:black; border-radius: 12px;" value="회원가입"/>
+                </div>
             </div>
-
-            <div class="mb-3 form-group">
-                <label for="pw">비밀번호</label>
-                <input class="form-control" style="border-radius: 10px;" type="password" placeholder="비밀번호를 입력해주세요." name="pw"  required class="pass" id=pw >
-                <div class="eheck_font" id="pw_check"></div>
-            </div>
-
-            <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
-                <span style="color: red; font-size:12px;">
-                    <p>아이디, 비밀번호가 잘못되었습니다.</p>
-                    <c:remove var="SPRING_SECURITY_LAST_EXCEPTION" scope="session"/>
-                </span>
-            </c:if>
-
-
-            <div class="mb-3 form-group text-end">
-                <input type="button" id="login" class="btn btn-dark" style="font-weight: bold; float:left; background-color:black; border-radius: 12px;" value="로그인"/>
-            </div>
-
-            <div class="mb-3 form-group text-end">
-                <input type="button" class="btn btn-secondary" onclick="location.href='/member/sign';"
-                       style="font-weight:bold;float:left;margin-left:8px;background-color:black; border-radius: 12px;" value="회원가입"/>
-            </div>
+        </form>
+        <br><br>
+        <div class="mb-3" id="icons"><!-- ${kakao} -->
+            <a href="#"><img src="/img/icon/kakao_icon.png" width="45" height="45"></a>
+            <a href="#"><img src="/img/icon/naver_icon.png" width="45" height="45"></a>
+            <a href="#"><img src="/img/icon/google_icon.png" width="45" height="45"></a>
         </div>
-    </form>
-    <br>
-</div>
-
+    </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript">
