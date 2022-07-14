@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 
@@ -43,8 +43,7 @@ public class SignController {
     }
 
     @PostMapping("/member/insert")
-    public String postSing(
-            HttpServletRequest req, @Valid MemberDto memberDto, Member member, MultipartFile file, BindingResult bindingResult){
+    public String postSign(@Valid MemberDto memberDto, Member member, MultipartFile file, BindingResult bindingResult){
         String[] img = null;
         if(bindingResult.hasErrors()){
             return "member/sign";
@@ -61,23 +60,5 @@ public class SignController {
         mailService.emailSend(member.getEmail(), member.getId(), member.getAuth());
         memberService.memberInsert(member);
         return "redirect:/member/login";
-    }
-
-    @RequestMapping(value="/member/idCheck", method = {RequestMethod.POST})
-    @ResponseBody
-    public int idCheck(@RequestParam("id") String id) {
-        return memberService.idCheck(id);
-    }
-
-    @RequestMapping(value="/member/nameCheck", method = {RequestMethod.POST})
-    @ResponseBody
-    public int nameCheck(@RequestParam("name") String name) {
-        return memberService.nameCheck(name);
-    }
-
-    @RequestMapping(value="/member/emailCheck", method = {RequestMethod.POST})
-    @ResponseBody
-    public int emailCheck(@RequestParam("id") String id, @RequestParam("email") String email) {
-        return memberService.emailCheck(id, email);
     }
 }
