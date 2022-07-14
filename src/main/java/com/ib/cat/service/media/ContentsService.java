@@ -29,8 +29,8 @@ public class ContentsService {
     //API를 통해 추출한 json 형태의 결과값을 저장할 변수
     private String result ="";
 
+    /*  contents 상세페이지  */
     public ContentsDto getSpecificContent(String type, int contentsNum) {
-//		System.out.println("getSpecificContent Util 작동 중");
         ContentsDto sContent = null;
         List<String> genreList = null;
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -40,19 +40,21 @@ public class ContentsService {
 
             URL url = new URL(API_URL+type+"/"+contentsNum+"?api_key="+KEY+"&language=ko");
             BufferedReader bf;
-            System.out.println("getSpecificContent - 실행된 api: "+API_URL+type+"/"+contentsNum+"?api_key="+KEY+"&language=ko");
-
             bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
 
             result = bf.readLine();
-
             JSONParser jsonParser = new JSONParser();
             JSONObject contents = (JSONObject)jsonParser.parse(result);
 
             ContentsDto vo = new ContentsDto();
             vo.setContentsNum(Integer.parseInt(String.valueOf(contents.get("id"))));
             vo.setContentsType(type);
-            vo.setOverview(contents.get("overview").toString());
+
+            if (contents.get("overview").equals("")) {
+                vo.setOverview("등록 전입니다.");
+            } else {
+                vo.setOverview(contents.get("overview").toString());
+            }
 
             //컨텐츠 타입에 따라 파싱 방법 다르게 설정
             if(type.equals("movie")) {
@@ -75,8 +77,9 @@ public class ContentsService {
                 //시리즈일 경우 title이 아닌 name을 key로 데이터 파싱
                 vo.setTitle(contents.get("name").toString());
             }
+
             if(contents.get("poster_path") == null || contents.get("poster_path").toString().equals("")) {
-                vo.setPosterPath("");
+                vo.setPosterPath("default");
             } else {
                 vo.setPosterPath(contents.get("poster_path").toString());
             }
@@ -87,14 +90,15 @@ public class ContentsService {
                 int minute = Integer.parseInt(runtime) % 60;
                 vo.setHour(hour);
                 vo.setMinute(minute);
-            } else {
-                String runtime = String.valueOf(contents.get("episode_run_time"));
-                vo.setRuntime(runtime);
+            } else { /*  tv 런타임 파싱  */
+                List<Long> runtime = (List<Long>)contents.get("episode_run_time"); //[숫자]로 나옴
+                vo.setRuntime(runtime.get(0).toString());
+
             }
 
             
 
-            //장르
+            /*  장르  */
             JSONArray genreListJ = (JSONArray)contents.get("genres");
             List<GenresDto> tmpls = new ArrayList<>();
             for (int k = 0 ; k < genreListJ.size() ; k++) {
@@ -127,7 +131,7 @@ public class ContentsService {
         return sContent;
     }
 
-    //특정 페이지의 List 가져오기
+    //List 가져오기 (i page)
     public List<ContentsDto> getInfoPageList(String type, String sortBy, int page) {
         //int pages = getPages(type, sortBy);
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -140,24 +144,16 @@ public class ContentsService {
             infoList = new ArrayList<ContentsDto>();
             URL url = new URL(API_URL+"discover/"+type+"?api_key="+KEY
                     +"&language=ko&sort_by="+sortBy+"&include_adult=false&page="+page);
-//				System.out.println("MovieData - sortBy: " + sortBy);
-//				System.out.println("MovieData - type: "+type);
-//				System.out.println("MovieData - page: "+page);
             System.out.println("getInfoPageList - 실행된 api: "+API_URL+"/discover/"+type+"?api_key="+KEY
                     +"&language=ko&sort_by="+sortBy+"&include_adult=false&page="+page);
+
             BufferedReader bf;
-
             bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
-
             result = bf.readLine();
 
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject)jsonParser.parse(result);
-
             JSONArray list = (JSONArray)jsonObject.get("results");
-
-//			int totalPages = Integer.parseInt(String.valueOf(jsonObject.get("total_pages")));
-//			int totalResults = Integer.parseInt(String.valueOf(jsonObject.get("total_results")));
 
             for (int j = 0 ; j < list.size() ; j++) {
                 ContentsDto vo = new ContentsDto();
@@ -191,7 +187,7 @@ public class ContentsService {
                     vo.setTitle(contents.get("name").toString());
                 }
                 if(contents.get("poster_path") == null || contents.get("poster_path").toString().equals("")) {
-                    vo.setPosterPath("");
+                    vo.setPosterPath("default");
                 } else {
                     vo.setPosterPath(contents.get("poster_path").toString());
                 }
@@ -202,8 +198,6 @@ public class ContentsService {
                     genreList.add(Integer.parseInt(String.valueOf(genreListJ.get(k))));
                 }
                 vo.setGenres(genreList);
-//					vo.setTotalPages(totalPages);
-//					vo.setTotalResults(totalResults);
                 infoList.add(vo);
             }
 
@@ -380,10 +374,12 @@ public class ContentsService {
                     if (credits.get("known_for_department").equals("Acting")) {
                         vo.setName(credits.get("name").toString());
                         if(credits.get("profile_path") == null) {
-                            vo.setProfilePath("");
+                            vo.setProfilePath("default");
                         } else {
                             vo.setProfilePath(credits.get("profile_path").toString());
                         }
+                        System.out.println("=======getCredit========");
+                        System.out.println("cast: " + credits.get("name"));
                         creditList.add(vo);
                     }
                 }
@@ -399,6 +395,8 @@ public class ContentsService {
                         } else {
                             vo.setProfilePath(credits.get("profile_path").toString());
                         }
+                        System.out.println("=======getCredit========");
+                        System.out.println("crew: " + credits.get("name"));
                         creditList.add(vo);
                     }
                 }

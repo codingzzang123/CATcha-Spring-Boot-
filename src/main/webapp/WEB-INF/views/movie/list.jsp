@@ -58,7 +58,15 @@
                 </c:if>
                 <td>
                     <a href="<c:url value='/movie/content/${movieList.contentsNum}'/>" class="cursor">
-                        <img src="https://image.tmdb.org/t/p/w200${movieList.posterPath}">
+
+                        <c:choose>
+                            <c:when test="${movieList.posterPath eq 'default'}">
+                                <img src="/img/media/cinema_default.png" width="150">
+                            </c:when>
+                            <c:otherwise>
+                                <img src="https://image.tmdb.org/t/p/w200${movieList.posterPath}">
+                            </c:otherwise>
+                        </c:choose>
 
                         <p>${movieList.title}</p>
                         <p><fmt:formatDate value="${movieList.releaseDate}" pattern="yyyy.MM.dd"/></p>

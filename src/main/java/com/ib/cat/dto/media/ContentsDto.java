@@ -2,6 +2,7 @@ package com.ib.cat.dto.media;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,8 @@ public class ContentsDto {
     private String contentsType;//v
     private String title;//v
     private String overview;//v
+
+    @Column(columnDefinition = "default 'cinema_default.png'")
     private String posterPath;//v
     private Date releaseDate;//v
     private float voteAverage;//v
@@ -21,6 +24,7 @@ public class ContentsDto {
     private String runtime;
     private int hour;
     private int minute;
+
 
     private int count;
     private Double star; //평점
