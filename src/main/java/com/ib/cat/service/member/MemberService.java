@@ -27,9 +27,16 @@ public class MemberService implements UserDetailsService {
     public int idCheck(String id) {
         return memberRepository.countById(id);
     }
-
     public int nameCheck(String name) {
         return memberRepository.countByName(name);
+    }
+    public int emailCheck(String id, String email) {
+        String checkEmail = memberRepository.findById(id).get().getEmail();
+        if(checkEmail.equals(email)){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 
     @Override
@@ -45,4 +52,5 @@ public class MemberService implements UserDetailsService {
                 .authorities(Collections.emptyList())
                 .build();
     }
+
 }

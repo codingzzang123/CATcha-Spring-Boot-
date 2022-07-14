@@ -7,8 +7,6 @@ import com.ib.cat.service.member.FileService;
 import com.ib.cat.service.member.MailService;
 import com.ib.cat.service.member.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -17,9 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.xml.bind.DatatypeConverter;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 
 @Controller
 public class SignController {
@@ -38,9 +34,9 @@ public class SignController {
 //    AuthenticationManager authenticationManager;
     @GetMapping("/member/sign")
     public String getSign() throws UnsupportedEncodingException {
-        byte[] message = "jiseong".getBytes(StandardCharsets.UTF_8);
-        String encoded = DatatypeConverter.printBase64Binary(message);
-        Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken("jiseong1028", "js1002050*");
+//        byte[] message = "jiseong".getBytes(StandardCharsets.UTF_8);
+//        String encoded = DatatypeConverter.printBase64Binary(message);
+//        Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken("jiseong1028", "js1002050*");
 //        Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
 //        SecurityContextHolder.getContext().setAuthentication(authentication);
         return "member/sign";
@@ -77,5 +73,11 @@ public class SignController {
     @ResponseBody
     public int nameCheck(@RequestParam("name") String name) {
         return memberService.nameCheck(name);
+    }
+
+    @RequestMapping(value="/member/emailCheck", method = {RequestMethod.POST})
+    @ResponseBody
+    public int emailCheck(@RequestParam("id") String id, @RequestParam("email") String email) {
+        return memberService.emailCheck(id, email);
     }
 }

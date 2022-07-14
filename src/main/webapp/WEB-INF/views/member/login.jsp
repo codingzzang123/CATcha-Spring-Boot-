@@ -25,7 +25,7 @@
     <div class="container-fluid py-5">
         <form method="post" action="/member/loginProc" name="loginForm" id="loginForm">
             <div class="container mt-5 mb-5" style="width: 30%; font-weight: bold; font-size: 20px;">
-                <h1><b>로그인 📑</b></h1>
+                <h1><b>로그인</b></h1>
                 <div class="eheck_font" id="auth_check"></div>
                 <div class="mb-3 mt-2 form-group">
                     <label for="id">아이디</label>
@@ -52,9 +52,11 @@
                 </div>
 
                 <div class="mb-3 form-group text-end">
-                    <input type="button" class="btn btn-secondary" onclick="location.href='/member/sign';"
-                           style="font-weight:bold;float:left;margin-left:8px;background-color:black; border-radius: 12px;" value="회원가입"/>
+                    <input type="button" class="btn btn-secondary"
+                           data-bs-toggle="modal" data-bs-target="#searchModal"
+                           style="font-weight:bold;float:left;margin-left:8px;background-color:black; border-radius: 12px;" value="비밀번호 찾기"/>
                 </div>
+
             </div>
         </form>
         <br><br>
@@ -64,7 +66,15 @@
             <a href="#"><img src="/img/icon/google_icon.png" width="45" height="45"></a>
         </div>
     </div>
+<div id="searchModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-login">
+        <div class="modal-content">
+            <jsp:include page="/WEB-INF/views/member/search.jsp" />
+        </div>
+    </div>
+</div>
 </body>
+
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript">
 
