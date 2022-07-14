@@ -51,4 +51,8 @@ public class MainController {
         return mav;
     }
 
+    @GetMapping("/test")
+    public String testForm(){
+        return "main/test";
+    }
 }

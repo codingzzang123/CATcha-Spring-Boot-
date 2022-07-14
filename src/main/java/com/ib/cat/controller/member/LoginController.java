@@ -63,6 +63,8 @@ public class LoginController {
         auth.setId(id);
         auth.setName(member.getName());
         auth.setImgs(member.getImgs());
+        auth.setRegdate(member.getRegdate());
+
         httpSession.setAttribute("auth", auth);
         return "redirect:/main";
     }
