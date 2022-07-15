@@ -31,4 +31,6 @@ public class Board {
 
     @ColumnDefault(value = "0")
     private int replys;
+
+
 }
