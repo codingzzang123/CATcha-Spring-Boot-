@@ -1,6 +1,7 @@
 package com.ib.cat.repository;
 
 import com.ib.cat.entity.Board;
+import com.ib.cat.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -20,4 +21,5 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
     public List<Board> findByTitleContainingOrContentContainingIgnoreCase(String query,String query2);
 
     public Integer countByTitleContainingOrContentContainingIgnoreCase(String query,String query2);
+
 }

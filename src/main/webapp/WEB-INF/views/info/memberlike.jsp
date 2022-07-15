@@ -1,13 +1,7 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: hs975
-  Date: 2022-07-13
-  Time: AM 10:23
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>Title</title>
@@ -15,7 +9,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
     <link href="/css/hosun/main.css" rel="stylesheet"/>
-    <link href="/css/hosun/info.css" rel="stylesheet"/>
+    <%--    <link href="/css/hosun/info.css" rel="stylesheet"/>--%>
 </head>
 <body>
 
@@ -23,27 +17,16 @@
 <br>
 
 <section class="css-7klu3x" id="wrapper">
-    <section class="new_index">
-        <div class="css-Like-header css-lufi3b">
-            <div class="container">
-                <div class="cell-header">
-                    <img src="/img/profile/${auth.imgs}" class="rounded-circle css-memImg">
-                </div>
-                <div class="cell-content1">
-                    <span class="css-16qa0p7">${auth.name}</span><br>
-                    <span class="css-16qa0p7">
-                        <fmt:formatDate value="${auth.regdate }" pattern="yyyy년 MM월 dd일" /> 부터 회원
-                    </span>
-                </div>
-            </div>
-        </div>
-    </section>
+
+    <jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/templates/infoHeader.jsp"/>
+
     <section>
         <div class="css-Like-Body" scroll=auto style="overflow-x:hidden">
-           <div style="text-align: center;"><span>나의 관심 목록</span>
-                <span style="margin-left: 20px;">영화 : </span><input type="button" id="movie" value="" class="button css-circle"/>
-                <span style="margin-left: 20px;">TV : </span><input type="button" id="tv" value="" class="button css-circle"/>
-                <span style="margin-left: 20px;">게시판 :</span><input type="button" id="board" value="" class="button css-circle"/>
+            <div style="text-align: center; margin-top: 7px;" >
+                <span>나의 관심 목록</span>
+                <span style="margin-left: 20px;">영화 :  </span><input type="button" id="movie" value="" class="css-circle" style="width: 30px;"/>
+                <span style="margin-left: 20px;">TV :  </span><input type="button" id="tv" value="" class="css-circle" style="width: 30px;"/>
+                <span style="margin-left: 20px;">게시판 :  </span><input type="button" id="board" value="" class="css-circle" style="width: 30px;"/>
             </div>
 
             <div id="result"><!-- datas --></div>

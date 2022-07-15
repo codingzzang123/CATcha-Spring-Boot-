@@ -37,8 +37,6 @@ public class Member{
         this.regdate = regdate;
     }
 
-//    @OneToMany(mappedBy="marker")
-//    List<Member> members = new ArrayList<>();
 }
 
 
