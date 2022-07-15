@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-@Entity(name="contentReply")
+@Entity(name="contentreply")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,7 +17,7 @@ public class ContentReply {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq_contentreply")
     private int no;
 
-    @Column(name="contentsNum")
+    @Column(name="contentsnum")
     private int contentsNum;
 
     @Column(name="writer")

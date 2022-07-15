@@ -37,12 +37,12 @@
 
                 <div>
                     <span>작성한 댓글</span><br>
-                    <button class="b1" data-bs-toggle="modal" data-bs-target="#searchModal" style="margin-top: 5px;">${count.board }</button>
+                    <button class="b1" data-bs-toggle="modal" data-bs-target="#replyModal" style="margin-top: 5px;">#</button>
                 </div>
 
                 <div>
                     <span>작성한 리뷰</span><br>
-                    <button class="b1" style="margin-top: 5px;">${count.board }</button>
+                    <button class="b1" data-bs-toggle="modal" data-bs-target="#reviewModal" style="margin-top: 5px;">${count.review }</button>
                 </div>
             </div>
 
@@ -57,25 +57,52 @@
 
 
 
-
+    <!-- 게시글 -->
     <div id="boardModal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-center" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel2"><b style="font-family: 'Apple Color Emoji'">게시글 (${count.board})</b></h5>
+                    <h5 class="modal-title" id="exampleModalLabel1"><b style="font-family: 'Apple Color Emoji'">게시글 (${count.board})</b></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
+                    <c:if test="${empty boards}"><span style="font-size: large;"><b>아직 게시글을 작성하지 않았습니다❗</b></span></c:if>
+
                     <c:forEach var="board" items="${boards }">
 
-                        <span style="font-size: large;"><b>${board.title }</b></span><br>
+                        <a href="<c:url value="/board/${board.no }"/>"><span style="font-size: large;"><b>${board.title }</b></span><br></a>
                         <span>${board.cate }</span>
                         <span style="margin-left: 15px;"><fmt:formatDate value="${board.regdate }" pattern="yyyy.MM.dd" /></span><br> <hr>
 
                     </c:forEach>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" id="ModalCloseId1" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- board 댓글 -->
+    <div id="replyModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-center" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel2"><b style="font-family: 'Apple Color Emoji'">댓글 (${count.reply})</b></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <c:if test="${empty replys}"><span style="font-size: large;"><b>작성하신 댓글이 없습니다❗</b></span><br></c:if>
+                    <c:forEach var="board" items="${replys }">
+
+                        <span style="font-size: large;"><b>${replys.title }</b></span><br>
+                        <span>${replys.cate }</span>
+                        <span style="margin-left: 15px;"><fmt:formatDate value="${replys.regdate }" pattern="yyyy.MM.dd" /></span><br> <hr>
+
+                    </c:forEach>
+                </div>
                 <div class="modal-footer">
                     <button type="button" id="ModalCloseId2" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                 </div>
@@ -83,7 +110,40 @@
         </div>
     </div>
 
-
+    <!-- 리뷰 -->
+    <div id="reviewModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-center" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel3"><b style="font-family: 'Apple Color Emoji'">리뷰 (${count.review})</b></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <c:if test="${empty reviews}"><span style="font-size: large;"><b>작성하신 리뷰가 없습니다❗</b></span><br></c:if>
+                    <c:forEach var="review" items="${reviews }">
+                        <c:choose>
+                            <c:when test="${review.code eq 0}">
+                                <a href="<c:url value="/movie/content/${review.contentNum }" />">
+                                    <span style="font-size: large;"><b>${review.content }</b></span>
+                                </a><br>
+                                <span>Movie</span>
+                            </c:when>
+                            <c:when test="${review.code eq 1}">
+                                <a href="<c:url value="/tv/content/${review.contentNum }" />">
+                                    <span style="font-size: large;"><b>${review.content }</b></span>
+                                </a><br>
+                                <span>Tv</span>
+                            </c:when>
+                        </c:choose>
+                        <span style="margin-left: 15px;"><fmt:formatDate value="${review.regdate }" pattern="yyyy.MM.dd" /></span><br> <hr>
+                    </c:forEach>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="ModalCloseId3" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
