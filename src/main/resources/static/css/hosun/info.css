@@ -226,3 +226,13 @@ a:active{ text-decoration:none; color: black;}
         -webkit-box-orient: vertical;
     }
 }
+
+.css-Info-Body{
+    margin: auto;
+    margin-top: 20px;
+    width: 1320px;
+    background:url('https://png.pngtree.com/thumb_back/fh260/back_our/20190625/ourmid/pngtree-gray-green-fresh-solid-background-image_258276.jpg');
+    height: 250px;
+    border-radius: 2em;
+    /*border: 1px dotted red;*/
+}

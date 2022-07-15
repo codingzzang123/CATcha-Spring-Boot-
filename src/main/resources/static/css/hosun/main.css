@@ -261,7 +261,7 @@ body {
 	-moz-letter-spacing: -0.4px;
 	-ms-letter-spacing: -0.4px;
 	letter-spacing: -0.4px;
-	line-height: 30px;
+	line-height: 40px;
 }
 
 @media ( max-width :720px) {
@@ -818,6 +818,78 @@ body {
 
 .footer-img{
 	width: 10%; height: auto;
+}
+
+.one{
+	white-space: nowrap;
+	max-width: 1320px;
+	padding: 12px 0 14px;
+	margin-right: 15px;
+	margin-left: 15px;
+	max-height: 100px;
+	line-height: 30px;
+	padding-top: 30px;
+}
+
+.b1{
+	border-radius: 50%;
+	background-color: #00ccff; /* Green */
+	border: none;
+	color: black;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size:large;
+	cursor: pointer;
+	width: 60px;
+	height: 60px;
+	margin-top: 10px;
+
+}
+.b0{
+	border-radius: 50%;
+	background-color: #00ccff; /* Green */
+	border: none;
+	color: black;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size:large;
+	cursor: pointer;
+	width: 60px;
+	height: 60px;
+	margin-top: 10px;
+
+}
+
+.d1{
+	margin-top: 15px;
+}
+
+.d1 > div{
+	display: inline;
+	margin-left: 45px;
+}
+
+.d1 > div > button{
+	display: block;
+	margin-top: 10px;
+	margin:auto;
+}
+.b0{
+	border-radius: 50%;
+	background-color: #dddddd;
+	border: none;
+	color: black;
+	text-align: center;
+	text-decoration: none;
+	display: inline;
+	font-size:50px;
+	cursor: pointer;
+	width: 100px;
+	height: 100px;
+	margin-top: 10px;
+
 }
 /*
 footer{
