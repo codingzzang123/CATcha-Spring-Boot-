@@ -15,7 +15,6 @@
     <script src="js/hosun/jquery-3.6.0.min.js"></script>
     <script src="js/hosun/main.js"></script>
     <script src="js/hosun/scroll.js"></script>
-
     <link href="/css/hosun/main.css" rel="stylesheet"/>
 </head>
 <body>
@@ -212,7 +211,7 @@
         <!-- 하단 게시물 + 방문자 수 -->
         <div class="css-pbseb6-StyledHomeListTitleRow">
             <div class="row mt-2">
-                <div class="col-lg-7">
+                <div class="col-lg-8">
                     <div class="css-pbseb6-StyledHomeListTitleRow">
                         <p class="css-16qa0p7">최근 게시판 활동</p>
                     </div>
@@ -236,36 +235,20 @@
                     </table>
                 </div>
                 <div class="col-lg-1 text-center"></div>
-                <div class="col-lg-4">
-                    <div class="css-pbseb6-StyledHomeListTitleRow">
+                <div class="col-lg-3" >
+                    <div class="css-pbseb6-StyledHomeListTitleRow" style="text-align: center;">
                         <p class="css-16qa0p7">Check out the visitors</p>
                     </div>
-                    <table class="table table-striped table-hover mt-4">
-                        <thead>
-                        <tr>
-                            <th>Today</th>
-                            <th>Total</th>
-                        </tr>
-                        <tr>
-                            <th>${today }</th>
-                            <th>${total }</th>
-                        </tr>
-                        </thead>
-                    </table>
-                    <div>
-
-                        <div class="clock">
-                            <div class="hour">
-                                <div id="hr" class="hr"></div>
-                            </div>
-                            <div class="min">
-                                <div id="mn" class="mn"></div>
-                            </div>
-                            <div class="sec">
-                                <div id="sc" class="sc"></div>
-                            </div>
+                    <div class="d1" style="display: flex; text-align: center; margin-top: 10px;" >
+                        <div>
+                            <span style="font-size: x-large">Today</span><br>
+                            <button class="b0" style="margin-top: 25px;">${today }</button>
                         </div>
-                        <script src="js/hosun/clock.js"></script>
+
+                        <div>
+                            <span style="font-size: x-large">Total</span><br>
+                            <button class="b0" style="margin-top: 25px;">${total }</button>
+                        </div>
                     </div>
                 </div>
             </div>

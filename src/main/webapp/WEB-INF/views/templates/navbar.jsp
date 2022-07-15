@@ -121,8 +121,8 @@
                                 <img src="/img/profile/${auth.imgs}" class="rounded-circle" height="45px;" width="45px;">
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="">${auth.name}</a></li>
-                                <li><a class="dropdown-item" href="#">프로필 보기</a></li>
+                                <li class="dropdown-item">${auth.name}</li>
+                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/member">프로필 보기</a></li>
                                 <hr>
                                 <li><a class="dropdown-item" href="${pageContext.request.contextPath}/memberlike/${auth.id}">관심목록</a></li>
                                 <li><a class="dropdown-item" href="">설정</a></li>
