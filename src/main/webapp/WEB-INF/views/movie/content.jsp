@@ -426,7 +426,7 @@
     });
 
     function addReview(){
-        resultHTML += "<div class='review-items'>${contentReply.content}<br>${contentReply.writer}<br></div>"
+        <%--resultHTML += "<div class='review-items'>${contentReply.content}<br>${contentReply.writer}<br></div>"--%>
 
         /* insertReview(); <- db와 통신 할 ajax 함수 */
         let writer = $('#userId').val();
@@ -447,18 +447,19 @@
                 data: {
                     object: JSON.stringify(object3)
                 },
+                dataType: "json",
                 success: function(data) {
                     console.log("addReply 컨트롤러 동작 성공: " + data);
 
-                    for (let i=0; i<data.length; i++) {
+                    for (let i=0; i < data.length; i++) {
                         resultHTML += "<div class='review-items'>" +
                             data[i].content + "<br>" +
                             data[i].writer + "<br>" +
                             "</div>";
                     }
 
-
                     document.querySelector('#result').innerHTML = resultHTML;
+                    console.log("eee")
                 }, error : function(request, error) {
                     console.log("addReply 컨트롤러 동작 fail");
                     alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);

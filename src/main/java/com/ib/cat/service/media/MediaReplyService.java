@@ -26,9 +26,18 @@ public class MediaReplyService {
     //*      MediaReplyController     *//
 
     /*  content 상세 페이지  :  리뷰 쓰기 (로그인 한 사람)  */
-    public void writeMediaReply(ContentReply reply) {
-        mediaReplyRepository.save(reply);
+//    public void writeMediaReply(ContentReply reply) {
+//        System.out.println(reply.getContent());
+//        System.out.println(reply.getContentsNum());
+//        System.out.println("db");
+//        mediaReplyRepository.save(reply);
+//    }
+    public void writeMediaReply(int contentsNum, String writer, String content, int code) {
+        ContentReply contentReply = new ContentReply(contentsNum, writer, content, code);
+        mediaReplyRepository.save(contentReply);
     }
+
+
 
 //    /*  content 상세 페이지  :  리뷰 수정   */
 //    public void modifyMediaReply(ContentReply reply) {
