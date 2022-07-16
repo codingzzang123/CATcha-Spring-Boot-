@@ -60,9 +60,9 @@
             </div>
         </form>
         <br><br>
-        <div class="mb-3" id="icons"><!-- ${kakao} -->
-            <a href="#"><img src="/img/icon/kakao_icon.png" width="45" height="45"></a>
-            <a href="#"><img src="/img/icon/naver_icon.png" width="45" height="45"></a>
+        <div class="mb-3" id="icons">
+            <a href="${kakao}"><img src="/img/icon/kakao_icon.png" width="45" height="45"></a>
+            <a href="${naver}"><img src="/img/icon/naver_icon.png" width="45" height="45"></a>
             <a href="#"><img src="/img/icon/google_icon.png" width="45" height="45"></a>
         </div>
     </div>

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class AjaxController {
+public class LoginAjaxController {
     @Autowired
     MemberService memberService;
     @Autowired
@@ -25,8 +25,7 @@ public class AjaxController {
 
     @RequestMapping(value="/member/idCheck", method = {RequestMethod.POST})
     @ResponseBody
-    public int idCheck(@RequestParam("id") String id) {
-        return memberService.idCheck(id);
+    public int idCheck(@RequestParam("id") String id) {return memberService.idCheck(id);
     }
 
     @RequestMapping(value="/member/nameCheck", method = {RequestMethod.POST})
