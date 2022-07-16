@@ -77,7 +77,7 @@ public class InfoService {
         for(ContentReply contentReply : tmp){
             ListMediaDto lmd = new ListMediaDto(
                     contentReply.getContent(), contentReply.getWriter(), contentReply.getCode(),
-                    contentReply.getContentsNum(),contentReply.getRegdate(),contentReply.getTite()
+                    contentReply.getContentsNum(),contentReply.getRegdate(),contentReply.getTitle()
             );
             results.add(lmd);
         }
