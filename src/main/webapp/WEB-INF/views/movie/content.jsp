@@ -22,70 +22,7 @@
     <title>컨텐츠 디테일 화면</title>
 
     <style>
-        /** {*/
-        /*    margin: 0;*/
-        /*    padding:0;*/
-        /*}*/
-        /*.container {*/
-        /*    !*너비 고정 and 중앙 정렬*!*/
-        /*    width: 960px;*/
-        /*    margin: 0 auto;*/
-        /*    padding-top: 10px;*/
 
-        /*    !*그리드 구성하기*!*/
-        /*    display: grid;*/
-        /*    grid-template: 5px 1fr 10px / 400px 1fr;*/
-        /*    grid-gap: 3px;*/
-        /*}*/
-        /*[class *= cell] {*/
-        /*    box-sizing: border-box;*/
-        /*    border: none;*/
-        /*    padding: 10px;*/
-        /*    border-radius: 10px;*/
-        /*}*/
-        /*.cell-header {*/
-        /*    grid-column: 1/4;*/
-        /*}*/
-        /*  리뷰  CSS  */
-        /*.card{*/
-        /*    width: 1250px;*/
-        /*    text-align: left;*/
-        /*}*/
-        /*.css-7klu3x .card{*/
-        /*    margin: auto;*/
-        /*}*/
-
-        /*#divbtn .btn{*/
-        /*    margin: auto;*/
-        /*}*/
-
-        /*textarea {*/
-        /*    width: 100%;*/
-        /*    height: 3em;*/
-        /*    border: none;*/
-        /*    resize: none;*/
-        /*    padding-left: 16px;*/
-        /*}*/
-
-        /*.review-body{*/
-        /*    margin: auto;*/
-        /*    margin-top: 10px;*/
-        /*    width: 1300px;*/
-        /*    background:url('https://png.pngtree.com/thumb_back/fh260/back_our/20190625/ourmid/pngtree-gray-green-fresh-solid-background-image_258276.jpg');*/
-        /*    height: 400px;*/
-        /*    border-radius: 2em;*/
-        /*    border: 1px dotted red;*/
-        /*}*/
-
-        /*.review-items{*/
-        /*    margin-top: 12px;*/
-        /*    height: 4em;*/
-        /*    width: 1250px;*/
-        /*    display: inline-block;*/
-        /*    border-radius: 2em;*/
-        /*    border: 1px dotted rgb(27, 26, 26);*/
-        /*    margin-left: 12px;*/
-        /*}*/
         .css-leftImg{
             width: 409px;
             height: 450px;
@@ -102,13 +39,21 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .css-7klu3x{
 
-        }
         .review-body{
-            height: 360px;
+            max-height: 360px;
             border-radius: 2em;
             border: 0.5px dotted red;
+        }
+        textarea {
+            width: 100%;
+            height: 3em;
+            border: none;
+            resize: none;
+            padding-left: 16px;
+        }
+        .likeImg{
+            display: inline;
         }
     </style>
 </head>
@@ -132,7 +77,8 @@
                 </div>
                 <div class="col-lg-8 css-right-text">
                     <div class="contentsTitle">
-                        <p class="css-16qa0p7" style="font-size: xx-large;"> ${contents.title}</p>
+
+                        <span class="css-16qa0p7" style="font-size: xx-large;"> ${contents.title}</span>
                         <c:choose>
                             <c:when test="${auth eq null}"></c:when>
                             <c:otherwise>
@@ -289,7 +235,7 @@
             </div>
         </div>
     </section>
-
+    <jsp:include page="/WEB-INF/views/templates/footer.jsp"></jsp:include>
 
 
 
@@ -430,10 +376,10 @@
                 success: function(data) {
                     console.log("addReply 컨트롤러 동작 성공: " + data);
                     for (let i=0; i < data.length; i++) {
-                        resultHTML += "<div class='review-items'>" +
+                        resultHTML = "<div class='review-items'>" +
                             data[i].content + "<br>" +
                             "작성자: "+data[i].writer + "<br>" +
-                            "</div>";
+                            "</div><br>";
                     }
                     document.querySelector('#result').innerHTML = resultHTML;
                     console.log("eee")
