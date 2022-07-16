@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,33 +17,31 @@ public class MediaReplyService {
 
     //*      MediaContentController       *//
     /*  contents - 리뷰 로딩 (contentsService랑 같이 작동) */
-    public List<ContentReply> getMediaReplyPage(int code, int contentsNum)  {
-        List<ContentReply> contentReplies
-                = mediaReplyRepository.findByContentsNumAndCode(code, contentsNum);
-        //            tmpReplies.set(0,new ContentReply(1, contentsNum, "default", "default",new Timestamp(System.currentTimeMillis()) ,code));
+    public List<ContentReplyDto> getMediaReplyPage(int contentsNum, int code)  {
+        List<ContentReply> tmp = mediaReplyRepository.findByContentsNumAndCode(contentsNum, code);
+        System.out.println("Servie - List<ContentReply> tmp:"+tmp);
+        List<ContentReplyDto> list = new ArrayList<>();
 
-        return contentReplies;
+        for (ContentReply contentReply : tmp) {
+            ContentReplyDto crd = new ContentReplyDto(
+                    contentReply.getContentsNum(),
+                    contentReply.getWriter(), contentReply.getContent(),
+                    contentReply.getTitle(),
+                    contentReply.getCode()
+            );
+            list.add(crd);
+        }
+        return list;
     }
     //*      MediaReplyController     *//
-
     /*  content 상세 페이지  :  리뷰 쓰기 (로그인 한 사람)  */
-//    public void writeMediaReply(ContentReply reply) {
-//        System.out.println(reply.getContent());
-//        System.out.println(reply.getContentsNum());
-//        System.out.println("db");
-//        mediaReplyRepository.save(reply);
-//    }
     public void writeMediaReply(ContentReplyDto dto) {
-        System.out.println("dto cnum : "+dto.getContentsNum());
         ContentReply result = new ContentReply();
            result.setContentsNum(dto.getContentsNum());
            result.setWriter(dto.getWriter());
-           result.setTite(dto.getTitle());
+           result.setTitle(dto.getTitle());
            result.setContent(dto.getContent());
            result.setCode(dto.getCode());
-
-        System.out.println("==\ncontent:"+result.getContent());
-        System.out.println("==\n작성자:"+result.getWriter());
 
         mediaReplyRepository.save(result);
     }

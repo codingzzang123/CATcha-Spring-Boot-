@@ -219,7 +219,7 @@
     <section class="css-7klu3x">
         <div class="css-lufi3b">
             <div class="css-pbseb6-StyledHomeListTitleRow">
-                <p class="css-16qa0p7">test</p>
+                <p class="css-16qa0p7">Review</p>
             </div>
             <div class="css-1qq59e8">
                 <div class="css-1kd6k5d">
@@ -228,7 +228,27 @@
                             <div class="css-119xxd7">
                                 <ul class="css-1ya1z7z-VisualUl">
                                     <li class="css-8y23cj">
-                                        <1>
+
+                                        <div class="review-body">
+                                            <div id="result">
+                                                <c:choose>
+                                                    <c:when test="${contentReply eq '[]'}">
+                                                        <br>
+                                                        등록된 리뷰가 없습니다!
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <c:forEach var="contentReply" items="${contentReply}">
+                                                            <div class='review-items'>
+                                                                    ${contentReply.content}<br>
+                                                                    ${contentReply.writer}<br>
+                                                            </div><br>
+                                                        </c:forEach>
+                                                    </c:otherwise>
+                                                </c:choose>
+
+                                            </div>
+                                        </div>
+
                                     </li>
                                 </ul>
 
@@ -249,27 +269,7 @@
             </div>
         </div>
 
-        <div class="review-body">
 
-
-            <div id="result">
-
-                <c:choose>
-                    <c:when test="${contentReply eq null}">
-                        <div class='review-items'>등록된 리뷰가 없습니다!</div>
-                    </c:when>
-                    <c:otherwise>
-                        <c:forEach var="contentReply" items="${contentReply}">
-                            <div class='review-items'>
-                                    ${contentReply.content}<br>
-                                    ${contentReply.writer}<br>
-                            </div>
-                        </c:forEach>
-                    </c:otherwise>
-                </c:choose>
-
-            </div>
-        </div>
 
         <br><br>
         <c:choose>
@@ -320,17 +320,13 @@
 <script src="${pageContext.request.contextPath}/js/hosun/jquery-3.6.0.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/hosun/main.js"></script>
 <script src="${pageContext.request.contextPath}/js/hosun/scroll.js"></script>
-<%--<script src="${pageContext.request.contextPath}/js/jieun/mediaLike.js"></script>--%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
 
     window.onload=function(){
-
         let userId = $('#userId').val();
         let contentsNum = $('#contentsNum').val();
-        // let flag = $('#flag').val();
-
         let object1 = {
             'contentsNum': contentsNum,
             'userId': userId,
@@ -362,25 +358,19 @@
                 console.log("onload function 실패")
             }
         })
-
-
-
     }
 
     function like() {
         console.log("script - like() 실행")
 
         let userId = $('#userId').val();
-        // let flag = $('#flag').val();
         let flag = document.getElementById("flag").value;
         let contentsNum = $('#contentsNum').val();
         let title = $('#title').val();
         let overview = $('#overview').val();
         let posterPath = $('#posterPath').val();
 
-
         if (userId != 'default') {
-
             var object2 = {
                 'contentsNum': contentsNum,
                 'title': title,
@@ -415,20 +405,15 @@
                     alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                 }
             });
-
         }
     }
 
     var resultHTML="";
-
     $(".btn").click(function () {
         addReview();
         console.log("click");
     });
-
     function addReview(){
-        <%--resultHTML += "<div class='review-items'>${contentReply.content}<br>${contentReply.writer}<br></div>"--%>
-
         /* insertReview(); <- db와 통신 할 ajax 함수 */
         let userName = $('#userName').val();
         let contentsNum = $('#contentsNum').val();
@@ -453,14 +438,12 @@
                 dataType: "json",
                 success: function(data) {
                     console.log("addReply 컨트롤러 동작 성공: " + data);
-
                     for (let i=0; i < data.length; i++) {
                         resultHTML += "<div class='review-items'>" +
                             data[i].content + "<br>" +
-                            data[i].writer + "<br>" +
+                            "작성자: "+data[i].writer + "<br>" +
                             "</div>";
                     }
-
                     document.querySelector('#result').innerHTML = resultHTML;
                     console.log("eee")
                 }, error : function(request, error) {
@@ -469,8 +452,6 @@
                 }
             });
     }
-
-
     </script>
 </body>
 </html>

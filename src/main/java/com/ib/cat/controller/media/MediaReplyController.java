@@ -25,10 +25,10 @@ public class MediaReplyController {
 
     @PostMapping(value="/addReply")
     @ResponseBody
-    public JSONArray addReply(@RequestParam("object") String data) {
+    public List<ContentReplyDto> addReply(@RequestParam("object") String data) {
         System.out.println("contentReply 컨트롤러 작동");
-        List<ContentReply> crList = new ArrayList<ContentReply>();
-        JSONArray returnR;
+        List<ContentReplyDto> crList = new ArrayList<>();
+//        JSONArray returnR;
         JSONParser parser = new JSONParser();
         JSONObject jsonObject = null;
         try { /*  DB에 데이터 삽입  */
@@ -39,22 +39,18 @@ public class MediaReplyController {
             String title = jsonObject.get("title").toString();
             int code = Integer.parseInt(String.valueOf(jsonObject.get("code")));
 
-            System.out.println("controller-데이터 parse 결과" + contentsNum + writer + content + code);
-//            ContentReply contentReply = new ContentReply(
-//                    contentsNum, writer, content, code);
-//            System.out.println("controller-contentReply상태"+contentReply);
-
             ContentReplyDto crd = new ContentReplyDto(contentsNum,writer,content,title,code);
-
             mediaReplyService.writeMediaReply(crd);
-//            mediaReplyService.writeMediaReply(contentReply);
             System.out.println("write 성공");
+            System.out.println("contentsNum:"+contentsNum);
+            System.out.println("code:"+code);
 
             //        /*  읽어오기  */
-            crList = mediaReplyService.getMediaReplyPage(code, contentsNum);
-            returnR = JSONArray.fromObject(crList);
-            System.out.println(returnR);
-            return returnR;
+            crList = mediaReplyService.getMediaReplyPage(contentsNum, code);
+            System.out.println("crList: "+crList);
+//            returnR = JSONArray.fromObject(crList);
+//            System.out.println(returnR);
+            return crList;
 
         } catch (ParseException e) {
             throw new RuntimeException(e);
