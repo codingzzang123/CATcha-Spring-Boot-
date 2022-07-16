@@ -21,7 +21,7 @@ public class ContentReply {
     private int no;
 
     @Column(name="title")
-    private String tite;
+    private String title;
 
     @Column(name="contents_num")
     private int contentsNum;

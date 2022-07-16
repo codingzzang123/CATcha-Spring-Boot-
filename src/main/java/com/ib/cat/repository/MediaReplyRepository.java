@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface MediaReplyRepository extends JpaRepository<ContentReply, Long> {
 
-    List<ContentReply> findByContentsNumAndCode(int code, int contentsNum); //type=code
+    List<ContentReply> findByContentsNumAndCode(int contentsNum, int code); //type=code
     List<ContentReply> findByWriter(String id);
     List<ContentReply> findByWriterAndCode(String id, int code); //type=code
     Long countByWriter(String id);
