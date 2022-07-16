@@ -14,10 +14,10 @@ public class ContentReplyDto {
 
     private int no; //기본키
     private int contentsNum;
-    private String writer; //auth.id
+    private String writer; //auth.NAME
     private String content;
     private Timestamp regdate;
-    @Column(columnDefinition = "default '0/")
+//    @Column(columnDefinition = "default '0'")
     private int code; // movie:0, tv:1
 
     public ContentReplyDto(int contentsNum, String writer, String content, Timestamp regdate, int code) {

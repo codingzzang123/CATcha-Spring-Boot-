@@ -7,21 +7,24 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-@Entity(name="contentreply")
+@Entity(name="content_reply")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ContentReply {
     @Id
-    @SequenceGenerator(name="seq_contentreply", sequenceName="seq_contentreply", allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq_contentreply")
+    @SequenceGenerator(name="seq_content_reply", sequenceName="seq_content_reply", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq_content_reply")
     private int no;
 
-    @Column(name="contentsnum")
+    @Column(name="title")
+    private String tite;
+
+    @Column(name="contents_num")
     private int contentsNum;
 
     @Column(name="writer")
-    private String writer; //auth.id
+    private String writer; //auth.NAME
 
     @Column(name="content")
     private String content;
