@@ -84,4 +84,15 @@ public class MediaReplyService {
         return count;
     }
 
+    /* 호선 추가 */
+    public ContentReplyDto getMediaReply(int contentsNum, int code)  {
+        ContentReply tmp = mediaReplyRepository.findFirstByContentsNumAndAndCodeOrderByNoDesc(contentsNum, code);
+        System.out.println("ContentReply tmp:"+tmp);
+        ContentReplyDto list = new ContentReplyDto(
+          tmp.getContentsNum(),tmp.getWriter(),tmp.getContent(),
+          tmp.getTitle(),tmp.getCode()
+        );
+
+        return list;
+    }
 }
