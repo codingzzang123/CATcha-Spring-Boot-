@@ -3,6 +3,8 @@ package com.ib.cat.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -11,6 +13,7 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@DynamicInsert
 public class ContentReply {
     @Id
     @SequenceGenerator(name="seq_content_reply", sequenceName="seq_content_reply", allocationSize=1)
@@ -35,5 +38,5 @@ public class ContentReply {
     @Column(name="code")
     private int code; // movie:0, tv:1
 
-    public ContentReply(int contentsNum, String writer, String content, int code){}
+//    public ContentReply(int contentsNum, String writer, String content,String title, int code){}
 }

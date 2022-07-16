@@ -15,7 +15,7 @@ public class Like {
 
 //    @ManyToOne
     @Column(name="name")
-    private String name; //auth.id
+    private String name; //auth.name
 
     @Column(name="contents_num")
     private int contentsNum; //api - json반환값, board - 게시글 번호
