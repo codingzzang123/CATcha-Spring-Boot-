@@ -13,5 +13,5 @@ public class ListMediaDto {
     private int code;
     private int contentNum;
     private Timestamp regdate;
-    /* title 필드가 추가 되면 좋을것 같음 */
+    private String title;
 }
