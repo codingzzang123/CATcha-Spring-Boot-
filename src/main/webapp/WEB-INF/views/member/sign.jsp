@@ -94,6 +94,7 @@
             name_check == true &&
             email_check == true &&
             img_check == true){
+      console.log("서밋")
       signForm.submit();
     }
 

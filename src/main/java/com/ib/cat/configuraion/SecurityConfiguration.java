@@ -24,15 +24,14 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class SecurityConfiguration{
     @Autowired
-    MemberService memberService;
+    MemberService memberService = new MemberService();
+
+
     @Bean
     @Order(SecurityProperties.BASIC_AUTH_ORDER)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-//                .authorizeRequests()
-//                .antMatchers("/main", "/login", "/signin", "/css/**", "/images/**", "/js/**").permitAll()
-//                .and()
                 .formLogin()
                 .loginPage("/member/login")
                 .usernameParameter("id")
@@ -54,14 +53,8 @@ public class SecurityConfiguration{
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-
     protected void configure(AuthenticationManagerBuilder auth) throws  Exception{
         auth.userDetailsService(memberService)
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
-    
-//    @Bean
-//    public AuthenticationManager authenticationManagerBean() throws Exception {
-//        return this.authenticationManagerBean();
-//    }
 }

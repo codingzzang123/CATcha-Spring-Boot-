@@ -2,6 +2,7 @@ package com.ib.cat.controller.member;
 
 import com.ib.cat.dto.member.Auth;
 import com.ib.cat.entity.Member;
+import com.ib.cat.service.loginApi.NaverService;
 import com.ib.cat.service.member.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,7 +18,8 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
     @Autowired
     MemberService memberService;
-
+    @Autowired
+    NaverService naverService;
     String kakao_client_id = "fc6944c62dae67a30e23da58dc978e9f";
     String kakao_redirect_uri = "http://localhost:8080/kakaocallback";
 
@@ -26,6 +28,7 @@ public class LoginController {
 
     @GetMapping("member/login")
     public String getLogin(Model model){
+        String naver = naverService.getRegUrl();
 
         String kakao = "https://kauth.kakao.com/oauth/authorize?"
                 + "client_id="+kakao_client_id+
@@ -39,6 +42,7 @@ public class LoginController {
                 + "&scope=email%20profile%20openid"
                 + "&access_type=offline";
 
+        model.addAttribute("naver", naver);
         model.addAttribute("kakao", kakao);
         model.addAttribute("google", google);
         return "member/login";
@@ -53,6 +57,20 @@ public class LoginController {
     public String getSession(HttpSession httpSession){
         Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String id = ((User) object).getUsername();
+        Member member = memberService.findById(id);
+        Auth auth = new Auth();
+        auth.setId(id);
+        auth.setName(member.getName());
+        auth.setImgs(member.getImgs());
+        auth.setRegdate(member.getRegdate());
+
+        httpSession.setAttribute("auth", auth);
+        return "redirect:/main";
+    }
+    @GetMapping("/member/apiSession")
+    public String getApiSession(HttpSession httpSession){
+        Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String id = (String) object;
         Member member = memberService.findById(id);
         Auth auth = new Auth();
         auth.setId(id);
