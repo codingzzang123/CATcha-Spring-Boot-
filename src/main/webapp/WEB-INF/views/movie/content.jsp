@@ -8,6 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%--<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>--%>
 <!DOCTYPE html>
@@ -17,12 +18,11 @@
 
     <link href="/css/hosun/main.css" rel="stylesheet"/>
     <link href="/css/jieun/contentList.css" rel="stylesheet"/>
-<%--    <link href="/css/jieun/content.css" rel="stylesheet"/>--%>
 
+    <script src="https://kit.fontawesome.com/325cf61a47.js" crossorigin="anonymous"></script>
     <title>컨텐츠 디테일 화면</title>
 
     <style>
-
         .css-leftImg{
             width: 409px;
             height: 450px;
@@ -42,7 +42,7 @@
 
         .review-body{
             max-height: 380px;
-            border-radius: 2em;
+            /*border-radius: 2em;*/
             /*border: 0.5px dotted red;*/
         }
         textarea {
@@ -56,16 +56,34 @@
             display: inline;
         }
 
+        .card{
+            width: 1250px;
+            text-align: left;
+        }
+
         .review-items{
             margin-top: 12px;
-            height: 4em;
+            height: 3.5em;
             width: 1250px;
-            display: inline-block;
-            border-radius: 2em;
+            /*display: inline-block;*/
+            border-radius: 1em;
             border: 1px dotted rgb(27, 26, 26);
-            margin-left: 20px;
+            /*margin-left: 20px;*/
             padding-left: 20px;
             padding-top: 5px;
+            align-items:center; display: flex;
+        }
+
+        /*.css-7klu3x .card{*/
+        /*    margin: auto;*/
+        /*}*/
+
+        #divbtn .btn{
+            margin: auto;
+        }
+
+        review-items button{
+            text-align: end;
         }
     </style>
 </head>
@@ -76,141 +94,151 @@
         <section>
             <div class="css-lufi3b">
                 <div class="css-1qq59e8" style="display: flex;">
-            <div class="row">
-                <div class="col-lg-4 css-leftImg">
-                    <c:choose>
-                        <c:when test="${contents.posterPath eq 'default'}">
-                            <img src="/img/media/cinema_default.png" width="300">
-                        </c:when>
-                        <c:otherwise>
-                            <img src="https://image.tmdb.org/t/p/w300${contents.posterPath}">
-                        </c:otherwise>
-                    </c:choose>
-                </div>
-                <div class="col-lg-8 css-right-text">
-                    <div class="contentsTitle">
-
-                        <span class="css-16qa0p7" style="font-size: xx-large;"> ${contents.title}</span>
-                        <c:choose>
-                            <c:when test="${auth eq null}"></c:when>
-                            <c:otherwise>
-                                <button type="button" id="b1" onclick="like()"><img src="" style="width: 50px; height: 50px; cursor:pointer; border:0px;" onclick="" id="ex"></button>
-                            </c:otherwise>
-                        </c:choose>
-                    </div>
-                    <div class="contentsOthers">
-                        Release Date :
-                        <fmt:formatDate value="${contents.releaseDate}" pattern="yyyy-MM-dd"/><br>
-                        장르 :
-                        <c:choose>
-                            <c:when test="${empty contents.ls}">
-                                정보가 없습니다.
-                            </c:when>
-                            <c:otherwise>
-                                <c:forEach var="genres" items="${contents.ls}">
-                                    ${genres.genreName}
-                                </c:forEach>
-                            </c:otherwise>
-                        </c:choose>
-                        <br>
-                        상영시간 :
-                        <c:choose>
-                            <c:when test="${contents.runtime eq '0'}">정보가 없습니다.</c:when>
-                            <c:otherwise>${contents.hour}h ${contents.minute}m</c:otherwise>
-                        </c:choose>
-                    </div>
-                    <div style="margin-top: 70px;">
-                        <br> Overview <br>
-                        <div class="contentsOverview" style="border: 1px solid black; border-radius: 15px; padding:15px">
-                            ${contents.overview}
+                    <div class="row">
+                        <div class="col-lg-4 css-leftImg">
+                            <c:choose>
+                                <c:when test="${contents.posterPath eq 'default'}">
+                                    <img src="/img/media/cinema_default.png" width="300">
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="https://image.tmdb.org/t/p/w300${contents.posterPath}">
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                        <div class="col-lg-8 css-right-text">
+                            <div class="contentsTitle">
+                                <span class="css-16qa0p7" style="font-size: xx-large;"> ${contents.title}</span>
+                                <c:choose>
+                                    <c:when test="${auth eq null}"></c:when>
+                                    <c:otherwise>
+                                        <button type="button" id="b1" onclick="like()" class="btn btn-default btn-xs" ><img src="" style="width: 50px; height: 50px; cursor:pointer; border:0px;" id="ex"></button>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                            <div class="contentsOthers">
+                                Release Date :<fmt:formatDate value="${contents.releaseDate}" pattern="yyyy-MM-dd"/><br>
+                                장르 :
+                                <c:choose>
+                                    <c:when test="${empty contents.ls}">
+                                        정보가 없습니다.
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:forEach var="genres" items="${contents.ls}">
+                                            ${genres.genreName}
+                                        </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
+                                <br>
+                                상영시간 :
+                                <c:choose>
+                                    <c:when test="${contents.runtime eq '0'}">정보가 없습니다.</c:when>
+                                    <c:otherwise>${contents.hour}h ${contents.minute}m</c:otherwise>
+                                </c:choose>
+                            </div>
+                            <div style="margin-top: 70px;">
+                                <br> Overview <br>
+                                <div class="contentsOverview" style="border: 1px solid black; border-radius: 15px; padding:15px;">
+                                    ${contents.overview}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
                 </div>
             </div>
         </section>
 
 
 
-
-    <c:choose>
-        <c:when test="${empty cast}">
-            출연진 정보가 없습니다.
-        </c:when>
-        <c:otherwise>
-            <div class="css-lufi3b">
-                <div class="css-pbseb6-StyledHomeListTitleRow">
-                    <p class="css-16qa0p7">주요 출연진</p>
-                </div>
-                <div class="css-1qq59e8">
-                    <div class="css-1kd6k5d">
-                        <div class="css-9dnzub scroll">
-                            <div class="css-174lxc3">
-                                <div class="css-119xxd7">
-                                    <ul class="css-1ya1z7z-VisualUl">
-                                        <li class="css-8y23cj">
-                                            <c:forEach var="cast" begin="0" end="19" step="1" items="${cast}">
-                                                <a>
-                                                    <div class="css-1qmeemv">
-                                                        <div class="css-1rdb949-StyledLazyLoadingImage ezcopuc0">
-                                                            <c:choose>
-                                                                <c:when test="${cast.profilePath eq 'default'}">
-                                                                    <img src="/img/profile/default.png" style="width: 270px; height: 400px; object-fit:cover;">
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    <img src="https://image.tmdb.org/t/p/w200${cast.profilePath}"  class="css-qhzw1o-StyledImg ezcopuc1">
-                                                                </c:otherwise>
-                                                            </c:choose>
+        <c:choose>
+            <c:when test="${empty cast}">
+                출연진 정보가 없습니다.
+            </c:when>
+            <c:otherwise>
+                <div class="css-lufi3b">
+                    <div class="css-pbseb6-StyledHomeListTitleRow">
+                        <p class="css-16qa0p7">주요 출연진</p>
+                    </div>
+                    <div class="css-1qq59e8">
+                        <div class="css-1kd6k5d">
+                            <div class="css-9dnzub scroll">
+                                <div class="css-174lxc3">
+                                    <div class="css-119xxd7">
+                                        <ul class="css-1ya1z7z-VisualUl">
+                                            <li class="css-8y23cj">
+                                                <c:forEach var="cast" begin="0" end="19" step="1" items="${cast}">
+                                                    <a>
+                                                        <div class="css-1qmeemv">
+                                                            <div class="css-1rdb949-StyledLazyLoadingImage ezcopuc0">
+                                                                <c:choose>
+                                                                    <c:when test="${cast.profilePath eq 'default'}">
+                                                                        <img src="/img/profile/default.png" style="width: 270px; height: 400px; object-fit:cover;">
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <img src="https://image.tmdb.org/t/p/w200${cast.profilePath}"  class="css-qhzw1o-StyledImg ezcopuc1">
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="css-ixy093">
-                                                        <div class="css-5yuqaa">${cast.name }</div>
-                                                        <div class="average css-xgmur2"> </div>
-                                                        <div class="css-u4moi6"></div>
-                                                    </div>
-                                                </a>
-                                            </c:forEach>
-                                        </li>
-                                    </ul>
+                                                        <div class="css-ixy093">
+                                                            <div class="css-5yuqaa">${cast.name }</div>
+                                                            <div class="average css-xgmur2"> </div>
+                                                            <div class="css-u4moi6"></div>
+                                                        </div>
+                                                    </a>
+                                                </c:forEach>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="css-148ng4f left" style="display: none;">
-                            <button type="button" class="css-vp7uyl" style="margin-bottom: 60px;">
-                                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDEyIDE2Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZD0iTTAgMEgxMlYxNkgweiIgdHJhbnNmb3JtPSJyb3RhdGUoMTgwIDYgOCkiLz4KICAgICAgICA8cGF0aCBmaWxsPSIjMjkyQTMyIiBzdHJva2U9IiMyOTJBMzIiIHN0cm9rZS13aWR0aD0iLjM1IiBkPSJNMy40MjkgMTMuNDA5TDQuMzU0IDE0LjI1OCAxMC42OCA4LjQ2IDExLjE0MyA4LjAzNiA0LjM1NCAxLjgxMyAzLjQyOSAyLjY2MiA5LjI5MSA4LjAzNnoiIHRyYW5zZm9ybT0icm90YXRlKDE4MCA2IDgpIi8+CiAgICA8L2c+Cjwvc3ZnPgo=" alt="forward">
-                            </button>
-                        </div>
-                        <div class="css-147ng4f right">
-                            <button type="button" class="css-vp7uyl" style="margin-bottom: 60px;">
-                                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDEyIDE2Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZD0iTTAgMEgxMlYxNkgweiIvPgogICAgICAgIDxwYXRoIGZpbGw9IiMyOTJBMzIiIHN0cm9rZT0iIzI5MkEzMiIgc3Ryb2tlLXdpZHRoPSIuMzUiIGQ9Ik0zLjQyOSAxMy40MDlMNC4zNTQgMTQuMjU4IDEwLjY4IDguNDYgMTEuMTQzIDguMDM2IDQuMzU0IDEuODEzIDMuNDI5IDIuNjYyIDkuMjkxIDguMDM2eiIvPgogICAgPC9nPgo8L3N2Zz4K" alt="forward">
-                            </button>
+                            <div class="css-148ng4f left" style="display: none;">
+                                <button type="button" class="css-vp7uyl" style="margin-bottom: 60px;">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDEyIDE2Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZD0iTTAgMEgxMlYxNkgweiIgdHJhbnNmb3JtPSJyb3RhdGUoMTgwIDYgOCkiLz4KICAgICAgICA8cGF0aCBmaWxsPSIjMjkyQTMyIiBzdHJva2U9IiMyOTJBMzIiIHN0cm9rZS13aWR0aD0iLjM1IiBkPSJNMy40MjkgMTMuNDA5TDQuMzU0IDE0LjI1OCAxMC42OCA4LjQ2IDExLjE0MyA4LjAzNiA0LjM1NCAxLjgxMyAzLjQyOSAyLjY2MiA5LjI5MSA4LjAzNnoiIHRyYW5zZm9ybT0icm90YXRlKDE4MCA2IDgpIi8+CiAgICA8L2c+Cjwvc3ZnPgo=" alt="forward">
+                                </button>
+                            </div>
+                            <div class="css-147ng4f right">
+                                <button type="button" class="css-vp7uyl" style="margin-bottom: 60px;">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDEyIDE2Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZD0iTTAgMEgxMlYxNkgweiIvPgogICAgICAgIDxwYXRoIGZpbGw9IiMyOTJBMzIiIHN0cm9rZT0iIzI5MkEzMiIgc3Ryb2tlLXdpZHRoPSIuMzUiIGQ9Ik0zLjQyOSAxMy40MDlMNC4zNTQgMTQuMjU4IDEwLjY4IDguNDYgMTEuMTQzIDguMDM2IDQuMzU0IDEuODEzIDMuNDI5IDIuNjYyIDkuMjkxIDguMDM2eiIvPgogICAgPC9nPgo8L3N2Zz4K" alt="forward">
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </c:otherwise>
-    </c:choose>
+            </c:otherwise>
+        </c:choose>
 
         <div class="css-lufi3b">
             <div class="css-1qq59e8">
-                <div class="css-pbseb6-StyledHomeListTitleRow">
-                    <p class="css-16qa0p7" style="font-size: xx-large;">Review</p>
-                </div>
+<%--                <div class="css-pbseb6-StyledHomeListTitleRow">--%>
+                    <span class="css-16qa0p7" style="font-size: xx-large;">Review</span>
+<%--                </div>--%>
 
                 <div id="result" scroll=auto style="overflow-x:hidden; margin-bottom: 30px;" class="review-body">
                     <c:choose>
-                        <c:when test="${contentReply eq '[]'}">
-                            <div id="emptyReview">
-                                <span style="font-family: Cambria; font-size: larger;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;등록된 리뷰가 없습니다!</span>
+                        <c:when test="${empty reviews}">
+                            <div class='review-items'>
+                                <span style="font-family: Cambria; font-size: medium;" >아직 등록된 리뷰가 없습니다!</span>
                             </div>
                         </c:when>
                         <c:otherwise>
-                            <c:forEach var="contentReply" items="${contentReply}">
-                                <div class='review-items'>
-                                        ${contentReply.content}<br>
-                                        ${contentReply.writer}<br>
-                                </div><br>
+                            <c:forEach var="review" items="${reviews}">
+                                <div class='review-items' id="${review.no }">
+                                    <img src="/img/profile/${review.img }" class="rounded-circle css-memImg" style="width: 3em; height:3em; margin-bottom: 3px;">
+                                    <div style="display: inline-block; width: 1000px; height: 40px;">
+                                        <span style="margin-left: 20px; font-family: Cambria; font-size: medium;"><b>${review.content}</b></span>
+                                    </div>
+                                    <div style="display: inline-block; width: 200px; height: 40px; text-align: end; margin-bottom: 12px; ">
+                                        <span style="font-size: small; margin-bottom: 3px;">
+                                                <fmt:formatDate value="${review.regdate }" pattern="MMM dd HH:mm:ss" /><br>by ${review.writer}
+                                        </span>
+                                    </div>
+                                    <div style="display: inline-block; width: 40px; height: 40px;">
+                                        <c:if test="${auth.name eq review.writer }">
+                                            <button type="button" data-bs-toggle="modal" data-bs-target="#DelModal" data-test=${review.no }
+                                                    class="btn btn-default btn-xs"><i class="fa-solid fa-square-minus"></i></button>
+                                        </c:if>
+                                    </div>
+                                </div>
                             </c:forEach>
                         </c:otherwise>
                     </c:choose>
@@ -222,7 +250,7 @@
                                 <b style="font-family: Cambria">Write a Comment</b>
                             </div>
                             <div class="card-body" style="font-size: small">
-                                <a href="#">로그인</a>을 하시면 리뷰를 등록할 수 있습니다.
+                                <a href="${pageContext.request.contextPath}/member/login">로그인</a>을 하시면 리뷰를 등록할 수 있습니다.
                             </div>
                         </div>
                     </c:when>
@@ -231,16 +259,19 @@
                             <div class="card-header bi bi-chat-right-dots">
                                 <b style="font-family: Cambria">Write a Comment</b>
                             </div>
-                            <form>
+                            <form action="${pageContext.request.contextPath}/addReply" modelAttribute="review">
                                 <div class="row" id="row">
-                                    <form>
-                                        <div class="col-lg-11">
-                                            <textarea id="comment" placeholder="리뷰를 추가해주세요" style="resize: none; font-size: small"></textarea>
-                                        </div>
-                                        <div class="col-lg-1" id="divbtn">
-                                            <button type="button" id="btn-comment-save"class="btn btn-outline-primary bi bi-pencil-square"> 등록</button>
-                                        </div>
-                                    </form>
+                                    <div class="col-lg-11">
+                                        <textarea id="comment" name="content" placeholder="리뷰를 추가해주세요" style="resize: none; font-size: small;"></textarea>
+                                    </div>
+                                    <div class="col-lg-1" id="divbtn">
+                                        <button type="submit" id="btn-comment-save"class="btn btn-outline-primary bi bi-pencil-square">등록</button>
+                                    </div>
+                                    <input type="hidden" name="contentsNum" value="${contents.contentsNum}">
+                                    <input type="hidden" name="writer" value="${auth.name }">
+                                    <input type="hidden" name="title" value="${contents.title}">
+                                    <input type="hidden" name="code" value="${code }">
+                                    <input type="hidden" name="img" value="${auth.imgs }">
                                 </div>
                             </form>
                         </div>
@@ -254,16 +285,31 @@
 
 
 
+    <!-- 삭제 확인 모달 -->
+    <div class="modal" id="DelModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" style="font-family: Georgia"><b>리뷰를 삭제 하시겠습니까?</b></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="ModalCloseId" class="btn btn-danger" data-bs-dismiss="modal" style= "font-family: Consolas">Close</button>
+                    <input type="hidden" id="deleteModal" value="">
+                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal" style= "font-family: Consolas" id="delete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-
+    <%--<input type="hidden" id="userId2" name="userId" value="<sec:authentication property="principal.username">">--%>
+    <%--<input type="hidden" id="userId" value="${auth.id}">--%>
 
     <!-- 아래 부터는 script -->
     <input type="hidden" id="contentsNum" value="${contents.contentsNum}">
-    <%--<input type="hidden" id="userId2" name="userId" value="<sec:authentication property="principal.username">">--%>
-    <%--<input type="hidden" id="userId" value="${auth.id}">--%>
     <input type="hidden" id="userName" value="${auth.name }">
-    <input type="hidden" id="userId" value="${auth.id}">
     <input type="hidden" id="title" value="${contents.title}">
+    <input type="hidden" id="userId" value="${auth.id}">
     <input type="hidden" id="overview" value="${contents.overview}">
     <input type="hidden" id="posterPath" value="${contents.posterPath}">
     <input type="hidden" id="flag" value="">
@@ -274,7 +320,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
-        var flag=false;
+        $(document).ready(function(){
+            $('#DelModal').on('show.bs.modal', function (e) {
+                var data = $(e.relatedTarget).data('test');
+                $('#deleteModal').val(data);
+                console.log(data);
+            });
+        });
 
         window.onload=function(){
             let hdiv = document.getElementById('emptyReview');
@@ -300,14 +352,14 @@
                         console.log("onload function 실행 - flag:" + data);
                         $('#flag').val(data);
                         if(data == 'true') {
-                            document.getElementById("b1").style.background="grey"
-                            document.getElementById("b1").style.border="#ffffff";
-                            document.querySelector("#ex").src='https://img.icons8.com/ios/100/add-bookmark.png';
+                            // document.getElementById("b1").style.background="grey"
+                            // document.getElementById("b1").style.border="#ffffff";
+                            document.querySelector("#ex").src='https://img.icons8.com/color/452/hearts.png';
                         }
                         if (data == 'false') {
-                            document.getElementById("b1").style.background="#ffffff";
-                            document.getElementById("b1").style.border="#ffffff";
-                            document.querySelector("#ex").src='https://img.icons8.com/ios/100/add-bookmark.png';
+                            // document.getElementById("b1").style.background="#ffffff";
+                            // document.getElementById("b1").style.border="#ffffff";
+                            document.querySelector("#ex").src='https://img.icons8.com/ios/500/hearts--v1.png';
                         }
                         // return flag;
                     }, error: function (){
@@ -345,13 +397,13 @@
                             console.log("likeController 동작 성공: "+data);
                             //버튼 누르면 컬러 바꾸기..
                             if(data == 'true') {
-                                document.getElementById("b1").style.background='grey';
-                                document.getElementById("b1").style.border="#ffffff";
-                                document.querySelector("#ex").src='https://img.icons8.com/ios/100/add-bookmark.png';
+                                // document.getElementById("b1").style.background='grey';
+                                // document.getElementById("b1").style.border="#ffffff";
+                                document.querySelector("#ex").src='https://img.icons8.com/color/452/hearts.png';
                             } else {
-                                document.getElementById("b1").style.background="#ffffff";
-                                document.getElementById("b1").style.border="#ffffff";
-                                document.querySelector("#ex").src='https://img.icons8.com/ios/100/add-bookmark.png';
+                                // document.getElementById("b1").style.background="#ffffff";
+                                // document.getElementById("b1").style.border="#ffffff";
+                                document.querySelector("#ex").src='https://img.icons8.com/ios/500/hearts--v1.png';
                             }
                         }, error: function(request,error){
                             console.log("likeController 동작 fail");
@@ -360,57 +412,81 @@
                     });
             }
         }
-        var resultHTML="";
-        $(".btn").click(function () {
-            addReview();
-            console.log("click");
+
+        $("#delete").click(function(){
+            var d = $('#deleteModal').val()
+            console.log(d);
+            deleteReply(d);
         });
 
-        function addReview(){
-            /* insertReview(); <- db와 통신 할 ajax 함수 */
-            let userName = $('#userName').val();
-            let contentsNum = $('#contentsNum').val();
-            let content = $('#comment').val();
-            let code = 0;
-            let title = $('#title').val();
-            var object3 = {
-                'userName':userName,
-                'title':title,
-                'contentsNum':contentsNum,
-                'content':content,
-                'code':code
-            }
-            $
-                .ajax({
-                    url: '../../addReply',
-                    type: 'post',
-                    data: {
-                        object: JSON.stringify(object3)
-                    },
-                    dataType: "json",
-                    success: function(data) {
-                        if(!flag)
-                            hideDiv();
-                        console.log("addReply 컨트롤러 동작 성공: " + data);
-
-                        d = document.getElementById('result');
-                        n = document.createElement('div');
-                        n.setAttribute('class', 'review-items');
-                        n.innerHTML = data.content+"<br>"+data.writer +"<br></div>";
-                        d.appendChild(n);
-
-                        console.log("eee")
-                    }, error : function(request, error) {
-                        console.log("addReply 컨트롤러 동작 fail");
-                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                    }
-                });
+        function deleteReply(i){
+            $.ajax({
+                url: '../../../deleteReply',
+                type: 'delete',
+                data:{
+                    'pk':i
+                },success:function (data){
+                    console.log("Delete Success");
+                    let deleteDiv = document.getElementById(i);
+                    deleteDiv.remove();
+                },error:function (){
+                    console.log("fail");
+                }
+            });
         }
 
-        function hideDiv(){
-            const notLogin = document.getElementById('emptyReview');
-            notLogin.style.display = 'none';
-        }
+        // var resultHTML="";
+        // $(".btn").click(function () {
+        //     addReview();
+        //     console.log("click");
+        // });
+        //
+        // function addReview(){
+        //     /* insertReview(); <- db와 통신 할 ajax 함수 */
+        //     let userName = $('#userName').val();
+        //     let contentsNum = $('#contentsNum').val();
+        //     let content = $('#comment').val();
+        //     let code = 0;
+        //     let title = $('#title').val();
+        //     var object3 = {
+        //         'userName':userName,
+        //         'title':title,
+        //         'contentsNum':contentsNum,
+        //         'content':content,
+        //         'code':code
+        //     }
+        //     $
+        //         .ajax({
+        //             url: '../../addReply',
+        //             type: 'post',
+        //             data: {
+        //                 object: JSON.stringify(object3)
+        //             },
+        //             dataType: "json",
+        //             success: function(data) {
+        //                 if(!flag)
+        //                     hideDiv();
+        //                 console.log("addReply 컨트롤러 동작 성공: " + data);
+        //
+        //                 d = document.getElementById('result');
+        //                 n = document.createElement('div');
+        //                 n.setAttribute('class', 'review-items');
+        //                 n.innerHTML = data.content+"<br>"+data.writer +"<br></div>";
+        //                 d.appendChild(n);
+        //
+        //                 console.log("eee")
+        //             }, error : function(request, error) {
+        //                 console.log("addReply 컨트롤러 동작 fail");
+        //                 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+        //             }
+        //         });
+        // }
+        //
+        // function hideDiv(){
+        //     const notLogin = document.getElementById('emptyReview');
+        //     notLogin.style.display = 'none';
+        // }
     </script>
+
 </body>
 </html>

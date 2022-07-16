@@ -1,6 +1,7 @@
 package com.ib.cat.service.media;
 
 import com.ib.cat.dto.media.ContentReplyDto;
+import com.ib.cat.dto.media.ReviewDto;
 import com.ib.cat.entity.ContentReply;
 import com.ib.cat.repository.MediaReplyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MediaReplyService {
@@ -17,22 +19,22 @@ public class MediaReplyService {
 
     //*      MediaContentController       *//
     /*  contents - 리뷰 로딩 (contentsService랑 같이 작동) */
-    public List<ContentReplyDto> getMediaReplyPage(int contentsNum, int code)  {
-        List<ContentReply> tmp = mediaReplyRepository.findByContentsNumAndCode(contentsNum, code);
-        System.out.println("Servie - List<ContentReply> tmp:"+tmp);
-        List<ContentReplyDto> list = new ArrayList<>();
-
-        for (ContentReply contentReply : tmp) {
-            ContentReplyDto crd = new ContentReplyDto(
-                    contentReply.getContentsNum(),
-                    contentReply.getWriter(), contentReply.getContent(),
-                    contentReply.getTitle(),
-                    contentReply.getCode()
-            );
-            list.add(crd);
-        }
-        return list;
-    }
+//    public List<ContentReplyDto> getMediaReplyPage(int contentsNum, int code)  {
+//        List<ContentReply> tmp = mediaReplyRepository.findByContentsNumAndCode(contentsNum, code);
+//        System.out.println("Servie - List<ContentReply> tmp:"+tmp);
+//        List<ContentReplyDto> list = new ArrayList<>();
+//
+//        for (ContentReply contentReply : tmp) {
+//            ContentReplyDto crd = new ContentReplyDto(
+//                    contentReply.getContentsNum(),
+//                    contentReply.getWriter(), contentReply.getContent(),
+//                    contentReply.getTitle(),
+//                    contentReply.getCode()
+//            );
+//            list.add(crd);
+//        }
+//        return list;
+//    }
     //*      MediaReplyController     *//
     /*  content 상세 페이지  :  리뷰 쓰기 (로그인 한 사람)  */
     public void writeMediaReply(ContentReplyDto dto) {
@@ -84,15 +86,24 @@ public class MediaReplyService {
         return count;
     }
 
-    /* 호선 추가 */
-    public ContentReplyDto getMediaReply(int contentsNum, int code)  {
-        ContentReply tmp = mediaReplyRepository.findFirstByContentsNumAndAndCodeOrderByNoDesc(contentsNum, code);
-        System.out.println("ContentReply tmp:"+tmp);
-        ContentReplyDto list = new ContentReplyDto(
-          tmp.getContentsNum(),tmp.getWriter(),tmp.getContent(),
-          tmp.getTitle(),tmp.getCode()
-        );
+    /* 호선 추가  */
+    /* 1. DB 저장 */
+    public void insert(ReviewDto reviewDto){
+        ContentReply contentReply = new ContentReply();
+        contentReply.setContentsNum(reviewDto.getContentsNum()); contentReply.setWriter(reviewDto.getWriter());
+        contentReply.setTitle(reviewDto.getTitle()); contentReply.setContent(reviewDto.getContent());
+        contentReply.setCode(reviewDto.getCode()); contentReply.setImg(reviewDto.getImg());
 
-        return list;
+        mediaReplyRepository.save(contentReply);
+    }
+    /* 2. Select */
+    public List<ContentReply> getReviews(int contentsNum, int code){
+        return mediaReplyRepository.findByContentsNumAndCodeOrderByNoDesc(contentsNum,code);
+    }
+    /* 3. Delete */
+    public void delete(int no){
+        Optional<ContentReply> contentReply = mediaReplyRepository.findById(no);
+        if(contentReply.isPresent())
+            mediaReplyRepository.delete(contentReply.get());
     }
 }
