@@ -1,5 +1,6 @@
 package com.ib.cat.controller.media;
 
+import com.ib.cat.dto.media.ContentReplyDto;
 import com.ib.cat.entity.ContentReply;
 import com.ib.cat.service.media.MediaReplyService;
 //import org.json.simple.JSONArray;
@@ -30,22 +31,23 @@ public class MediaReplyController {
         JSONArray returnR;
         JSONParser parser = new JSONParser();
         JSONObject jsonObject = null;
-//        int contentsNum = 0;
-//        String writer="";
-//        String content ="";
-//        int code = 0;
         try { /*  DB에 데이터 삽입  */
             jsonObject = (JSONObject) parser.parse(data); //object parse
             int contentsNum = Integer.parseInt(String.valueOf(jsonObject.get("contentsNum")));
-            String writer = jsonObject.get("writer").toString();
+            String writer = jsonObject.get("userName").toString();
             String content = jsonObject.get("content").toString();
+            String title = jsonObject.get("title").toString();
             int code = Integer.parseInt(String.valueOf(jsonObject.get("code")));
-            System.out.println("controller-데이터 parse 결과" + contentsNum + writer + content + code);
-            ContentReply contentReply = new ContentReply(
-                    contentsNum, writer, content, code);
-            System.out.println("controller-contentReply상태"+contentReply);
 
-            mediaReplyService.writeMediaReply(contentsNum, writer, content, code);
+            System.out.println("controller-데이터 parse 결과" + contentsNum + writer + content + code);
+//            ContentReply contentReply = new ContentReply(
+//                    contentsNum, writer, content, code);
+//            System.out.println("controller-contentReply상태"+contentReply);
+
+            ContentReplyDto crd = new ContentReplyDto(contentsNum,writer,content,title,code);
+
+            mediaReplyService.writeMediaReply(crd);
+//            mediaReplyService.writeMediaReply(contentReply);
             System.out.println("write 성공");
 
             //        /*  읽어오기  */

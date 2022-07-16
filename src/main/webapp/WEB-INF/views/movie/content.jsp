@@ -310,7 +310,8 @@
 <input type="hidden" id="contentsNum" value="${contents.contentsNum}">
 <%--<input type="hidden" id="userId2" name="userId" value="<sec:authentication property="principal.username">">--%>
 <%--<input type="hidden" id="userId" value="${auth.id}">--%>
-<input type="hidden" id="userId" value="${auth.id }">
+<input type="hidden" id="userName" value="${auth.name }">
+<input type="hidden" id="userId" value="${auth.id}">
 <input type="hidden" id="title" value="${contents.title}">
 <input type="hidden" id="overview" value="${contents.overview}">
 <input type="hidden" id="posterPath" value="${contents.posterPath}">
@@ -429,13 +430,15 @@
         <%--resultHTML += "<div class='review-items'>${contentReply.content}<br>${contentReply.writer}<br></div>"--%>
 
         /* insertReview(); <- db와 통신 할 ajax 함수 */
-        let writer = $('#userId').val();
+        let userName = $('#userName').val();
         let contentsNum = $('#contentsNum').val();
         let content = $('#comment').val();
         let code = 0;
+        let title = $('#title').val();
 
         var object3 = {
-            'writer':writer,
+            'userName':userName,
+            'title':title,
             'contentsNum':contentsNum,
             'content':content,
             'code':code

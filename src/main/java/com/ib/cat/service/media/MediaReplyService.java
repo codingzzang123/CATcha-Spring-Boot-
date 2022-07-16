@@ -32,9 +32,19 @@ public class MediaReplyService {
 //        System.out.println("db");
 //        mediaReplyRepository.save(reply);
 //    }
-    public void writeMediaReply(int contentsNum, String writer, String content, int code) {
-        ContentReply contentReply = new ContentReply(contentsNum, writer, content, code);
-        mediaReplyRepository.save(contentReply);
+    public void writeMediaReply(ContentReplyDto dto) {
+        System.out.println("dto cnum : "+dto.getContentsNum());
+        ContentReply result = new ContentReply();
+           result.setContentsNum(dto.getContentsNum());
+           result.setWriter(dto.getWriter());
+           result.setTite(dto.getTitle());
+           result.setContent(dto.getContent());
+           result.setCode(dto.getCode());
+
+        System.out.println("==\ncontent:"+result.getContent());
+        System.out.println("==\n작성자:"+result.getWriter());
+
+        mediaReplyRepository.save(result);
     }
 
 
