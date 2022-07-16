@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class InfoCountDto {
     private int board;
-    private int reply;
+    private Long reply;
     private Long review;
 }

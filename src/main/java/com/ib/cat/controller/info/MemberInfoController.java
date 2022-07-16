@@ -23,9 +23,10 @@ public class MemberInfoController {
             return "redirect:/main";
 
 
-        model.addAttribute("count",infoService.infoCountDto(auth.getName(), auth.getId()));
+        model.addAttribute("count",infoService.infoCountDto(auth.getName()));
         model.addAttribute("boards", infoService.getBoards(auth.getName()));
-        model.addAttribute("reviews", infoService.getMedias(auth.getId()));
+        model.addAttribute("replys",infoService.getReplys(auth.getName()));
+        model.addAttribute("reviews", infoService.getMedias(auth.getName()));
         return "info/memberInfo";
     }
 }

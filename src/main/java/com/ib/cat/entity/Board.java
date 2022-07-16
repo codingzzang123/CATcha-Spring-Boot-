@@ -2,12 +2,14 @@ package com.ib.cat.entity;
 
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity(name = "board")
 @Data
+@DynamicInsert
 public class Board {
     @Id
     @SequenceGenerator(name="seq", sequenceName="SEQ_BOARD", allocationSize=1)

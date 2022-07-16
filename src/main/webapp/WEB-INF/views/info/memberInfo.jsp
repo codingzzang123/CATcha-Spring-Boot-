@@ -37,7 +37,7 @@
 
                 <div>
                     <span>작성한 댓글</span><br>
-                    <button class="b1" data-bs-toggle="modal" data-bs-target="#replyModal" style="margin-top: 5px;">#</button>
+                    <button class="b1" data-bs-toggle="modal" data-bs-target="#replyModal" style="margin-top: 5px;">${count.reply}</button>
                 </div>
 
                 <div>
@@ -70,11 +70,11 @@
                     <c:if test="${empty boards}"><span style="font-size: large;"><b>아직 게시글을 작성하지 않았습니다❗</b></span></c:if>
 
                     <c:forEach var="board" items="${boards }">
-
-                        <a href="<c:url value="/board/${board.no }"/>"><span style="font-size: large;"><b>${board.title }</b></span><br></a>
-                        <span>${board.cate }</span>
-                        <span style="margin-left: 15px;"><fmt:formatDate value="${board.regdate }" pattern="yyyy.MM.dd" /></span><br> <hr>
-
+                        <a href="<c:url value="/board/${board.no }"/>">
+                            <span style="font-size: large;"><b>${board.title }</b></span><br>
+                            <span>[${board.cate }]</span>
+                            <span style="margin-left: 10px;"><fmt:formatDate value="${board.regdate }" pattern="yyyy.MM.dd" /></span><hr>
+                        </a>
                     </c:forEach>
                 </div>
                 <div class="modal-footer">
@@ -95,12 +95,13 @@
 
                 <div class="modal-body">
                     <c:if test="${empty replys}"><span style="font-size: large;"><b>작성하신 댓글이 없습니다❗</b></span><br></c:if>
-                    <c:forEach var="board" items="${replys }">
-
-                        <span style="font-size: large;"><b>${replys.title }</b></span><br>
-                        <span>${replys.cate }</span>
-                        <span style="margin-left: 15px;"><fmt:formatDate value="${replys.regdate }" pattern="yyyy.MM.dd" /></span><br> <hr>
-
+                    <c:forEach var="reply" items="${replys }">
+                        <a href="<c:url value="/board/${reply.no }"/>">
+                            <span style="font-size: large;"><b>┗ ${reply.content }</b></span><br>
+                            <span style="margin-left: 12px;">[${reply.cate }]</span>
+                            <span style="margin-left: 10px;"><fmt:formatDate value="${reply.regdate }" pattern="yyyy.MM.dd" /></span><br>
+                            <span style="background-color: #e1f6fa; font-size: small; margin-left: 12px;">${reply.title }</span><hr>
+                        </a>
                     </c:forEach>
                 </div>
                 <div class="modal-footer">
@@ -126,16 +127,16 @@
                                 <a href="<c:url value="/movie/content/${review.contentNum }" />">
                                     <span style="font-size: large;"><b>${review.content }</b></span>
                                 </a><br>
-                                <span>Movie</span>
+                                <span style="background-color: #e1f6fa; font-size: medium; margin-left: 5px;">Movie(${review.title })</span>
                             </c:when>
                             <c:when test="${review.code eq 1}">
                                 <a href="<c:url value="/tv/content/${review.contentNum }" />">
                                     <span style="font-size: large;"><b>${review.content }</b></span>
                                 </a><br>
-                                <span>Tv</span>
+                                <span style="background-color: #e1f6fa; font-size: medium; margin-left: 5px;">Tv(${review.title })</span>
                             </c:when>
                         </c:choose>
-                        <span style="margin-left: 15px;"><fmt:formatDate value="${review.regdate }" pattern="yyyy.MM.dd" /></span><br> <hr>
+                        <span style="margin-left: 10px;"><fmt:formatDate value="${review.regdate }" pattern="yyyy.MM.dd" /></span><hr>
                     </c:forEach>
                 </div>
                 <div class="modal-footer">
