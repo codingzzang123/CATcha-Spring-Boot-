@@ -41,9 +41,9 @@
         }
 
         .review-body{
-            max-height: 360px;
+            max-height: 380px;
             border-radius: 2em;
-            border: 0.5px dotted red;
+            /*border: 0.5px dotted red;*/
         }
         textarea {
             width: 100%;
@@ -54,6 +54,18 @@
         }
         .likeImg{
             display: inline;
+        }
+
+        .review-items{
+            margin-top: 12px;
+            height: 4em;
+            width: 1250px;
+            display: inline-block;
+            border-radius: 2em;
+            border: 1px dotted rgb(27, 26, 26);
+            margin-left: 20px;
+            padding-left: 20px;
+            padding-top: 5px;
         }
     </style>
 </head>
@@ -189,9 +201,9 @@
                 <div id="result" scroll=auto style="overflow-x:hidden; margin-bottom: 30px;" class="review-body">
                     <c:choose>
                         <c:when test="${contentReply eq '[]'}">
-                            <br>
-                                <span style="font-family: Cambria; font-size: larger;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;등록된 리뷰가 없습니다!</span>
-                            <br>
+                            <div id="emptyReview">
+                                <span style="font-family: Cambria; font-size: larger;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;등록된 리뷰가 없습니다!</span>
+                            </div>
                         </c:when>
                         <c:otherwise>
                             <c:forEach var="contentReply" items="${contentReply}">
@@ -221,12 +233,14 @@
                             </div>
                             <form>
                                 <div class="row" id="row">
-                                    <div class="col-lg-11">
-                                        <textarea id="comment" placeholder="리뷰를 추가해주세요" style="resize: none; font-size: small"></textarea>
-                                    </div>
-                                    <div class="col-lg-1" id="divbtn">
-                                        <button type="button" id="btn-comment-save"class="btn btn-outline-primary bi bi-pencil-square"> 등록</button>
-                                    </div>
+                                    <form>
+                                        <div class="col-lg-11">
+                                            <textarea id="comment" placeholder="리뷰를 추가해주세요" style="resize: none; font-size: small"></textarea>
+                                        </div>
+                                        <div class="col-lg-1" id="divbtn">
+                                            <button type="button" id="btn-comment-save"class="btn btn-outline-primary bi bi-pencil-square"> 등록</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </form>
                         </div>
@@ -260,135 +274,143 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
+        var flag=false;
 
-    window.onload=function(){
-        let userId = $('#userId').val();
-        let contentsNum = $('#contentsNum').val();
-        let object1 = {
-            'contentsNum': contentsNum,
-            'userId': userId,
-            'code': '0'
-        }
-        $
-        .ajax({
-            url: '../../likeCheck',
-            type: 'post',
-            data: {
-            object: JSON.stringify(object1),
-            // 'flag': flag
-            },
-            success:function(data) {
-                console.log("onload function 실행 - flag:" + data);
-                $('#flag').val(data);
-                if(data == 'true') {
-                    document.getElementById("b1").style.background="grey"
-                    document.getElementById("b1").style.border="#ffffff";
-                    document.querySelector("#ex").src='https://img.icons8.com/ios/100/add-bookmark.png';
-                }
-                if (data == 'false') {
-                    document.getElementById("b1").style.background="#ffffff";
-                    document.getElementById("b1").style.border="#ffffff";
-                    document.querySelector("#ex").src='https://img.icons8.com/ios/100/add-bookmark.png';
-                }
-                // return flag;
-            }, error: function (){
-                console.log("onload function 실패")
-            }
-        })
-    }
+        window.onload=function(){
+            let hdiv = document.getElementById('emptyReview');
+            if(hdiv == null)
+                flag = true;
 
-    function like() {
-        console.log("script - like() 실행")
-
-        let userId = $('#userId').val();
-        let flag = document.getElementById("flag").value;
-        let contentsNum = $('#contentsNum').val();
-        let title = $('#title').val();
-        let overview = $('#overview').val();
-        let posterPath = $('#posterPath').val();
-
-        if (userId != 'default') {
-            var object2 = {
+            let userId = $('#userId').val();
+            let contentsNum = $('#contentsNum').val();
+            let object1 = {
                 'contentsNum': contentsNum,
-                'title': title,
-                'overview': overview,
-                'posterPath': posterPath,
                 'userId': userId,
                 'code': '0'
             }
             $
-            .ajax({
-                url: '../../like',
-                type: 'post',
-                // dataType:"json",
-                data: {
-                object: JSON.stringify(object2),
-                'flag': flag
-                },
-                success: function(data){
-                    console.log("likeController 동작 성공: "+data);
-                    //버튼 누르면 컬러 바꾸기..
-                    if(data == 'true') {
-                        document.getElementById("b1").style.background='grey';
-                        document.getElementById("b1").style.border="#ffffff";
-                        document.querySelector("#ex").src='https://img.icons8.com/ios/100/add-bookmark.png';
-                    } else {
-                        document.getElementById("b1").style.background="#ffffff";
-                        document.getElementById("b1").style.border="#ffffff";
-                        document.querySelector("#ex").src='https://img.icons8.com/ios/100/add-bookmark.png';
+                .ajax({
+                    url: '../../likeCheck',
+                    type: 'post',
+                    data: {
+                        object: JSON.stringify(object1),
+                        // 'flag': flag
+                    },
+                    success:function(data) {
+                        console.log("onload function 실행 - flag:" + data);
+                        $('#flag').val(data);
+                        if(data == 'true') {
+                            document.getElementById("b1").style.background="grey"
+                            document.getElementById("b1").style.border="#ffffff";
+                            document.querySelector("#ex").src='https://img.icons8.com/ios/100/add-bookmark.png';
+                        }
+                        if (data == 'false') {
+                            document.getElementById("b1").style.background="#ffffff";
+                            document.getElementById("b1").style.border="#ffffff";
+                            document.querySelector("#ex").src='https://img.icons8.com/ios/100/add-bookmark.png';
+                        }
+                        // return flag;
+                    }, error: function (){
+                        console.log("onload function 실패")
                     }
-                }, error: function(request,error){
-                    console.log("likeController 동작 fail");
-                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                })
+        }
+        function like() {
+            console.log("script - like() 실행")
+            let userId = $('#userId').val();
+            let flag = document.getElementById("flag").value;
+            let contentsNum = $('#contentsNum').val();
+            let title = $('#title').val();
+            let overview = $('#overview').val();
+            let posterPath = $('#posterPath').val();
+            if (userId != 'default') {
+                var object2 = {
+                    'contentsNum': contentsNum,
+                    'title': title,
+                    'overview': overview,
+                    'posterPath': posterPath,
+                    'userId': userId,
+                    'code': '0'
                 }
-            });
+                $
+                    .ajax({
+                        url: '../../like',
+                        type: 'post',
+                        // dataType:"json",
+                        data: {
+                            object: JSON.stringify(object2),
+                            'flag': flag
+                        },
+                        success: function(data){
+                            console.log("likeController 동작 성공: "+data);
+                            //버튼 누르면 컬러 바꾸기..
+                            if(data == 'true') {
+                                document.getElementById("b1").style.background='grey';
+                                document.getElementById("b1").style.border="#ffffff";
+                                document.querySelector("#ex").src='https://img.icons8.com/ios/100/add-bookmark.png';
+                            } else {
+                                document.getElementById("b1").style.background="#ffffff";
+                                document.getElementById("b1").style.border="#ffffff";
+                                document.querySelector("#ex").src='https://img.icons8.com/ios/100/add-bookmark.png';
+                            }
+                        }, error: function(request,error){
+                            console.log("likeController 동작 fail");
+                            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                        }
+                    });
+            }
         }
-    }
+        var resultHTML="";
+        $(".btn").click(function () {
+            addReview();
+            console.log("click");
+        });
 
-    var resultHTML="";
-    $(".btn").click(function () {
-        addReview();
-        console.log("click");
-    });
-    function addReview(){
-        /* insertReview(); <- db와 통신 할 ajax 함수 */
-        let userName = $('#userName').val();
-        let contentsNum = $('#contentsNum').val();
-        let content = $('#comment').val();
-        let code = 0;
-        let title = $('#title').val();
+        function addReview(){
+            /* insertReview(); <- db와 통신 할 ajax 함수 */
+            let userName = $('#userName').val();
+            let contentsNum = $('#contentsNum').val();
+            let content = $('#comment').val();
+            let code = 0;
+            let title = $('#title').val();
+            var object3 = {
+                'userName':userName,
+                'title':title,
+                'contentsNum':contentsNum,
+                'content':content,
+                'code':code
+            }
+            $
+                .ajax({
+                    url: '../../addReply',
+                    type: 'post',
+                    data: {
+                        object: JSON.stringify(object3)
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        if(!flag)
+                            hideDiv();
+                        console.log("addReply 컨트롤러 동작 성공: " + data);
 
-        var object3 = {
-            'userName':userName,
-            'title':title,
-            'contentsNum':contentsNum,
-            'content':content,
-            'code':code
-        }
-        $
-            .ajax({
-                url: '../../addReply',
-                type: 'post',
-                data: {
-                    object: JSON.stringify(object3)
-                },
-                dataType: "json",
-                success: function(data) {
-                    console.log("addReply 컨트롤러 동작 성공: " + data);
-                    for (let i=0; i < data.length; i++) {
-                        resultHTML = "<div class='review-items'>" +
-                            data[i].content + "<br>" +
-                            "작성자: "+data[i].writer + "<br>" +
-                            "</div><br>";
+                        d = document.getElementById('result');
+                        n = document.createElement('div');
+                        n.setAttribute('class', 'review-items');
+                        n.innerHTML = data.content+"<br>"+data.writer +"<br></div>";
+                        d.appendChild(n);
+
+                        console.log("eee")
+                    }, error : function(request, error) {
+                        console.log("addReply 컨트롤러 동작 fail");
+                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                     }
-                    document.querySelector('#result').innerHTML = resultHTML;
-                    console.log("eee")
-                }, error : function(request, error) {
-                    console.log("addReply 컨트롤러 동작 fail");
-                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                }
-            });
-    }
+                });
+        }
+
+        function hideDiv(){
+            const notLogin = document.getElementById('emptyReview');
+            notLogin.style.display = 'none';
+        }
     </script>
 </body>
 </html>

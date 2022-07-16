@@ -25,9 +25,9 @@ public class MediaReplyController {
 
     @PostMapping(value="/addReply")
     @ResponseBody
-    public List<ContentReplyDto> addReply(@RequestParam("object") String data) {
+    public ContentReplyDto addReply(@RequestParam("object") String data) {
         System.out.println("contentReply 컨트롤러 작동");
-        List<ContentReplyDto> crList = new ArrayList<>();
+        ContentReplyDto crList = new ContentReplyDto();
 //        JSONArray returnR;
         JSONParser parser = new JSONParser();
         JSONObject jsonObject = null;
@@ -46,7 +46,7 @@ public class MediaReplyController {
             System.out.println("code:"+code);
 
             //        /*  읽어오기  */
-            crList = mediaReplyService.getMediaReplyPage(contentsNum, code);
+            crList = mediaReplyService.getMediaReply(contentsNum, code);
             System.out.println("crList: "+crList);
 //            returnR = JSONArray.fromObject(crList);
 //            System.out.println(returnR);
