@@ -13,9 +13,9 @@ public class FileService {
         String imgo = mfile.getOriginalFilename();
         String fileExtension = imgo.substring(imgo.length()-3, imgo.length());
 
-        UUID uuid = UUID.randomUUID();
-        String[] uuids = uuid.toString().split("-");
-        String imgs = uuids[0] + "."+fileExtension;
+        String uuid = String.valueOf(UUID.randomUUID());
+        String uuids = uuid.replace("-","");
+        String imgs = uuids + "."+fileExtension;
 
         String[] img = {imgo, imgs, String.valueOf(uuid)};
 
@@ -32,16 +32,8 @@ public class FileService {
         }
         return img;
     }
-
-//    public String[] nullFileUpload() {
-//        String imgo = "default.png";
-//
-//        UUID uuid = UUID.randomUUID();
-//        String[] uuids = uuid.toString().split("-");
-//        String imgs = uuids[0] + ".png";
-//
-//        String[] img = {imgo, imgs};
-//
-//        return img;
-//    }
+    public void fileDelete(String path, String imgs){
+        File file = new File(path + imgs);
+        file.delete();
+    }
 }

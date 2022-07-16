@@ -1,7 +1,7 @@
 package com.ib.cat.controller.loginApi;
 
 import com.ib.cat.entity.Member;
-import com.ib.cat.service.loginApi.KakaoService;
+import com.ib.cat.service.loginApi.NaverService;
 import com.ib.cat.service.member.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,18 +14,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.HashMap;
+
 @Controller
-public class KakaoController {
+public class NaverController {
     @Autowired
-    KakaoService kakaoService;
+    NaverService naverService;
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
     MemberService memberService;
-    @RequestMapping(value = "/kakaocallback")
-    public String file(String code) {
-        String token = kakaoService.getAccessToken(code);
-        HashMap<String, Object> info = kakaoService.getUserInfo(token);
+
+    @RequestMapping("/navercallback")
+    public String naver(String code, String state){
+        String token = naverService.getAccessToken(code, state);
+        HashMap<String, Object> info = naverService.getUserInfo(token);
 
         String no = (String.valueOf(info.get("id")));
         String id = Base64.getEncoder().encodeToString(no.getBytes(StandardCharsets.UTF_8));
@@ -42,8 +44,8 @@ public class KakaoController {
             memberService.memberInsert(member);
         }
 
-        Authentication kakaoUser = new UsernamePasswordAuthenticationToken(id, (String.valueOf(info.get("email"))));
-        SecurityContextHolder.getContext().setAuthentication(kakaoUser);
+        Authentication naverUser = new UsernamePasswordAuthenticationToken(id, (String.valueOf(info.get("email"))));
+        SecurityContextHolder.getContext().setAuthentication(naverUser);
         return "redirect:/member/apiSession";
     }
 }

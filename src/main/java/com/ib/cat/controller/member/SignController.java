@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.UnsupportedEncodingException;
 
 @Controller
 public class SignController {
@@ -29,16 +28,8 @@ public class SignController {
     MailService mailService;
     @Autowired
     AuthService authService;
-
-//    @Autowired
-//    AuthenticationManager authenticationManager;
     @GetMapping("/member/sign")
-    public String getSign() throws UnsupportedEncodingException {
-//        byte[] message = "jiseong".getBytes(StandardCharsets.UTF_8);
-//        String encoded = DatatypeConverter.printBase64Binary(message);
-//        Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken("jiseong1028", "js1002050*");
-//        Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
+    public String getSign(){
         return "member/sign";
     }
 
