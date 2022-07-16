@@ -176,7 +176,7 @@
                                                                 <img src="/img/profile/default.png" style="width: 270px; height: 400px; object-fit:cover;">
                                                             </c:when>
                                                             <c:otherwise>
-                                                                <img src="https://image.tmdb.org/t/p/w200${cast.profilePath}" class="css-qhzw1o-StyledImg ezcopuc1">
+                                                                <img src="https://image.tmdb.org/t/p/w200${cast.profilePath}"  class="css-qhzw1o-StyledImg ezcopuc1">
                                                             </c:otherwise>
                                                             </c:choose>
 

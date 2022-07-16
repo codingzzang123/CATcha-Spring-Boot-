@@ -24,6 +24,24 @@
     <link href="/css/jieun/contentList.css" rel="stylesheet"/>
 
     <title>Movie List</title>
+    <style>
+        .poster-img{
+            width: 200px;
+            height: 286px;
+        }
+        .title{
+            width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-top: 5px;
+        }
+        /*.media-frame{*/
+        /*    width: 202px;*/
+        /*    height: 352px;*/
+        /*}*/
+    </style>
+
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include>
@@ -49,12 +67,12 @@
     <div id="main-content" style="margin:auto;">
         <c:set var="i" value="0" />
         <c:set var="j" value="5" />
-        <table style="margin:auto;">
+        <table style="margin-left: 50px;">
             <c:forEach var="movieList" items="${mediaList}">
                 <c:if test="${i%j == 0 }">
                     <tr>
                 </c:if>
-                <td style="width:150px; height:250px; word-break:break-all;table-layout:fixed;">
+                <td class="media-frame" style="width:150px; height:250px; word-break:break-all;table-layout:fixed;">
                     <a href="<c:url value='/movie/content/${movieList.contentsNum}'/>" class="cursor">
 
                         <c:choose>
@@ -62,12 +80,12 @@
                                 <img src="/img/media/cinema_default.png" width="150">
                             </c:when>
                             <c:otherwise>
-                                <img src="https://image.tmdb.org/t/p/w200${movieList.posterPath}">
+                                <img class="poster-img" src="https://image.tmdb.org/t/p/w200${movieList.posterPath}">
                             </c:otherwise>
                         </c:choose>
-
-                        <p>${movieList.title}</p>
-                        <p><fmt:formatDate value="${movieList.releaseDate}" pattern="yyyy.MM.dd"/></p>
+                        <p class="title"><b>${movieList.title}</b><br>
+                            <fmt:formatDate value="${movieList.releaseDate}" pattern="yyyy.MM.dd"/>
+                        </p>
                     </a>
                 </td>
                 <c:if test="${i%j == j-1 }">
@@ -81,14 +99,13 @@
     <nav aria-label="Page navigation example" class="css-paging">
         <ul class="pagination">
 
-            <!-- 페이징 맨앞으로 버튼
+        <!-- 페이징 맨앞으로 버튼
 	  	<li class="page-item"><a class="page-link" href="<c:url value='/search/movie?query=${query }&page=${now-1 }'/>">START</a></li> -->
 
 	  	<!-- 페이징 << 버튼 -->
             <c:if test="${paging.curPage ne 1 }">
                 <li class="page-item"><a class="page-link" href="<c:url value='/movie/list?page=${paging.curPage-1 }&category=${category}'/>">&laquo;</a></li>
             </c:if>
-
 
             <!-- 페이징 블럭 번호  -->
             <c:forEach begin="${paging.blockStartNum }" end="${paging.blockLastNum }" var="i">
@@ -102,14 +119,13 @@
                 </c:choose>
             </c:forEach>
 
-
             <!-- 페이징 >> 버튼 -->
             <c:if test="${paging.curPage ne paging.lastPageNum }">
                 <li class="page-item"><a class="page-link" href="<c:url value='/movie/list?page=${paging.curPage+1 }&category=${category}'/>">&raquo;</a></li>
             </c:if>
 
             <!-- 페이징 맨뒤로 버튼
-	  	<li class="page-item"><a class="page-link" href="<c:url value='/search/movie?query=${query }&page=${now-1 }'/>">END</a></li>-->
+	  	    <li class="page-item"><a class="page-link" href="<c:url value='/search/movie?query=${query }&page=${now-1 }'/>">END</a></li>-->
 
         </ul>
     </nav>
