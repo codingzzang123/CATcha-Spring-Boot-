@@ -14,65 +14,114 @@
 <meta charset="UTF-8">
 
     <style>
-        #icons {
-            text-align: center;
+        .custom-input{
+            display: block;
+            width: 500px;
+            height: 32px;
+            font-size: 15px;
+            border: 0;
+            border-radius: 15px;
+            outline: none;
+            padding-left: 10px;
+            background-color: rgb(233, 233, 233);
+        }
+
+        #padding *{
+            padding-left: 50px;
+         }
+        ::placeholder{
+            font-size:smaller;
+            font-style: italic;
+        }
+        .btn1 input{
+            font-size: smaller;
+            border-radius: 2em;
+        }
+        .api_Login div {
+            display: inline;
         }
     </style>
-
+    <link href="/css/hosun/main.css" rel="stylesheet"/>
+    <link href="/css/jieun/contentList.css" rel="stylesheet"/>
 </head>
 <body>
     <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include>
-    <div class="container-fluid py-5">
-        <form method="post" action="/member/loginProc" name="loginForm" id="loginForm">
-            <div class="container mt-5 mb-5" style="width: 30%; font-weight: bold; font-size: 20px;">
-                <h1><b>로그인</b></h1>
-                <div class="eheck_font" id="auth_check"></div>
-                <div class="mb-3 mt-2 form-group">
-                    <label for="id">아이디</label>
-                    <input type="text"class="form-control"style="border-radius: 10px;" id="id" name="id" placeholder="아이디를 입력해주세요." required >
-                    <div class="eheck_font" id="id_check"></div>
+
+    <section class="css-7klu3x">
+        <div class="css-lufi3b">
+            <div class="css-lufi3b">
+                <div class="row">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-11">
+                        <div class="css-pbseb6-StyledHomeListTitleRow" >
+                            <div style="margin-top: 15px;">
+                                <p class="css-16qa0p7" style="font-size: x-large;">로그인</p>
+                                <p style="font-size: small;">CATcha 사이트를 이용하기 위해서는 회원님의 계정에 로그인 해야합니다.<br>만약 계정이 없다면
+                                    <b><a href="${pageContext.request.contextPath }/member/sign" style="color: dodgerblue;">여기</a></b>를 눌러 가입하실 수 있습니다.</p>
+                            </div>
+                            <div clsss="main-form">
+                                <form method="post" action="/member/loginProc" name="loginForm" id="loginForm">
+                                    <div>
+                                        <div class="eheck_font" id="auth_check"></div>
+                                        <div>
+                                            <label for="id">아이디</label>
+                                            <input class="custom-input" type="text" style="border-radius: 10px;" id="id" name="id" placeholder="아이디를 입력해주세요." required >
+                                            <div class="eheck_font" id="id_check"></div>
+                                        </div>
+
+                                        <div style="margin-top: 20px;">
+                                            <label for="pw">비밀번호</label>
+                                            <input class="custom-input" style="border-radius: 10px;" type="password" placeholder="비밀번호를 입력해주세요." name="pw"  required class="pass" id=pw >
+                                            <div class="eheck_font" id="pw_check"></div>
+                                        </div>
+
+                                        <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
+                                    <span style="color: red; font-size:12px;"><p>아이디, 비밀번호가 잘못되었습니다.</p>
+                                        <c:remove var="SPRING_SECURITY_LAST_EXCEPTION" scope="session"/>
+                                    </span>
+                                        </c:if>
+
+
+                                        <div style="margin-top: 20px;" class="btn1">
+                                            <input type="button" id="login" class="btn btn-secondary"  value="로그인"/>
+                                            <input type="button"  class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#searchModal"
+                                                    value="비밀번호 찾기"/>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div id="icons" style="margin-top:30px;" class="api_Login">
+                                <div>
+                                    <p>다른 서비스 계정으로 로그인</p>
+                                </div>
+                                <div>
+                                    <div><a href="${kakao}"><img src="/img/icon/kakao_icon.png" width="45" height="45"></a></div>
+                                    <div style="margin-left: 15px;"><a href="${naver}"><img src="/img/icon/naver_icon.png" width="45" height="45"></a></div>
+                                    <div style="margin-left: 15px;"><a href="#"><img src="/img/icon/google_icon.png" width="45" height="45"></a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="mb-3 form-group">
-                    <label for="pw">비밀번호</label>
-                    <input class="form-control" style="border-radius: 10px;" type="password" placeholder="비밀번호를 입력해주세요." name="pw"  required class="pass" id=pw >
-                    <div class="eheck_font" id="pw_check"></div>
-                </div>
-
-                <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
-                    <span style="color: red; font-size:12px;">
-                        <p>아이디, 비밀번호가 잘못되었습니다.</p>
-                        <c:remove var="SPRING_SECURITY_LAST_EXCEPTION" scope="session"/>
-                    </span>
-                </c:if>
-
-
-                <div class="mb-3 form-group text-end">
-                    <input type="button" id="login" class="btn btn-dark" style="font-weight: bold; float:left; background-color:black; border-radius: 12px;" value="로그인"/>
-                </div>
-
-                <div class="mb-3 form-group text-end">
-                    <input type="button" class="btn btn-secondary"
-                           data-bs-toggle="modal" data-bs-target="#searchModal"
-                           style="font-weight:bold;float:left;margin-left:8px;background-color:black; border-radius: 12px;" value="비밀번호 찾기"/>
-                </div>
-
             </div>
-        </form>
-        <br><br>
-        <div class="mb-3" id="icons">
-            <a href="${kakao}"><img src="/img/icon/kakao_icon.png" width="45" height="45"></a>
-            <a href="${naver}"><img src="/img/icon/naver_icon.png" width="45" height="45"></a>
-            <a href="#"><img src="/img/icon/google_icon.png" width="45" height="45"></a>
+        </div>
+    </section>
+
+
+
+<%--    <div class="container-fluid py-5">--%>
+
+
+<%--    </div>--%>
+
+    <div id="searchModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-login">
+            <div class="modal-content">
+                <jsp:include page="/WEB-INF/views/member/search.jsp" />
+            </div>
         </div>
     </div>
-<div id="searchModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-login">
-        <div class="modal-content">
-            <jsp:include page="/WEB-INF/views/member/search.jsp" />
-        </div>
-    </div>
-</div>
+
 </body>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

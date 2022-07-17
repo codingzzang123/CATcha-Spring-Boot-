@@ -38,7 +38,6 @@ public class ContentReply {
     @Column(name="code")
     private int code; // movie:0, tv:1
 
-    private String img;
 
 //    public ContentReply(int contentsNum, String writer, String content,String title, int code){}
 }

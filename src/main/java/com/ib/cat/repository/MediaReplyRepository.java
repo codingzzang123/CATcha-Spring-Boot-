@@ -13,6 +13,5 @@ public interface MediaReplyRepository extends JpaRepository<ContentReply, Intege
     List<ContentReply> findByWriterAndCode(String id, int code); //type=code
     Long countByWriter(String id);
     Long countByWriterAndCode(String id, int code);
-//    int countByContentsNum(int contentsNum);
 
 }

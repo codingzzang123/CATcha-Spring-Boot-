@@ -3,7 +3,9 @@ package com.ib.cat.service.media;
 import com.ib.cat.dto.media.ContentReplyDto;
 import com.ib.cat.dto.media.ReviewDto;
 import com.ib.cat.entity.ContentReply;
+import com.ib.cat.entity.Member;
 import com.ib.cat.repository.MediaReplyRepository;
+import com.ib.cat.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,9 @@ import java.util.Optional;
 public class MediaReplyService {
     @Autowired
     MediaReplyRepository mediaReplyRepository;
+
+    @Autowired
+    MemberRepository memberRepository;
 
     //*      MediaContentController       *//
     /*  contents - 리뷰 로딩 (contentsService랑 같이 작동) */
@@ -39,11 +44,11 @@ public class MediaReplyService {
     /*  content 상세 페이지  :  리뷰 쓰기 (로그인 한 사람)  */
     public void writeMediaReply(ContentReplyDto dto) {
         ContentReply result = new ContentReply();
-           result.setContentsNum(dto.getContentsNum());
-           result.setWriter(dto.getWriter());
-           result.setTitle(dto.getTitle());
-           result.setContent(dto.getContent());
-           result.setCode(dto.getCode());
+        result.setContentsNum(dto.getContentsNum());
+        result.setWriter(dto.getWriter());
+        result.setTitle(dto.getTitle());
+        result.setContent(dto.getContent());
+        result.setCode(dto.getCode());
 
         mediaReplyRepository.save(result);
     }
@@ -92,13 +97,27 @@ public class MediaReplyService {
         ContentReply contentReply = new ContentReply();
         contentReply.setContentsNum(reviewDto.getContentsNum()); contentReply.setWriter(reviewDto.getWriter());
         contentReply.setTitle(reviewDto.getTitle()); contentReply.setContent(reviewDto.getContent());
-        contentReply.setCode(reviewDto.getCode()); contentReply.setImg(reviewDto.getImg());
+        contentReply.setCode(reviewDto.getCode());
 
         mediaReplyRepository.save(contentReply);
     }
     /* 2. Select */
-    public List<ContentReply> getReviews(int contentsNum, int code){
-        return mediaReplyRepository.findByContentsNumAndCodeOrderByNoDesc(contentsNum,code);
+    public List<ReviewDto> getReviews(int contentsNum, int code){
+        List<ReviewDto> list = new ArrayList<>();
+        List<ContentReply> tmp = mediaReplyRepository.findByContentsNumAndCodeOrderByNoDesc(contentsNum,code);
+
+        for (ContentReply contentReply : tmp){
+            Member member = memberRepository.findByName(contentReply.getWriter());
+            String img = member.getImgs();
+
+            ReviewDto reviewDto = new ReviewDto(
+                    contentReply.getNo(),contentReply.getContentsNum(),contentReply.getWriter(),
+                    contentReply.getContent(),contentReply.getTitle(),contentReply.getNo(),img,
+                    contentReply.getRegdate()
+            ); list.add(reviewDto);
+        }
+
+        return list;
     }
     /* 3. Delete */
     public void delete(int no){

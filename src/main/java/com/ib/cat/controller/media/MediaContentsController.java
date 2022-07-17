@@ -63,7 +63,7 @@ public class MediaContentsController {
         mav.addObject("review",new ReviewDto()); // <- 얘는 form태그 테이터 전송을 위한 dto
 
         /*  리뷰 로딩  */
-        List<ContentReply> ctr = mediaReplyService.getReviews(contentsNum, code); // <- 반환 컬렉션 = 엔티티
+        List<ReviewDto> ctr = mediaReplyService.getReviews(contentsNum, code); // <- 반환 컬렉션 = 엔티티
         mav.addObject("reviews", ctr);
 
         return mav;
