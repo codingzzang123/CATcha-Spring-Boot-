@@ -26,7 +26,7 @@
         <div class="css-Info-Body">
             <div class="one">
                 <p class="css-16qa0p7" style="margin-left: 30px;">통계</p>
-                <a style="margin-left: 1100px;" href="<c:url value="/memberlike/${auth.id }" />">관심목록으로 이동</a>
+                <a style="margin-left: 1100px;" href="<c:url value="/memberlike/${auth.id }" />"><span style="text-decoration: underline; text-decoration-color: #74747b;">관심목록으로 이동</span></a>
             </div>
 
             <div class="d1" style="display: flex;">

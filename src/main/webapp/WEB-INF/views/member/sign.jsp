@@ -12,68 +12,171 @@
 <html>
 <head>
   <meta charset="UTF-8">
+    <link href="/css/hosun/main.css" rel="stylesheet"/>
+    <link href="/css/jieun/contentList.css" rel="stylesheet"/>
+    <style>
+      .custom-input{
+        display: block;
+        width: 500px;
+        height: 32px;
+        font-size: 15px;
+        border: 0;
+        border-radius: 15px;
+        outline: none;
+        padding-left: 10px;
+        background-color: rgb(233, 233, 233);
+      }
+
+      #padding *{
+        padding-left: 50px;
+      }
+      ::placeholder{
+        font-size:smaller;
+        font-style: italic;
+      }
+      .btn1 input{
+        font-size: smaller;
+        border-radius: 2em;
+      }
+      .api_Login div {
+        display: inline;
+      }
+
+      div label{
+        font-size: small;
+      }
+
+      .filebox ::placeholder{
+        font-size:smaller;
+        font-style: italic;
+      }
+
+      .filebox input[type="file"] {
+        position: absolute;
+        width: 0;
+        height: 0;
+        padding: 0;
+        overflow: hidden;
+        border: 0;
+      }
+
+      .filebox .upload-name {
+        width: 500px;
+        display: inline-block;
+        height: 32px;
+        padding: 0 10px;
+        vertical-align: middle;
+        border: 1px solid #dddddd;
+        border-radius: 2em;
+        color: #999999;
+      }
+
+      .filebox label {
+        display: inline-block;
+        /*padding: 10px 10px;*/
+        padding-left: 7px;
+        padding-right: 7px;
+        color: #999999;
+
+        /*vertical-align: middle;*/
+        background-color: rgb(233, 233, 233);
+        cursor: pointer;
+        height: 32px;
+        margin-left: 5px;
+        font-size: smaller;
+        font-style: italic;
+        border-radius: 2em;
+      }
+    </style>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include>
+  <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include>
 
 
-<div class="container-fluid py-5">
-  <form action="/member/insert" method="post"  name="signForm" enctype="multipart/form-data">
-    <div class="container mt-5 mb-5" style="width: 50%; font-weight: bold; font-size: 20px;">
-      <h1><b>회원 가입 📑</b></h1>
+  <section class="css-7klu3x">
+    <div class="css-lufi3b">
+      <div class="css-lufi3b">
+        <div class="row">
+          <div class="col-lg-4"></div>
+          <div class="col-lg-8">
+            <div class="css-pbseb6-StyledHomeListTitleRow" >
+              <div style="margin-top: 15px;">
+                <p class="css-16qa0p7" style="font-size: x-large;">회원 가입</p>
+                <p style="font-size: small;">CATcha 사이트를 계정 가입은 무료이며 쉽습니다. 시작하려면 아래 양식을 작성하세요. 계속하려면 JavaScript가 필요합니다..</p>
+                <div clsss="main-form">
+                  <form action="/member/insert" method="post"  name="signForm" enctype="multipart/form-data">
+                    <div style="margin-top: 10px;">
+                      <label for="id">아이디</label>
+                      <input class="custom-input" type="text" id="id" name="id" placeholder="아이디를 입력해주세요." required oninput = "checkId()">
+                      <div class="form-text" id="id_check"></div>
+                    </div>
 
-      <div class="mb-3 form-group">
-        <label for="id">아이디</label>
-        <input type="text" class="form-control" id="id" name="id" placeholder="아이디를 입력해주세요." required oninput = "checkId()">
-        <div class="form-text" id="id_check"></div>
-      </div>
+                    <div style="margin-top: 10px;">
+                      <label for="pass">비밀번호</label>
+                      <input class="custom-input" type="password" placeholder="비밀번호를 입력해주세요." name="pw"  required class="pass" id=pass oninput="checkPw()">
+                      <div class="eheck_font" id="pw_check"></div>
+                    </div>
 
-      <div class="mb-3 form-group">
-        <label for="pass">비밀번호</label>
-        <input class="form-control" type="password" placeholder="비밀번호를 입력해주세요." name="pw"  required class="pass" id=pass oninput="checkPw()">
-        <div class="eheck_font" id="pw_check"></div>
-      </div>
+                    <div style="margin-top: 10px;">
+                      <label for="pass">비밀번호 확인</label>
+                      <input class="custom-input" type="password" placeholder="비밀번호를 다시 입력해주세요." name="pwcheck" required class="pass" id="repwd" oninput="matchPw()">
+                      <div class="eheck_font" id="pw_match"></div>
+                    </div>
 
-      <div class="mb-3 form-group">
-        <label for="pass">비밀번호 확인</label>
-        <input  class="form-control"  type="password" placeholder="비밀번호를 다시 입력해주세요." name="pwcheck" required class="pass" id="repwd" oninput="matchPw()">
-        <div class="eheck_font" id="pw_match"></div>
-      </div>
+                    <div style="margin-top: 10px;">
+                      <label for="name">이름</label>
+                      <input class="custom-input" type="text"  id="name" name="name" placeholder="닉네임을 입력해주세요." required oninput="checkName()">
+                      <div class="eheck_font" id="name_check"></div>
+                    </div>
 
-      <div class="mb-3 form-group">
-        <label for="name">이름</label>
-        <input type="text" class="form-control" id="name" name="name" placeholder="닉네임을 입력해주세요." required oninput="checkName()">
-        <div class="eheck_font" id="name_check"></div>
-      </div>
+                    <div style="margin-top: 10px;">
+                      <label for="email">이메일 주소</label>
+                      <input class="custom-input" type="email" id="email" name="email" placeholder="이메일을 입력해주세요." required oninput="checkEmail()">
+                      <div class="eheck_font" id="email_check"></div>
+                    </div>
 
-      <div class="mb-3 form-group">
-        <label for="email">이메일 주소</label>
-        <input type="email" class="form-control" id="email" name="email" placeholder="이메일을 입력해주세요." required oninput="checkEmail()">
-        <div class="eheck_font" id="email_check"></div>
-      </div>
+                    <div style="margin-top: 10px;">
+                      <label>프로필</label>
+                      <div class="filebox">
+                        <input class="upload-name" style="font-size: small;" value="" placeholder="첨부파일">
+                        <label for="file" style="font-size: smaller;">파일선택</label>
+                        <input type="file" id="file" name="file" accept="image/jpg, image/jpeg,image/png" onchange="fileCheck(file)">
+                        <div class="eheck_font" id="file_check"></div>
+                      </div>
+                    </div>
 
-      <div class="mb-3 form-group">
-        <label for="file">프로필</label>
-        <input type="file" class="form-control" id="file" name="file" accept="image/jpg, image/jpeg,image/png" onchange="fileCheck(file)">
-        <div class="eheck_font" id="file_check"></div>
-      </div>
-
-      <div class="mb-3 form-group text-end">
-        <input type="button" class="btn btn-secondary" onclick="allCheck()"
-               style="font-weight: bold; float: left; background-color:black; border-radius: 12px;" value="회원가입"/>
-      </div>
-      <div class="mb-3 form-group text-end">
-        <input type="button" class="btn btn-secondary" onclick="history.back()"
-               style="font-weight:bold;float:left;margin-left:8px;background-color:black; border-radius: 12px;" value="취소"/>
+                    <div style="margin-top: 25px;" class="btn1">
+                      <input type="button" class="btn btn-secondary" onclick="allCheck()"
+                             value="회원가입"/>
+                      <input type="button" class="btn btn-secondary" onclick="history.back()"
+                             value="취소"/>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </form>
-</div>
+  </section>
 
 
-</body>
+
+
+
+
+
+
+  </body>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript">
+
+  $("#file").on('change',function(){
+    var fileName = $("#file").val();
+    $(".upload-name").val(fileName);
+  });
+
   var id_check = false;
   var pw_check = false;
   var pwReg_check = false;

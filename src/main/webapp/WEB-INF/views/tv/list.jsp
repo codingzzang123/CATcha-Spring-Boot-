@@ -109,5 +109,6 @@
             </div>
         </div>
     </section>
+    <jsp:include page="/WEB-INF/views/templates/footer.jsp"></jsp:include>
 </body>
 </html>

@@ -1,9 +1,6 @@
 package com.ib.cat.controller.media;
 
-import com.ib.cat.dto.media.ContentReplyDto;
-import com.ib.cat.dto.media.ContentsDto;
-import com.ib.cat.dto.media.CreditsDto;
-import com.ib.cat.dto.media.LikeDto;
+import com.ib.cat.dto.media.*;
 import com.ib.cat.dto.member.LoginDto;
 import com.ib.cat.entity.ContentReply;
 import com.ib.cat.service.media.ContentsService;
@@ -60,16 +57,14 @@ public class MediaContentsController {
             code=0;
             System.out.println("movie/content");
         }
-
-        mav.addObject("contents", contents);
-//        mav.addObject("imageList", imageList);
-        mav.addObject("cast", cast);
-//        mav.addObject("crew", crew);
+        mav.addObject("code", code);
+        mav.addObject("contents", contents); //        mav.addObject("imageList", imageList);
+        mav.addObject("cast", cast); //        mav.addObject("crew", crew);
+        mav.addObject("review",new ReviewDto()); // <- 얘는 form태그 테이터 전송을 위한 dto
 
         /*  리뷰 로딩  */
-        List<ContentReplyDto> ctr = mediaReplyService.getMediaReplyPage(contentsNum, code);
-        System.out.println(ctr);
-        mav.addObject("contentReply", ctr);
+        List<ReviewDto> ctr = mediaReplyService.getReviews(contentsNum, code); // <- 반환 컬렉션 = 엔티티
+        mav.addObject("reviews", ctr);
 
         return mav;
     }

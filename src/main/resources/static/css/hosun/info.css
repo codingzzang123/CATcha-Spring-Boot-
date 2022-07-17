@@ -104,7 +104,7 @@ a:active{ text-decoration:none; color: black;}
 
 .css-circle{
     border-radius: 50%;
-    background-color: #00ccff; /* Green */
+    background-color: #dddddd;
     border: none;
     color: black;
     text-align: center;
