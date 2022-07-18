@@ -101,7 +101,7 @@
                                     <img src="/img/media/cinema_default.png" width="300">
                                 </c:when>
                                 <c:otherwise>
-                                    <img src="https://image.tmdb.org/t/p/w300${contents.posterPath}">
+                                    <img src="${contents.posterPath}">
                                 </c:otherwise>
                             </c:choose>
                         </div>
@@ -134,6 +134,21 @@
                                     <c:when test="${contents.runtime eq '0'}">정보가 없습니다.</c:when>
                                     <c:otherwise>${contents.hour}h ${contents.minute}m</c:otherwise>
                                 </c:choose>
+                            </div>
+                            <div>
+                                이용 가능한 플랫폼<br>
+                            <c:choose>
+                                <c:when test="${ott eq null}">
+                                    정보가 아직 없어요!
+                                </c:when>
+                                <c:otherwise>
+                                    <c:forEach var="otts" items="${ott}">
+                                        <a href="${otts.ottAdd}">
+                                        <img src="https://image.tmdb.org/t/p/original${otts.logoPath}">
+                                        </a>
+                                    </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
                             </div>
                             <div style="margin-top: 70px;">
                                 <br> Overview <br>

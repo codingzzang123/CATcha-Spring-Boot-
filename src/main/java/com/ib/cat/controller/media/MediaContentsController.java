@@ -66,6 +66,11 @@ public class MediaContentsController {
         List<ReviewDto> ctr = mediaReplyService.getReviews(contentsNum, code); // <- 반환 컬렉션 = 엔티티
         mav.addObject("reviews", ctr);
 
+        /*  OTT 찾기  */
+        List<OttDto> ol = contentsService.getOTT(contentsType, contentsNum);
+        System.out.println("controller-list: "+ol);
+        mav.addObject("ott", ol);
+
         return mav;
     }
 }
