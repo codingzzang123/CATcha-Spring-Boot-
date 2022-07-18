@@ -29,7 +29,7 @@ public class ContentsService {
     //API를 통해 추출한 json 형태의 결과값을 저장할 변수
     private String result ="";
 
-    /*  contents 상세페이지  */
+    /*  contents 상세페이지    */
     public ContentsDto getSpecificContent(String type, int contentsNum) {
         ContentsDto sContent = null;
         List<String> genreList = null;
