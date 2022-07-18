@@ -3,6 +3,7 @@ package com.ib.cat.service.media;
 import com.ib.cat.dto.media.ContentsDto;
 import com.ib.cat.dto.media.CreditsDto;
 import com.ib.cat.dto.media.GenresDto;
+import com.ib.cat.dto.media.OttDto;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -70,11 +71,9 @@ public class ContentsService {
             } else if (type.equals("tv")) {
                 //시리즈인 경우 releaseAirDate를 key로 데이터 파싱
                 if(contents.get("first_air_date") == null || contents.get("first_air_date").equals("")) {
-                    System.out.println("1");
                     vo.setReleaseDate(dateFormat.parse(date));
                 } else {
                     Date firstAirDate = dateFormat.parse((String)contents.get("first_air_date"));
-                    System.out.println("2");
                     vo.setReleaseDate(firstAirDate);
                 }
                 //시리즈일 경우 title이 아닌 name을 key로 데이터 파싱
@@ -84,7 +83,7 @@ public class ContentsService {
             if(contents.get("poster_path") == null || contents.get("poster_path").toString().equals("")) {
                 vo.setPosterPath("default");
             } else {
-                vo.setPosterPath(contents.get("poster_path").toString());
+                vo.setPosterPath("https://image.tmdb.org/t/p/w300"+contents.get("poster_path").toString());
             }
             
             if (type.equals("movie")) {
@@ -95,13 +94,17 @@ public class ContentsService {
                 vo.setHour(hour);
                 vo.setMinute(minute);
                 vo.setRuntime(runtime);
-            } else { /*  tv 런타임 파싱  */
-                List<Long> runtime = (List<Long>)contents.get("episode_run_time"); //[숫자]로 나옴
-                if (runtime.isEmpty()) {
-                    vo.setRuntime("default");
-                } else {
-                    vo.setRuntime(runtime.get(0).toString());
-                }
+            } else { /*  tv 상영 정보  */
+                int hour = Integer.parseInt(contents.get("number_of_seasons").toString()); //hour:season
+                int minute = Integer.parseInt(contents.get("number_of_episodes").toString()); //minute:episode
+                vo.setHour(hour);
+                vo.setMinute(minute);
+//                List<Long> runtime = (List<Long>)contents.get("episode_run_time"); //[숫자]로 나옴
+//                if (runtime.isEmpty()) {
+//                    vo.setRuntime("default");
+//                } else {
+//                    vo.setRuntime(runtime.get(0).toString());
+//                }
 
             }
             /*  장르  */
@@ -461,5 +464,61 @@ public class ContentsService {
 
         }
         return test;
+    }
+
+    public List<OttDto> getOTT(String type, int contentsNum) { //List반환 - 여러 ott 있는 곳도 있음
+        List<OttDto> getOtt = new ArrayList<>();
+
+        try {
+            URL url = new URL(API_URL + type + "/" + contentsNum + "/watch/providers?api_key=" + KEY);
+            BufferedReader bf;
+            bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+
+            result = bf.readLine();
+            JSONParser jsonParser = new JSONParser();
+            JSONObject contents = (JSONObject) jsonParser.parse(result);
+            JSONObject results = (JSONObject) contents.get("results");
+            JSONObject country = (JSONObject) results.get("KR");
+            if (country == null || country.equals("")) { //한국에서 상영해주는 ott가 없는 경우
+                getOtt = null;
+            } else { //상영하는 경우
+                /*  flatrate => 넷플릭스 등, rent => 네이버스토어 or 구글플레이스토어 등  */
+                JSONArray ottDetail;
+                if (country.get("flatrate") == null || country.get("flatrate").equals("")) {
+                    ottDetail = (JSONArray) country.get("rent");
+                } else {
+                    ottDetail = (JSONArray) country.get("flatrate");
+                }
+                for (int i = 0 ; i < ottDetail.size() ; i++) {
+                    JSONObject tmp = (JSONObject)ottDetail.get(i);
+                    OttDto odo = new OttDto();
+                    odo.setLogoPath(tmp.get("logo_path").toString());
+                    odo.setProviderId(Integer.parseInt(tmp.get("provider_id").toString()));
+                    odo.setProviderName(tmp.get("provider_name").toString());
+                    if (tmp.get("provider_name").toString().equals("Netflix")) {
+                        odo.setOttAdd("https://www.netflix.com/kr/");
+                    } else if (tmp.get("provider_name").toString().equals("Disney Plus")) {
+                        odo.setOttAdd("https://www.disneyplus.com/ko-kr/welcome/stream-now");
+                    } else if (tmp.get("provider_name").toString().equals("Google Play Movies")){
+                        odo.setOttAdd("https://play.google.com/store/movies?hl=en&gl=KR");
+                    } else if (tmp.get("provider_name").toString().equals("wavve")){
+                        odo.setOttAdd("https://www.wavve.com/");
+                    } else {
+                        odo.setOttAdd("");
+                    }
+                    getOtt.add(odo);
+                }
+            }
+
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return getOtt;
     }
 }

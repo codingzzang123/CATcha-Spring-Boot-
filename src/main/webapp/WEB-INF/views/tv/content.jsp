@@ -135,7 +135,22 @@
                                 <c:choose>
                                     <c:when test="${contents.runtime eq 'default'}">정보가 없습니다.</c:when>
                                     <c:otherwise>
-                                        ${contents.runtime}개의 episode
+                                        ${contents.hour}개 season, ${contents.minute}개의 episode
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                            <div>
+                                이용 가능한 플랫폼<br>
+                                <c:choose>
+                                    <c:when test="${ott eq null}">
+                                        정보가 아직 없어요!
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:forEach var="otts" items="${ott}">
+                                            <a href="${otts.ottAdd}">
+                                                <img src="https://image.tmdb.org/t/p/original${otts.logoPath}">
+                                            </a>
+                                        </c:forEach>
                                     </c:otherwise>
                                 </c:choose>
                             </div>
