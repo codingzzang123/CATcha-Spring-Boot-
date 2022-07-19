@@ -28,16 +28,32 @@
                 <div class="media-cate">
                     <div>
                         <h5>TV</h5>
-                        <form:form action="${pageContext.request.contextPath}/tv/list" modelAttribute="scmd">
+                        <form action="${pageContext.request.contextPath}/tv/list">
                             <select name="category" id="category">
                                 <option value="popularity.desc" <c:if test="${category eq 'popularity.desc'}">selected="selected"</c:if>>인기도 내림차순</option>
                                 <option value="popularity.asc" <c:if test="${category eq 'popularity.asc'}">selected="selected"</c:if>>인기도 오름차순</option>
                                 <option value="vote_average.desc" <c:if test="${category eq 'vote_average.desc'}">selected="selected"</c:if>>평점 내림차순</option>
                                 <option value="vote_average.asc" <c:if test="${category eq 'vote_average.asc'}">selected="selected"</c:if>>평점 오름차순</option>
                             </select>
-                            <br>
-                            <input type="submit" value="확인">
-                        </form:form>
+                            <br><br><br>
+                            <h5>where to watch</h5>
+                            <input type="radio" class="p_btn" id="p_btn_01" name="platform" value="Netflix" <c:if test="${platform eq 'Netflix'}">checked="checked"</c:if>>
+                            <label for="p_btn_01">
+                                <img src="https://www.themoviedb.org/t/p/original/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg" width="50" height="50" style="border-radius: 5px; margin: 3px;" alt="Netflix"></label>
+                            <input type="radio" class="p_btn" id="p_btn_02" name="platform" value="Disney Plus" <c:if test="${platform eq 'Disney Plus'}">checked="checked"</c:if>>
+                            <label for="p_btn_02">
+                                <img src="https://www.themoviedb.org/t/p/original/7rwgEs15tFwyR9NPQ5vpzxTj19Q.jpg" width="50" height="50" style="border-radius: 5px; margin: 3px;" alt="Disney Plus"></label><br>
+                            <input type="radio" class="p_btn" id="p_btn_03" name="platform" value="Wavve" <c:if test="${platform eq 'Wavve'}">checked="checked"</c:if>>
+                            <label for="p_btn_03">
+                                <img src="https://www.themoviedb.org/t/p/original/2ioan5BX5L9tz4fIGU93blTeFhv.jpg" width="50" height="50" style="border-radius: 5px; margin: 3px;" alt="Wavve"></label>
+                            <input type="radio" class="p_btn" id="p_btn_04" name="platform" value="Watcha" <c:if test="${platform eq 'Watcha'}">checked="checked"</c:if>>
+                            <label for="p_btn_04">
+                                <img src="https://www.themoviedb.org/t/p/original/vXXZx0aWQtDv2klvObNugm4dQMN.jpg" width="50" height="50" style="border-radius: 5px; margin: 3px;" alt="Watcha"></label><br>
+                            <input type="radio" class="p_btn" id="p_btn_05" name="platform" value="none" <c:if test="${platform eq 'none'}">checked="checked"</c:if>>
+                            <label for="p_btn_05">모두 보기</label>
+
+                            </label><br><input type="submit" value="확인">
+                        </form>
                     </div>
                 </div>
 
@@ -80,24 +96,24 @@
                             <li class="page-item"><a class="page-link" href="<c:url value='/search/tv?query=${query }&page=${now-1 }'/>">START</a></li>-->
                                 <!-- 페이징 << 버튼 -->
                                 <c:if test="${paging.curPage ne 1 }">
-                                    <li class="page-item"><a class="page-link" href="<c:url value='/tv/list?page=${paging.curPage-1 }&category=${category}'/>">&laquo;</a></li>
+                                    <li class="page-item"><a class="page-link" href="<c:url value='/tv/list?page=${paging.curPage-1 }&category=${category}&platform=${platform}'/>">&laquo;</a></li>
                                 </c:if>
 
                                 <!-- 페이징 블럭 번호  -->
                                 <c:forEach begin="${paging.blockStartNum }" end="${paging.blockLastNum }" var="i">
                                     <c:choose>
                                         <c:when test="${i eq paging.curPage }">
-                                            <li class="page-item active"><a class="page-link" href="<c:url value='/tv/list?page=${i }&category=${category}'/>">${i }</a></li>
+                                            <li class="page-item active"><a class="page-link" href="<c:url value='/tv/list?page=${i }&category=${category}&platform=${platform}'/>">${i }</a></li>
                                         </c:when>
                                         <c:otherwise>
-                                            <li class="page-item"><a class="page-link" href="<c:url value='/tv/list?page=${i }&category=${category}'/>">${i }</a></li>
+                                            <li class="page-item"><a class="page-link" href="<c:url value='/tv/list?page=${i }&category=${category}&platform=${platform}'/>">${i }</a></li>
                                         </c:otherwise>
                                     </c:choose>
                                 </c:forEach>
 
                                 <!-- 페이징 >> 버튼 -->
                                 <c:if test="${paging.curPage ne paging.lastPageNum }">
-                                    <li class="page-item"><a class="page-link" href="<c:url value='/tv/list?page=${paging.curPage+1 }&category=${category}'/>">&raquo;</a></li>
+                                    <li class="page-item"><a class="page-link" href="<c:url value='/tv/list?page=${paging.curPage+1 }&category=${category}&platform=${platform}'/>">&raquo;</a></li>
                                 </c:if>
 
                                 <!-- 페이징 맨뒤로 버튼
