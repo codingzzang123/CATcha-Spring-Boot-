@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <html>
 <head>
@@ -211,22 +212,28 @@
             <div class="row mt-2">
                 <div class="col-lg-8">
                     <div class="css-pbseb6-StyledHomeListTitleRow">
-                        <p class="css-16qa0p7">최근 게시판 활동</p>
+                        <p class="css-16qa0p7" style="font-style: italic">최근 게시글</p>
                     </div>
                     <table class="table table-striped table-hover mt-4">
                         <thead>
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col" style="margin-left:30px;">Title</th>
-                            <th scope="col" style="margin-left:50px;">Writer</th>
+                            <th scope="col"></th><th scope="col"></th>
+                            <th scope="col" style="margin-left:100px;">Writer</th>
+                            <th scope="col"></th>
+                            <th scope="col">Regdate</th>
                         </tr>
                         </thead>
                         <tbody>
                         <c:forEach var="ls" items="${ ls}">
                             <tr>
                                 <td>${ls.no }</td>
-                                <td>${ls.title }</td>
+                                <td><a href="${pageContext.request.contextPath}/board/${ls.no }">${ls.title }</a></td>
+                                <td></td><td></td>
                                 <td>${ls.name }</td>
+                                <td></td>
+                                <td><fmt:formatDate value="${ls.regdate }" pattern="MMM dd HH:mm:ss" /></td>
                             </tr>
                         </c:forEach>
                         </tbody>

@@ -19,43 +19,47 @@
     <title>수정</title>
 </head>
 <body>
-<div class="container mx-auto">
-    <h1 class="text-2xl mb-10 text-left">Title of Board</h1>
-    <form method="POST" action="/board/edit">
+    <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include> <br><br><br>
+    <div class="container mx-auto">
+        <h1 class="text-2xl mb-10 text-left">Title of Board</h1>
 
-        <div class="board_wrap">
-            <div class="flex justify-start items-center gap-5">
-                <span>카테고리</span>
-                <select name="cate" id="cate" value ="${board.cate}" class="p-1 w-48">
-                    <option value="일반" selected>일반</option>
-                    <option value="영화">영화</option>
-                    <option value="TV">TV</option>
-                </select>
-            </div>
-            <div class="flex w-2/3 justify-start mt-5">
-                <input type="text"  class="p-2 w-full" placeholder="제목을 입력해주세요" value="${board.title}">
-            </div>
-
-            <div class="mt-5 flex justify-center items-center">
-                <textarea class="w-full board_write p-5" name="" id="" cols="30" rows="10" placeholder="내용을 입력해주세요" value="${board.content}">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum qui, ipsa fugiat accusantium officia velit nisi incidunt vel voluptate, perspiciatis, tempora laboriosam aliquam cumque! Facere error nihil ratione odit iste. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ratione, ex veritatis. Quibusdam, sit dolorum voluptates necessitatibus porro aut. Aliquam laudantium ex inventore blanditiis, laborum at fugiat soluta aliquid dolore explicabo?
-                </textarea>
-            </div>
-
-            <div class="flex justify-start items-center gap-5">
-                <td>
-                     <img board="img" src="<c:url value="/resource/static/img/board"/>"${board.imgo }>
-                </td>
-            </div>
-
-
-            </div>
-                <div class="flex justify-end mt-5">
-                    <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center" href='/board/detail/${board.no}'>뒤로가기</a>
-                     <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center" href='/board/list'>수정완료</a>
-
+        <form method="POST" action="/board/edit">
+            <div class="board_wrap">
+                <div class="flex justify-start items-center gap-5">
+                    <span>카테고리</span>
+                    <select name="cate" id="cate" value ="${board.cate}" class="p-1 w-48">
+                        <option value="일반" selected>일반</option>
+                        <option value="영화">영화</option>
+                        <option value="TV">TV</option>
+                    </select>
                 </div>
-    </form>
-</div>
+
+                <div class="flex w-2/3 justify-start mt-5">
+                    <input type="text"  class="p-2 w-full" placeholder="제목을 입력해주세요" value="${board.title}">
+                </div>
+
+                <div class="mt-5 flex justify-center items-center">
+                    <textarea class="w-full board_write p-5" name="content" id="" cols="100" rows="10" placeholder ="${board.content}"
+                              style="resize: none; overflow-y: hidden;"></textarea>
+                </div>
+
+                <div class="flex justify-start items-center gap-5">
+                    <td>
+                         <img src="<c:url value="#" />">
+                    </td>
+                </div>
+
+
+                <div class="flex justify-end mt-5">
+                    <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-black rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center"
+                       href='/board/${board.no}'>뒤로가기</a>
+                </div>
+                <!-- 수정 완료 버튼 미 구현  -->
+                <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-black rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center"
+                   href='/board/list'>수정완료</a>
+            </div>
+        </form>
+    </div>
 </body>
 </html>
 <style>

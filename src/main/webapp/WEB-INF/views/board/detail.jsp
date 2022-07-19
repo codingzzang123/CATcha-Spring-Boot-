@@ -16,60 +16,157 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>상세보기</title>
+    <style>
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
+            color:#333;
+        }
+        .board_wrap {
+            background: #ddd;
+            padding:1rem; ;
+        }
+        .board_write::placeholder{
+            display: flex; justify-content: center; align-items: center;
+            text-align: center;
+            vertical-align: center;
+            padding-top:100px;
+        }
+    </style>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include> <br><br><br>
 <div class="container mx-auto">
-    <h1 class="text-2xl mb-10 text-left">Title of Board</h1>
-    <form method="POST"action="/board/detail">
-
+    <h1 class="text-2xl mb-10 text-left">Name of Board</h1>
+    <form method="POST" action="/board/detail">
         <div class="board_wrap">
             <div class="flex justify-start items-center gap-5">
-                <span>카테고리</span>
-                <span>${board.cate}</span>
-<%--                    <select name="cate" id="${board.cate}" class="p-1 w-48">--%>
-<%--                        <option value="일반" selected>일반</option>--%>
-<%--                        <option value="영화">영화</option>--%>
-<%--                        <option value="TV">TV</option>--%>
-<%--                    </select>--%>
+                <span style="font-size: large"><strong>카테고리 </strong></span>
+                <span style="font-size:medium">${board.cate}</span>
             </div>
 
-            <div class="flex w-2/3 justify-start mt-5">
-                <input type="text"  class="p-2 w-full" placeholder="제목을 입력해주세요" id ="${board.title}" value="This is an example of the title">
+            <div class="flex w-2/3 justify-start mt-5" style="margin-top: 20px; margin-bottom: 20px;">
+               <span style="font-size: large">제목 </span>
+                <span style="font-size:medium">${board.title}</span>
             </div>
+
+            <!-- 조회수, 추천수, 댓글 수 , 작성시간, 작성자 나와야 함 -->
 
             <div class="mt-5 flex justify-center items-center">
-                <textarea class="w-full board_write p-5" name="content" id="" cols="30" rows="10" id ="{board.content}" placeholder="내용을 입력해주세요">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum qui, ipsa fugiat accusantium officia velit nisi incidunt vel voluptate, perspiciatis, tempora laboriosam aliquam cumque! Facere error nihil ratione odit iste. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ratione, ex veritatis. Quibusdam, sit dolorum voluptates necessitatibus porro aut. Aliquam laudantium ex inventore blanditiis, laborum at fugiat soluta aliquid dolore explicabo?
-                </textarea>
+                <textarea class="w-full board_write p-5" name="content" id="" cols="100" rows="10" id ="{board.content}"
+                          style="resize: none; overflow-y: hidden;" disabled>${board.content}</textarea>
             </div>
         </div>
 
-        <div class="flex justify-end mt-5">
-            <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center" href='/board/list'>뒤로가기</a>
-            <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center" href='/board/edit/${board.no}'>수정</a>
-            <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center" href='/board/delete/${board.no}'>삭제</a>
+        <div>
+            <button type="button" id="b1" <c:if test="${auth ne null} && ${board.name ne auth.name }"> onclick="like()"</c:if> class="btn btn-default btn-xs" >
+                <img src="" style="width: 50px; height: 50px; cursor:pointer; border:0px;" id="ex">
+            </button>
+        </div>
+
+        <div class="flex justify-end mt-5" style="margin-top: 20px;">
+            <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-black rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center"
+               href='/board'>뒤로가기</a>
+            <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-black rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center"
+               href='/board/edit/${board.no}'>수정</a>
+            <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-black rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center"
+               href='/board/delete/${board.no}'>삭제</a>
         </div>
     </form>
 
 </div>
-</body>
+    <input type="hidden" id="userId" value="${auth.id }">
+    <input type="hidden" id="contentsNum" value="${board.no }">
+    <input type="hidden" id="title" value="${board.title }">
+    <input type="hidden" id="overview" value="${board.content}">
+    <input type="hidden" id="posterPath" value="${board.imgs }">
 
+    <input type="hidden" id="userName" value="${auth.name }">
+    <input type="hidden" id="flag" value="">
+
+    <script src="${pageContext.request.contextPath}/js/hosun/jquery-3.6.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/hosun/main.js"></script>
+    <script src="${pageContext.request.contextPath}/js/hosun/scroll.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        window.onload=function(){
+            let hdiv = document.getElementById('emptyReview');
+            if(hdiv == null)
+                flag = true;
+
+            let userId = $('#userId').val();
+            let contentsNum = $('#contentsNum').val();
+            let object1 = {
+                'contentsNum': contentsNum,
+                'userId': userId,
+                'code': '2'
+            }
+            $
+                .ajax({
+                    url: '../../likeCheck',
+                    type: 'post',
+                    data: {
+                        object: JSON.stringify(object1),
+                        // 'flag': flag
+                    },
+                    success:function(data) {
+                        console.log("onload function 실행 - flag:" + data);
+                        $('#flag').val(data);
+                        if(data == 'true') {
+                            document.querySelector("#ex").src='https://img.icons8.com/color/452/hearts.png';
+                        }
+                        if (data == 'false') {
+                            document.querySelector("#ex").src='https://img.icons8.com/ios/500/hearts--v1.png';
+                        }
+                    }, error: function (){
+                        console.log("onload function 실패")
+                    }
+                })
+        }
+        function like() {
+            console.log("script - like() 실행")
+            let userId = $('#userId').val();
+            let flag = document.getElementById("flag").value;
+            let contentsNum = $('#contentsNum').val();
+            let title = $('#title').val();
+            let overview = $('#overview').val();
+            let posterPath = $('#posterPath').val();
+            if (userId != 'default') {
+                var object2 = {
+                    'contentsNum': contentsNum,
+                    'title': title,
+                    'overview': overview,
+                    'posterPath': posterPath,
+                    'userId': userId,
+                    'code': '2'
+                }
+                $
+                    .ajax({
+                        url: '../../like',
+                        type: 'post',
+                        data: {
+                            object: JSON.stringify(object2),
+                            'flag': flag
+                        },
+                        success: function(data){
+                            console.log("likeController 동작 성공: "+data);
+                            //버튼 누르면 컬러 바꾸기..
+                            if(data == 'true') {
+                                document.querySelector("#ex").src='https://img.icons8.com/color/452/hearts.png';
+                            } else {
+                                document.querySelector("#ex").src='https://img.icons8.com/ios/500/hearts--v1.png';
+                            }
+                        }, error: function(request,error){
+                            console.log("likeController 동작 fail");
+                            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                        }
+                    });
+            }
+        }
+    </script>
+
+</body>
 </html>
 
-<style>
-    * {
-        font-family: 'Noto Sans KR', sans-serif;
-        color:#333;
-    }
-    .board_wrap {
-        background: #ddd;
-        padding:1rem; ;
-    }
-    .board_write::placeholder{
-        display: flex; justify-content: center; align-items: center;
-        text-align: center;
-        vertical-align: center;
-        padding-top:100px;
-    }
 
-</style>
 

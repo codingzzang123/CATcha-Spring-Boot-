@@ -31,13 +31,20 @@
             z-index: 9999;
         }
 
-
-
         .badge{
-            font-size: 10px;
-            height: 15px;
-            margin-left: -24px;
+            font-size: 12px;
+            height: auto;
+            width: auto;
+            margin-left: -14px;
+
         }
+
+        a{color: black;}
+        a:link{color: black;}
+        a:visited{color: black;}
+        a:hover{color: black;}
+        a:active{color: black;}
+
     </style>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script>
@@ -74,6 +81,7 @@
                 $("#msgStack").append(toast);   // msgStack div에 생성한 toast 추가
                 $(".toast").toast({"animation": true, "autohide": false});
                 $('.toast').toast('show');
+                // $("#newNoticeCnt").text($("#newNoticeCnt").text()*1+1); //알림 받았을때 카운트 +1증가
 
             };
 
@@ -167,15 +175,13 @@
 
                     <sec:authorize access="isAuthenticated()">
                         <li>
-<%--                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="alert" data-bs-toggle="dropdown" aria-expanded="true">--%>
-<%--                                <img src="https://cdn-icons-png.flaticon.com/512/3602/3602145.png" height="36px;">--%>
                             <a class="nav-link dropdown-toggle py-0" href="#" data-bs-toggle="dropdown" aria-expanded="true">
-                                <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-bell" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="2.3em" height="2.3em" viewBox="0 0 16 16" class="bi bi-bell" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2z"/>
                                     <path fill-rule="evenodd" d="M8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/>
                                 </svg>
+                                <span id="newNoticeCnt" class="badge badge-pill badge-danger"></span>
                             </a>
-<%--                            <span id="newNoticeCnt" class="badge badge-pill badge-primary"></span>--%>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <div style="width: auto; height: auto;  text-align: center;">
                                     <!-- 알림 toast -->

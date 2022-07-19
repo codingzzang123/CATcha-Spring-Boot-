@@ -108,18 +108,19 @@
                         <div class="col-lg-8 css-right-text">
                             <div class="contentsTitle">
                                 <span class="css-16qa0p7" style="font-size: xx-large;"> ${contents.title}</span>
-                                <c:choose>
-                                    <c:when test="${auth eq null}"></c:when>
-                                    <c:otherwise>
-                                        <button type="button" id="b1" onclick="like()" class="btn btn-default btn-xs">
-                                            <img src="" style="width: 50px; height: 50px; cursor:pointer; border:0px;"  id="ex"></button>
-                                    </c:otherwise>
-                                </c:choose>
+<%--                                <c:choose>--%>
+<%--                                    <c:when test="${auth eq null}"></c:when>--%>
+<%--                                    <c:otherwise>--%>
+<%--                                        <button type="button" id="b1" onclick="like()" class="btn btn-default btn-xs">--%>
+<%--                                            <img src="" style="width: 50px; height: 50px; cursor:pointer; border:0px;"  id="ex"></button>--%>
+<%--                                    </c:otherwise>--%>
+<%--                                </c:choose>--%>
+                                <button type="button" id="b1" <c:if test="${auth ne null}"> onclick="like()"</c:if> class="btn btn-default btn-xs" ><img src="" style="width: 50px; height: 50px; cursor:pointer; border:0px;" id="ex"></button>
                             </div>
                             <div class="contentsOthers">
-                                Release Date :
+                                <strong>Release Date</strong> :
                                 <fmt:formatDate value="${contents.releaseDate}" pattern="yyyy-MM-dd"/><br>
-                                장르 :
+                                <strong>장르</strong> :
                                 <c:choose>
                                     <c:when test="${empty contents.ls}">
                                         정보가 없습니다.
@@ -131,7 +132,7 @@
                                     </c:otherwise>
                                 </c:choose>
                                 <br>
-                                상영정보 :
+                                <strong>상영정보</strong> :
                                 <c:choose>
                                     <c:when test="${contents.runtime eq 'default'}">정보가 없습니다.</c:when>
                                     <c:otherwise>
@@ -139,8 +140,7 @@
                                     </c:otherwise>
                                 </c:choose>
                             </div>
-                            <div>
-                                이용 가능한 플랫폼<br>
+                            <div style="width:200px; height:50px; display:inline-block; margin-top: 10px; margin-bottom: 5px;">
                                 <c:choose>
                                     <c:when test="${ott eq null}">
                                         이용 가능한 플랫폼 : 준비중
@@ -148,17 +148,19 @@
                                     <c:otherwise>
                                         <c:forEach var="otts" items="${ott}">
                                             <a href="${otts.ottAdd}">
-                                                <img src="https://image.tmdb.org/t/p/original${otts.logoPath}">
+                                                <img src="https://image.tmdb.org/t/p/original${otts.logoPath}" style="width: 70px; height: 70px; border-radius: 1em;">
                                             </a>
                                         </c:forEach>
                                     </c:otherwise>
                                 </c:choose>
                             </div>
-                            <div style="margin-top: 20px;">
-                                 <br>Overview <br>
-                                <div class="contentsOverview" style="border: 1px solid black; border-radius: 15px; padding:15px;">
-                                    ${contents.overview}
-                                </div>
+                            <div>
+                                <br><strong>Overview</strong><br>
+<%--                                <div class="contentsOverview" style="border: 1px solid black; border-radius: 15px; padding:15px;">--%>
+<%--                                    ${contents.overview}--%>
+<%--                                </div>--%>
+                                <textarea disabled style="resize: none; width: 820px; height: 200px; border: 1px solid black; border-radius: 15px; ">${contents.overview}
+                                </textarea>
                             </div>
                         </div>
                     </div>
