@@ -137,7 +137,6 @@
             data:{id:id},
             success:function(data){
                 if(data == 0){
-                    console.log("data == 0");
                     $("#auth_check").prop("disabled", true);
                     $("#auth_check").css("color", "black");
                     $("#auth_check").html("이메일 인증 후 로그인 해주세요.<br>만약 이메일이 안왔다면 전송을 눌러주세요.<br><span id='sendEmail' onclick='sendEmail()'>[전송]</span>");

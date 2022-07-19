@@ -26,7 +26,7 @@
                 </div>
                 <div class="form-group mt-2">
                     <label for="idModal">아이디</label>
-                    <input type="text"class="form-control"style="border-radius: 10px;" id="idModal" name="idModal" placeholder="아이디를 입력해주세요." value="" required >
+                    <input type="text"class="form-control"style="border-radius: 10px;" id="idModal" name="idModal" placeholder="아이디를 입력해주세요." required >
                 </div>
 
                 <div class="form-group mt-2">
