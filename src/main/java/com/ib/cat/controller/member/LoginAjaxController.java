@@ -60,13 +60,25 @@ public class LoginAjaxController {
         }
     }
 
-    @RequestMapping(value="/member/pwCheck", method = {RequestMethod.POST})
+//    @RequestMapping(value="/member/pwCheck", method = {RequestMethod.POST})
+//    @ResponseBody
+//    public int pwCheck(@RequestParam("id") String id, @RequestParam("oldPw") String oldPw) {
+//        if(memberService.findById(id).getPw().equals(oldPw)){
+//            return 1;
+//        }else {
+//            return 0;
+//        }
+//    }
+
+    @RequestMapping(value="/member/oldPwCheck", method = {RequestMethod.POST})
     @ResponseBody
-    public int pwCheck(@RequestParam("id") String id, @RequestParam("oldPw") String oldPw) {
-        if(memberService.findById(id).getPw().equals(oldPw)){
+    public int oldPwCheck(@RequestParam("oldPw") String oldPw, @RequestParam("id") String id) {
+        Member member = memberService.findById(id);
+        if(passwordEncoder.matches(oldPw, member.getPw())){
             return 1;
         }else {
             return 0;
         }
     }
+
 }

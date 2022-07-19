@@ -33,13 +33,15 @@ public class ContentsService {
     /*  contents 상세페이지    */
     public ContentsDto getSpecificContent(String type, int contentsNum) {
         ContentsDto sContent = null;
-        List<String> genreList = null;
+        List<Integer> genreList = null;
+        String genres = "";
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date = "0001-01-01";//기본값
         try {
             sContent = new ContentsDto();
 
             URL url = new URL(API_URL+type+"/"+contentsNum+"?api_key="+KEY+"&language=ko");
+            System.out.println("S.C: "+API_URL+type+"/"+contentsNum+"?api_key="+KEY+"&language=ko");
             BufferedReader bf;
             bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
 
@@ -50,13 +52,13 @@ public class ContentsService {
             ContentsDto vo = new ContentsDto();
             vo.setContentsNum(Integer.parseInt(String.valueOf(contents.get("id"))));
             vo.setContentsType(type);
-            System.out.println(type);
 
             if (contents.get("overview").equals("")) {
                 vo.setOverview("등록 전입니다.");
             } else {
                 vo.setOverview(contents.get("overview").toString());
             }
+            vo.setVoteAverage(Float.parseFloat(String.valueOf(contents.get("vote_average"))));
 
             //컨텐츠 타입에 따라 파싱 방법 다르게 설정
             if(type.equals("movie")) {
@@ -85,12 +87,12 @@ public class ContentsService {
             } else {
                 vo.setPosterPath("https://image.tmdb.org/t/p/w300"+contents.get("poster_path").toString());
             }
-            
-            if (type.equals("movie")) {
+
+            if (type.equals("movie")) { /*  movie 런타임  */
                 String runtime = String.valueOf(contents.get("runtime"));
                 int hour = Integer.parseInt(runtime) / 60;
                 int minute = Integer.parseInt(runtime) % 60;
-//                vo.setHour(hour);
+                vo.setHour(hour);
                 vo.setMinute(minute);
                 vo.setRuntime(runtime);
             } else { /*  tv 상영 정보  */
@@ -98,19 +100,33 @@ public class ContentsService {
                 int minute = Integer.parseInt(contents.get("number_of_episodes").toString()); //minute:episode
                 vo.setHour(hour);
                 vo.setMinute(minute);
-//                List<Long> runtime = (List<Long>)contents.get("episode_run_time"); //[숫자]로 나옴
-//                if (runtime.isEmpty()) {
-//                    vo.setRuntime("default");
-//                } else {
-//                    vo.setRuntime(runtime.get(0).toString());
-//                }
-
             }
-            /*  장르  */
-            JSONArray genreListJ = (JSONArray)contents.get("genres");
+
+            /*  장르 List / String  */
+            genreList = new ArrayList<Integer>();
+            JSONArray genre_list = (JSONArray)contents.get("genres");
+
+
+            for(int l = 0 ; l < genre_list.size() ; l++) {
+                JSONObject genre = (JSONObject) genre_list.get(l);
+                //List<Integer> 형태로 저장 -> 저장 형태 : [1,3,5]
+                genreList.add(Integer.parseInt(String.valueOf(genre.get("id"))));
+                //String 타입으로 저장 -> 저장 형태 : 드라마 / 멜로
+                if (l == 0) {
+                    genres += genre.get("name");
+                } else {
+                    genres += "/" + genre.get("name");
+                }
+            }
+            vo.setGenres(genreList);
+            vo.setGenre(genres);
+
+
+
+            /*  장르 dto  */
             List<GenresDto> tmpls = new ArrayList<>();
-            for (int k = 0 ; k < genreListJ.size() ; k++) {
-                JSONObject tmp = (JSONObject)genreListJ.get(k);
+            for (int k = 0 ; k < genre_list.size() ; k++) {
+                JSONObject tmp = (JSONObject)genre_list.get(k);
                 int tempId = (Integer.parseInt(tmp.get("id").toString()));
                 String tempName = tmp.get("name").toString();
                 GenresDto gvo =  new GenresDto();
@@ -119,10 +135,7 @@ public class ContentsService {
                 tmpls.add(gvo);
             }
             vo.setLs(tmpls);
-//            System.out.println(vo.getLs().size());
-//            for(GenresDto g : vo.getLs())
-//                System.out.println("id: "+g.getGenreId()+"\n"
-//                        +"name : "+g.getGenreName());
+
             sContent = vo;
 
         }catch (Exception e) {
@@ -237,8 +250,7 @@ public class ContentsService {
 
     /*  컨텐츠 리스트 전체 추출  */
     public List<ContentsDto> getInfoList(String type) {
-
-        int pages = 500;
+        int pages = 50;
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date = "0001-01-01";
 
@@ -250,7 +262,9 @@ public class ContentsService {
 
             for (int i = 1; i <= pages ; i++) {
                 URL url = new URL(API_URL+"discover/"+type+"?api_key="+KEY
-                        +"&language=ko&include_adult=false&page="+i);
+                        +"&language=ko&sort_by=popularity.desc&include_adult=false&page="+i);
+//                System.out.println("infoList: "+API_URL+"discover/"+type+"?api_key="+KEY
+//                        +"&language=ko&include_adult=false&page=");
 
                 BufferedReader bf;
                 bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
@@ -297,14 +311,10 @@ public class ContentsService {
                     } else {
                         vo.setPosterPath(contents.get("poster_path").toString());
                     }
-//					vo.setPage(Integer.parseInt((String)jsonObject.get("page")));
-                    vo.setPage(i);
-
                     //장르 id를 List<Integer>형태로 저장 -> 장르 비교를 위한 작업
-                    JSONArray genreListJ = (JSONArray)contents.get("genre_ids");
-                    genreList = new ArrayList<Integer>();
-                    for (int k = 0 ; k < genreListJ.size() ; k++) {
-                        genreList.add(Integer.parseInt(String.valueOf(genreListJ.get(k))));
+                    JSONArray genre_list = (JSONArray)contents.get("genre_ids");
+                    for (int k = 0 ; k < genre_list.size() ; k++) {
+                        genreList.add(Integer.parseInt(String.valueOf(genre_list.get(k))));
                     }
                     vo.setGenres(genreList);
                     infoList.add(vo);
@@ -316,27 +326,27 @@ public class ContentsService {
         return infoList;
     }
 
-    public int getPages(String type, String sortBy) {
-        int pages = 0;
-
-        try {
-            URL url = new URL(API_URL+"discover/"+type+"?api_key="+KEY
-                    +"&language=ko&sort_by="+sortBy);
-            BufferedReader bf;
-            bf = new BufferedReader(new InputStreamReader(url.openStream(),"UTF-8"));
-            result = bf.readLine();
-
-            JSONParser jsonParser = new JSONParser();
-
-            JSONObject jsonObject = (JSONObject)jsonParser.parse(result);
-            String pagesS = jsonObject.get("total_pages").toString();
-            pages = Integer.parseInt(pagesS);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return pages;
-    }
+//    public int getPages(String type, String sortBy) {
+//        int pages = 0;
+//
+//        try {
+//            URL url = new URL(API_URL+"discover/"+type+"?api_key="+KEY
+//                    +"&language=ko&sort_by="+sortBy);
+//            BufferedReader bf;
+//            bf = new BufferedReader(new InputStreamReader(url.openStream(),"UTF-8"));
+//            result = bf.readLine();
+//
+//            JSONParser jsonParser = new JSONParser();
+//
+//            JSONObject jsonObject = (JSONObject)jsonParser.parse(result);
+//            String pagesS = jsonObject.get("total_pages").toString();
+//            pages = Integer.parseInt(pagesS);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return pages;
+//    }
 
 
     public List<String> getImages(String type, int id) {
@@ -375,7 +385,6 @@ public class ContentsService {
             creditList = new ArrayList<CreditsDto>();
             String apiURL = API_URL + type + "/" + id + "/credits?api_key=" + KEY;
             URL url = new URL(apiURL);
-            System.out.println(apiURL);
 
             BufferedReader bf;
             bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));

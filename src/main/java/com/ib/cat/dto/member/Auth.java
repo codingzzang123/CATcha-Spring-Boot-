@@ -9,5 +9,6 @@ public class Auth {
     private String id;
     private String name;
     private String imgs;
+    private String email;
     private Timestamp regdate;
 }

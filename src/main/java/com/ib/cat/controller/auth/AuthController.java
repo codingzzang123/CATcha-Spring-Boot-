@@ -22,13 +22,17 @@ public class AuthController {
     @RequestMapping(value="/member/authCheck", method = {RequestMethod.POST})
     @ResponseBody
     public int auth(String id){
-        Member member = memberService.findById(id);
-        if(!member.getAuth().equals("1")){
-            //인증실패
-            return 0;
-        }else {
-            //인증성공
+        if(memberService.idCheck(id)==0){
             return 1;
+        }else {
+            Member member = memberService.findById(id);
+            if(!member.getAuth().equals("1")){
+                //인증실패
+                return 0;
+            }else {
+                //인증성공
+                return 1;
+            }
         }
     }
 }
