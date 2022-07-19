@@ -6,20 +6,21 @@ import com.ib.cat.entity.BoardReply;
 import com.ib.cat.repository.BoardReplyRepository;
 import com.ib.cat.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+@Controller
 public class TestController {
 
     @Autowired
     BoardReplyRepository reply;
     @Autowired
     BoardRepository boardRepository;
-
     @GetMapping("/tttt")
     public String test(){
 
@@ -60,5 +61,10 @@ public class TestController {
         /* 대댓글 생성할때 step부분에 부모댓글 no (pk) 값이 와야 함 (지금은 임의로 넣어준것) */
 
         return "테스트중";
+    }
+
+    @RequestMapping("/test")
+    public String testForm2(){
+        return "main/test";
     }
 }

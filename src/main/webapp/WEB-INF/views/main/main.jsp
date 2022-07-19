@@ -12,10 +12,8 @@
 <html>
 <head>
     <title>Main Page</title>
-    <script src="js/hosun/jquery-3.6.0.min.js"></script>
-    <script src="js/hosun/main.js"></script>
-    <script src="js/hosun/scroll.js"></script>
-    <link href="/css/hosun/main.css" rel="stylesheet"/>
+
+
 </head>
 <body>
     <jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/templates/navbar.jsp"/>
@@ -256,6 +254,10 @@
     </section>
     <br><br><br><br><br><br><br><br><br><br><br><br><br>
     <jsp:include page="/WEB-INF/views/templates/footer.jsp"></jsp:include>
+    <script src="js/hosun/jquery-3.6.0.min.js"></script>
+    <script src="js/hosun/main.js"></script>
+    <script src="js/hosun/scroll.js"></script>
+    <link href="/css/hosun/main.css" rel="stylesheet"/>
 
 <%--        세션 값 =--%>
 <%--        <input type="text" value="<sec:authentication property="principal.username"/>"/>--%>
