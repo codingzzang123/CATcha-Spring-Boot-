@@ -136,10 +136,9 @@
                                 </c:choose>
                             </div>
                             <div>
-                                이용 가능한 플랫폼<br>
                             <c:choose>
                                 <c:when test="${ott eq null}">
-                                    정보가 아직 없어요!
+                                    이용 가능한 플랫폼 : 준비중
                                 </c:when>
                                 <c:otherwise>
                                     <c:forEach var="otts" items="${ott}">
@@ -150,7 +149,7 @@
                                 </c:otherwise>
                             </c:choose>
                             </div>
-                            <div style="margin-top: 70px;">
+                            <div style="margin-top: 20px;">
                                 <br> Overview <br>
                                 <div class="contentsOverview" style="border: 1px solid black; border-radius: 15px; padding:15px;">
                                     ${contents.overview}

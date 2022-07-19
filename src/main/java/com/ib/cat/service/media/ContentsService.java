@@ -88,10 +88,9 @@ public class ContentsService {
             
             if (type.equals("movie")) {
                 String runtime = String.valueOf(contents.get("runtime"));
-                System.out.println("runtime: "+runtime);
                 int hour = Integer.parseInt(runtime) / 60;
                 int minute = Integer.parseInt(runtime) % 60;
-                vo.setHour(hour);
+//                vo.setHour(hour);
                 vo.setMinute(minute);
                 vo.setRuntime(runtime);
             } else { /*  tv 상영 정보  */
@@ -133,7 +132,7 @@ public class ContentsService {
     }
 
     //List 가져오기 (i page)
-    public List<ContentsDto> getInfoPageList(String type, String sortBy, int page) {
+    public List<ContentsDto> getInfoPageList(String type, String sortBy, int page, String platform) {
         //int pages = getPages(type, sortBy);
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date = "0001-01-01";
@@ -143,10 +142,30 @@ public class ContentsService {
 
         try {
             infoList = new ArrayList<ContentsDto>();
-            URL url = new URL(API_URL+"discover/"+type+"?api_key="+KEY
-                    +"&language=ko&sort_by="+sortBy+"&include_adult=false&page="+page);
-            System.out.println("getInfoPageList - 실행된 api: "+API_URL+"/discover/"+type+"?api_key="+KEY
-                    +"&language=ko&sort_by="+sortBy+"&include_adult=false&page="+page);
+            URL url;
+            if (platform.equals("") || platform.equals("none")) {
+                url = new URL(API_URL+"discover/"+type+"?api_key="+KEY
+                        +"&language=ko&sort_by="+sortBy+"&include_adult=false&page="+page);
+                System.out.println("getInfoPageList - 실행된 api: "+API_URL+"/discover/"+type+"?api_key="+KEY
+                        +"&language=ko&sort_by="+sortBy+"&include_adult=false&page="+page);
+            } else {
+                int providerCode;
+                if (platform.equals("Netflix")) {
+                    providerCode=8;
+                } else if (platform.equals("Disney Plus")) {
+                    providerCode=337;
+                } else if (platform.equals("Wavve")) {
+                    providerCode=356;
+                } else if (platform.equals("Watcha")) {
+                    providerCode=97;
+                } else {
+                    providerCode=0;
+                }
+                url = new URL(API_URL+"discover/"+type+"?api_key="+KEY
+                        +"&language=ko&sort_by="+sortBy+"&include_adult=false&page="+page+"&with_watch_providers="+providerCode+"&watch_region=KR");
+                System.out.println("getInfoPageList - 실행된 api: "+API_URL+"/discover/"+type+"?api_key="+KEY
+                        +"&language=ko&sort_by="+sortBy+"&include_adult=false&page="+page+"&with_watch_providers="+providerCode+"&watch_region=KR");
+            }
 
             BufferedReader bf;
             bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
@@ -214,12 +233,12 @@ public class ContentsService {
             e.printStackTrace();
         }
         return infoList;
-
     }
-    //	//전체 List 가져오기
-    public List<ContentsDto> getInfoList(String type, String sortBy) {
 
-        int pages = getPages(type, sortBy);
+    /*  컨텐츠 리스트 전체 추출  */
+    public List<ContentsDto> getInfoList(String type) {
+
+        int pages = 500;
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date = "0001-01-01";
 
@@ -230,14 +249,11 @@ public class ContentsService {
             infoList = new ArrayList<ContentsDto>();
 
             for (int i = 1; i <= pages ; i++) {
-
                 URL url = new URL(API_URL+"discover/"+type+"?api_key="+KEY
-                        +"&language=ko&sort_by="+sortBy+"&include_adult=false&page="+i);
+                        +"&language=ko&include_adult=false&page="+i);
 
                 BufferedReader bf;
-
                 bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
-
                 result = bf.readLine();
 
                 JSONParser jsonParser = new JSONParser();
@@ -245,6 +261,7 @@ public class ContentsService {
                 JSONArray list = (JSONArray)jsonObject.get("results");
 
                 for (int j = 0 ; j < list.size() ; j++) {
+                    genreList = new ArrayList<Integer>();
                     ContentsDto vo = new ContentsDto();
                     JSONObject contents = (JSONObject)list.get(j);
 

@@ -22,20 +22,26 @@ public class MediaListController {
     @Autowired
     private PagingUtil pagingUtil;
 
-//    @RequestMapping(value="movie/list")
     @RequestMapping(value="/{type}/list")
-    public ModelAndView main(Model model, SortCri cri,
+    public ModelAndView main(Model model,
             @PathVariable(value="type") String contentsType,
             @RequestParam(value="page", defaultValue="1") Integer currentPage,
-            @RequestParam(value="category", defaultValue="popularity.desc") String category) {
+            @RequestParam(value="category", defaultValue="popularity.desc") String category,
+                             @RequestParam(value="platform", defaultValue="") String platform
+    ) {
 
-        category = cri.getCategory(); //cri.getCategory -> String sortBy
+//        category = cri.getCategory(); //cri.getCategory -> String sortBy
         if (category==null) {		//기본값 인기도 내림차순
             category="popularity.desc";
         }
+//        platform = cri.getPlatform();
+        if (platform==null) {
+            platform="";
+        }
 
         List<ContentsDto> mediaList = null;
-        mediaList = contentsService.getInfoPageList(contentsType, category, currentPage);
+
+        mediaList = contentsService.getInfoPageList(contentsType, category, currentPage, platform);
         pagingUtil.startPaging(currentPage, 10000);
 
         ModelAndView mav = new ModelAndView();
@@ -47,7 +53,6 @@ public class MediaListController {
             } else {
                 mav.addObject("category", "vote_average.desc");
             }
-//            mav.setViewName("/tv/list");
         } else {
             System.out.println("/movie/list 실행");
             mav.setViewName("/movie/list");
@@ -57,11 +62,11 @@ public class MediaListController {
                 mav.addObject("category", "vote_average.desc");
             }
         }
-//            mav.setViewName("/movie/list");
-
+        System.out.println(platform);
         mav.addObject("mediaList", mediaList);
-//        mav.addObject("category", category);
-        mav.addObject("scmd", cri);
+//        mav.addObject("scmd", cri);
+        mav.addObject("category", category);
+        mav.addObject("platform", platform);
         mav.addObject("page", currentPage);
         mav.addObject("paging", pagingUtil);
 
