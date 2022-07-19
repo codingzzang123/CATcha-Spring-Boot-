@@ -5,39 +5,38 @@ import com.ib.cat.service.board.BoardService;
 import com.ib.cat.service.member.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 @Controller
-public class WriteController {
+public class ActionController {
 
     @Autowired
     private BoardService boardService;
 
     @Autowired
-    FileService fileService;
+    private FileService fileService;
 
-    //새글 작성 화면을 위한 요청처리
-    @RequestMapping(value = "/board/write", method = RequestMethod.GET)
-    public String write() throws Exception {
-
-        return "/board/write";
+    @GetMapping(value = "/board/delete/{no}")
+    public String deleteAction(@PathVariable Integer no){
+        boardService.delete(boardService.getOne(no));
+        return "redirect:/board";
     }
 
-    //새글 등록 위한 요청처리 //파일 업로드
-    @RequestMapping(value = "/board/write", method = RequestMethod.POST)
+    @PostMapping(value = "/board/edit/{no}")
+    public String updateAction(@PathVariable Integer no, Board board){
+        boardService.update(board);
+        return "redirect:/board/"+no;
+    }
+
+    @PostMapping(value = "/board/write")
     public String write(Board board,
-                        //@Valid WriteForm writeForm,
-                        //BindingResult bindingResult,
                         MultipartFile file) throws IllegalStateException, IOException {
 
-//        if (bindingResult.hasErrors()) {
-//            model.addAttribute("write", write);
-//            return "/board/write";
-//        }
         if (!file.isEmpty()) {
             String path = System.getProperty("user.dir") + "/src/main/resources/static/img/board/";
             String[] img = fileService.fileUpload(file, path);
@@ -48,6 +47,4 @@ public class WriteController {
         return "redirect:/board";
     }
 }
-
-
 

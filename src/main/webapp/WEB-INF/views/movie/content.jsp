@@ -95,29 +95,30 @@
             <div class="css-lufi3b">
                 <div class="css-1qq59e8" style="display: flex;">
                     <div class="row">
-                        <div class="col-lg-4 css-leftImg">
+                        <div class="col-lg-4 css-leftImg" >
                             <c:choose>
                                 <c:when test="${contents.posterPath eq 'default'}">
                                     <img src="/img/media/cinema_default.png" width="300">
                                 </c:when>
                                 <c:otherwise>
-                                    <img src="${contents.posterPath}">
+                                    <img src="${contents.posterPath}" style="object-fit: cover;">
                                 </c:otherwise>
                             </c:choose>
                         </div>
                         <div class="col-lg-8 css-right-text">
                             <div class="contentsTitle">
                                 <span class="css-16qa0p7" style="font-size: xx-large;"> ${contents.title}</span>
-                                <c:choose>
-                                    <c:when test="${auth eq null}"></c:when>
-                                    <c:otherwise>
-                                        <button type="button" id="b1" onclick="like()" class="btn btn-default btn-xs" ><img src="" style="width: 50px; height: 50px; cursor:pointer; border:0px;" id="ex"></button>
-                                    </c:otherwise>
-                                </c:choose>
+<%--                                <c:choose>--%>
+<%--                                    <c:when test="${auth eq null}"></c:when>--%>
+<%--                                    <c:otherwise>--%>
+<%--                                        <button type="button" id="b1" onclick="like()" class="btn btn-default btn-xs" ><img src="" style="width: 50px; height: 50px; cursor:pointer; border:0px;" id="ex"></button>--%>
+<%--                                    </c:otherwise>--%>
+<%--                                </c:choose>--%>
+                                <button type="button" id="b1" <c:if test="${auth ne null}"> onclick="like()"</c:if> class="btn btn-default btn-xs" ><img src="" style="width: 50px; height: 50px; cursor:pointer; border:0px;" id="ex"></button>
                             </div>
                             <div class="contentsOthers">
-                                Release Date :<fmt:formatDate value="${contents.releaseDate}" pattern="yyyy-MM-dd"/><br>
-                                장르 :
+                                <strong>Release Date</strong> :<fmt:formatDate value="${contents.releaseDate}" pattern="yyyy-MM-dd"/><br>
+                                <strong>장르</strong> :
                                 <c:choose>
                                     <c:when test="${empty contents.ls}">
                                         정보가 없습니다.
@@ -129,31 +130,33 @@
                                     </c:otherwise>
                                 </c:choose>
                                 <br>
-                                상영시간 :
+                                <strong>상영시간</strong> :
                                 <c:choose>
                                     <c:when test="${contents.runtime eq '0'}">정보가 없습니다.</c:when>
                                     <c:otherwise>${contents.hour}h ${contents.minute}m</c:otherwise>
                                 </c:choose>
                             </div>
-                            <div style="width:200px; height:50px; display:inline;">
+                            <div style="width:200px; height:50px; display:inline-block; margin-top: 10px; margin-bottom: 5px;">
                             <c:choose>
                                 <c:when test="${ott eq null}">
-                                    이용 가능한 플랫폼 : 준비중
+                                    <strong>이용 가능한 플랫폼</strong> : 준비중
                                 </c:when>
                                 <c:otherwise>
                                     <c:forEach var="otts" items="${ott}">
                                         <a href="${otts.ottAdd}">
-                                        <img src="https://image.tmdb.org/t/p/original${otts.logoPath}">
+                                            <img src="https://image.tmdb.org/t/p/original${otts.logoPath}" style="width: 70px; height: 70px; border-radius: 1em;">
                                         </a>
                                     </c:forEach>
                                 </c:otherwise>
                             </c:choose>
                             </div>
                             <div>
-                                <br> Overview <br>
-                                <div class="contentsOverview" style="border: 1px solid black; border-radius: 15px; padding:15px;">
-                                    ${contents.overview}
-                                </div>
+                                <br><strong>Overview</strong><br>
+<%--                                <div class="contentsOverview" style="border: 1px solid black; border-radius: 15px; padding:15px; ">--%>
+<%--                                    ${contents.overview}--%>
+<%--                                </div>--%>
+                                <textarea disabled style="resize: none; width: 820px; height: 200px; border: 1px solid black; border-radius: 15px; ">${contents.overview}
+                                </textarea>
                             </div>
                         </div>
                     </div>

@@ -20,37 +20,41 @@
 
 </head>
 <body>
-<div class="container mx-auto">
-    <h1 class="text-2xl mb-10 text-left">Title of Board</h1>
-    <form modelAttribute="writeForm" method="POST" action="/board/write" enctype="multipart/form-data">
-        <div class="board_wrap">
-            <div class="flex justify-start items-center gap-5">
-                <span>카테고리</span>
-                    <select name="cate" id="cate" class="p-1 w-48">
-                        <option value="일반">일반</option>
-                        <option value="영화">영화</option>
-                        <option value="TV">TV</option>
-                    </select>
-            </div>
+    <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include> <br><br><br>
+    <div class="container mx-auto">
+        <h1 class="text-2xl mb-10 text-left">Title of Board</h1>
+        <form modelAttribute="writeForm" method="POST" action="/board/write" enctype="multipart/form-data">
+            <div class="board_wrap">
+                <div class="flex justify-start items-center gap-5">
+                    <span>카테고리</span>
+                        <select name="cate" id="cate" class="p-1 w-48">
+                            <option value="일반">일반</option>
+                            <option value="영화">영화</option>
+                            <option value="TV">TV</option>
+                        </select>
+                </div>
+                <input type="hidden" value="${auth.name }" name="name">
+                <div class="flex w-2/3 justify-start mt-5">
+                    <input type="text"  class="p-2 w-full" name="title" placeholder="제목을 입력해주세요">
+                </div>
 
-            <div class="flex w-2/3 justify-start mt-5">
-                <input type="text"  class="p-2 w-full" placeholder="제목을 입력해주세요" value="${board.title}">
-            </div>
+                <div class="mt-5 flex justify-center items-center">
+                    <textarea class="w-full board_write p-5" name="content" id="" cols="100" rows="10"></textarea>
+                </div>
 
-            <div class="mt-5 flex justify-center items-center">
-                <textarea class="w-full board_write p-5" name="text" id="content" cols="30" rows="10" placeholder="내용을 입력해주세요" value="${board.content}"></textarea>
+                <div class="flex w-2/3 justify-start mt-5">
+                    <input type="file" name="file">
+                </div>
             </div>
-
-            <div class="flex w-2/3 justify-start mt-5">
-                <input type="file" name="file">
-            </div>
-        </div>
-            <div class="flex justify-end mt-5">
-                <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center" href='/board/list'>취소</a>
-                <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center" href='/board/detail/${board.no}'>등록</a>
-            </div>
-    </form>
-</div>
+                <div class="flex justify-end mt-5">
+                    <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-black rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center"
+                       href="${pageContext.request.contextPath}/board">취소</a>
+<%--                    <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-black rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center"--%>
+<%--                       href='${pageContext.request.contextPath}/board/detail/${board.no}'>등록</a>--%>
+                    <button type="submit" class="btn btn-primary">등록</button>
+                </div>
+        </form>
+    </div>
 </body>
 </html>
 

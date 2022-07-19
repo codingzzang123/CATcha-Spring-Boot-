@@ -18,42 +18,44 @@
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 </head>
 <body>
-<div class="container mx-auto">
-    <h1 class="text-2xl mb-10 text-center">Title of Board</h1>
-    <form method="GET" action=/board/write">
+    <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include> <br><br><br>
+    <div class="container mx-auto">
+        <h1 class="text-2xl mb-10 text-center">Title of Board</h1>
+        <form method="GET" action=/board/write">
 
-        <div class="tables">
-            <table class="board">
+            <div class="tables">
+                <table class="board">
+                    <tr>
+                        <th>번호</th>
+                        <th>카테고리</th>
+                        <th>제목</th>
+                        <th>글쓴이</th>
+                        <th>작성일</th>
+                        <th>조회</th>
+                        <th>추천</th>
+                    </tr>
+            <c:forEach var="board" items="${boards }" varStatus="no">
                 <tr>
-                    <th>번호</th>
-                    <th>카테고리</th>
-                    <th>제목</th>
-                    <th>글쓴이</th>
-                    <th>작성일</th>
-                    <th>조회</th>
-                    <th>추천</th>
+                    <td>${board.no}</td>
+                    <td>${board.cate }</td>
+                    <td><a href="<c:url value="/board/${board.no}"/>">${board.title }</a></td>
+                    <td>${board.name }</td>
+                    <td><fmt:formatDate value="${board.regdate }" pattern="yyyy-MM-dd"/></td>
+                    <td>${board.views }
+                    <td>${board.likes }</td>
                 </tr>
-        <c:forEach var="board" items="${list }" varStatus="no">
-            <tr>
-                <td>${no.count}</td>
-                <td>${board.cate }</td>
-                <td><a href="<c:url value="/board/${board.no}"/>">${board.title }</a></td>
-                <td>${board.name }</td>
-                <td><fmt:formatDate value="${board.regdate }" pattern="yyyy-MM-dd"/></td>
-                <td>${board.views }
-                <td>${board.likes }</td>
-            </tr>
-        </c:forEach>
-            </table>
-        </div>
-
-
-        <div class="board_footer container mx-auto ">
-            <div class="mt-6 flex justify-end">
-                <a class="inline-block border border-gray-500 bg-gray-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline" href="/board/write">게시물 작성</a>
+            </c:forEach>
+                </table>
             </div>
-        </div>
-    </form>
+
+            <div>
+                <a href="/board/write">
+                    <button type="button" class="btn btn-primary">글쓰기</button>
+                </a>
+            </div>
+
+        </form>
+    </div>
 </body>
 
 </html>

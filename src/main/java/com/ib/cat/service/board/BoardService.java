@@ -12,8 +12,8 @@ public class BoardService {
     @Autowired
     BoardRepository boardRepository;
 
-    public List<Board> findAll(){
-        return  boardRepository.findAll();
+    public List<Board> getAll(){
+        return  boardRepository.findAllByOrderByNoDesc();
     }
 
     public void insert(Board board){
@@ -28,9 +28,8 @@ public class BoardService {
         boardRepository.delete(board);
     }
 
-    public Board findById(int id){
-        System.out.println(id);
-        Board find = boardRepository.findById(id).get();
-        return find;
+    public Board getOne(int id){
+        Board board = boardRepository.findById(id).get();
+        return board;
     }
 }

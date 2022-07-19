@@ -100,6 +100,9 @@
                                     <div style="margin-left: 15px;"><a href="#"><img src="/img/icon/google_icon.png" width="45" height="45"></a></div>
                                 </div>
                             </div>
+                            <div>
+                                <jsp:include page="/WEB-INF/views/templates/footer.jsp"/>
+                            </div>
                         </div>
                     </div>
                 </div>

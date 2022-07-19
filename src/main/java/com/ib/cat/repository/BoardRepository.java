@@ -22,4 +22,6 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
     public Integer countByTitleContainingOrContentContainingIgnoreCase(String query,String query2);
     public Integer countByName(String name);
     public List<Board> findByName(String name);
+
+    public List<Board> findAllByOrderByNoDesc();
 }
