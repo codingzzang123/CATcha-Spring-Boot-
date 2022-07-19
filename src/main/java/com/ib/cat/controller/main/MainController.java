@@ -11,6 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.Session;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,6 +23,8 @@ public class MainController {
 
     @Autowired
     MainService mainService;
+
+    private static final List<Session> session = new ArrayList<>();
 
     @GetMapping("/main")
     public ModelAndView mainForm(HttpServletRequest request, HttpServletResponse response) {
@@ -51,8 +55,5 @@ public class MainController {
         return mav;
     }
 
-    @GetMapping("/test")
-    public String testForm(){
-        return "main/test";
-    }
+
 }
