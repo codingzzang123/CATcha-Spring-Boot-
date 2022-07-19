@@ -21,6 +21,9 @@ public class MemberService implements UserDetailsService {
     public void memberUpdate(Member member){
         memberRepository.save(member);
     }
+    public void memberDelete(Member member){
+        memberRepository.delete(member);
+    }
     public Member findById(String id){
         return memberRepository.findById(id).get();
     }

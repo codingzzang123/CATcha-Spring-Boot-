@@ -27,7 +27,11 @@ public class LoginController {
     String google_redirect_uri = "http://localhost:8080/test/googlecallback";
 
     @GetMapping("member/login")
-    public String getLogin(Model model){
+    public String getLogin(Model model, HttpSession httpSession){
+        Auth auth = new Auth();
+        auth.setId("test1234");
+        httpSession.setAttribute("auth", auth);
+
         String naver = naverService.getRegUrl();
 
         String kakao = "https://kauth.kakao.com/oauth/authorize?"
@@ -62,6 +66,7 @@ public class LoginController {
         auth.setId(id);
         auth.setName(member.getName());
         auth.setImgs(member.getImgs());
+        auth.setEmail(member.getEmail());
         auth.setRegdate(member.getRegdate());
 
         httpSession.setAttribute("auth", auth);
