@@ -50,14 +50,18 @@
 /*    width: 202px;*/
 /*    height: 352px;*/
 /*}*/
+
 .media-cate{
     margin-left: 30px;
     float: left;
     width: 250px;
+    /*position: fixed;*/
 }
 .media-main{
     float:right;
     text-align: center;
+    /*position: relative;*/
+
 }
 .css-paging{
     margin-top: 30px;
@@ -73,5 +77,20 @@ a:active{color: black;}
 
 .cursor{
     cursor:pointer;
+}
+.p_btn {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.p_btn>label {
+    padding:5px 5px;
+    border-radius:3px;
+}
+.p_btn:checked + label {
+
+    outline: 3px solid cornflowerblue;
+
 }
 
