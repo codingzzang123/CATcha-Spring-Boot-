@@ -20,4 +20,8 @@ public class CatApplication {
         return "index";
     }
 
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter() {
+        return new ServerEndpointExporter();
+    }
 }

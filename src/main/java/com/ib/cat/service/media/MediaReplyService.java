@@ -125,4 +125,12 @@ public class MediaReplyService {
         if(contentReply.isPresent())
             mediaReplyRepository.delete(contentReply.get());
     }
+
+    public void insert(String content, String title, String writer, String img, int contentsNum, int code){
+        ContentReply result = new ContentReply();
+        result.setTitle(title); result.setContentsNum(contentsNum); result.setWriter(writer);
+        result.setContent(content); result.setCode(code); result.setImg(img);
+
+        mediaReplyRepository.save(result);
+    }
 }

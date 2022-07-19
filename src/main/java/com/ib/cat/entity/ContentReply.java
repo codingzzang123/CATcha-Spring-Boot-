@@ -39,5 +39,7 @@ public class ContentReply {
     private int code; // movie:0, tv:1
 
 
+    private String img; //유저 imgs 스트링 값
+
 //    public ContentReply(int contentsNum, String writer, String content,String title, int code){}
 }
