@@ -91,4 +91,20 @@ public class MediaReplyService {
 
         mediaReplyRepository.save(result);
     }
+
+    public double getRatingAvg(int contentsNum, int code) {
+        List<ContentReply> replyList = mediaReplyRepository.findByContentsNumAndCodeOrderByNoDesc(contentsNum, code);
+        double sum=0;
+        double result = 0;
+        for (int i = 0 ; i < replyList.size() ; i++) {
+            sum += replyList.get(i).getRating();
+        }
+        double count = replyList.size();
+
+        if (count != 0){
+            result = Math.round(sum/count*100)/100.0;
+        }
+        return result;
+
+    }
 }

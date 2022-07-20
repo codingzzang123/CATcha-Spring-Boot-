@@ -37,12 +37,10 @@ public class MediaContentsController {
     public ModelAndView detail(Model model,
                                @PathVariable(value="type") String contentsType,
                                @PathVariable("contentsNum") int contentsNum
-                               ) { //HttpSession session,
-        System.out.println("contr 첫단-type:"+contentsType+"/contentsNum:"+contentsNum);
+                               ) {
         model.addAttribute("contentsNum", contentsNum);
         //contentsNum(id) 컨텐츠 Dto 가져옴
         ContentsDto contents = (ContentsDto) contentsService.getSpecificContent(contentsType, contentsNum);
-        System.out.println("contr contents 불러올때 type:"+contentsType+"/contentsNum:"+contentsNum);
 
 //        List<String> imageList = contentsService.getImages(contentsType, contentsNum);
         List<CreditsDto> cast = contentsService.getCredits(contentsType, contentsNum, "cast");
@@ -55,11 +53,11 @@ public class MediaContentsController {
         if (contentsType.equals("tv")) {
             mav.setViewName("tv/content");
             code=1;
-            System.out.println("tv/content");
+//            System.out.println("tv/content");
         } else {
             mav.setViewName("movie/content");
             code=0;
-            System.out.println("movie/content");
+//            System.out.println("movie/content");
         }
         mav.addObject("code", code);
         mav.addObject("contents", contents); //        mav.addObject("imageList", imageList);
@@ -87,22 +85,28 @@ public class MediaContentsController {
                 list1.retainAll(list2); //list1, list2 공통 요소만 list1에 남김
                 if (list1.size() == 1) {
                     ContentsDto dto = new ContentsDto();
-                    dto = temp.get(i);
-                    reco.add(dto);
+                    if (temp.get(i).getContentsNum() !=contents.getContentsNum()) { //+if절 : 자기 자신 빼기
+                        dto = temp.get(i);
+                        reco.add(dto);
+                    }
                 }
             } else if (list2.size() == 2) {
                 list1.retainAll(list2);
                 if(list1.size() == 2) {
                     ContentsDto dto = new ContentsDto();
-                    dto = temp.get(i);
-                    reco.add(dto);
+                    if (temp.get(i).getContentsNum() !=contents.getContentsNum()) {
+                        dto = temp.get(i);
+                        reco.add(dto);
+                    }
                 }
             } else {
                 list1.retainAll(list2);
                 if(list1.size() >= 3) {
                     ContentsDto dto = new ContentsDto();
-                    dto = temp.get(i);
-                    reco.add(dto);
+                    if (temp.get(i).getContentsNum() !=contents.getContentsNum()) {
+                        dto = temp.get(i);
+                        reco.add(dto);
+                    }
                 }
             }
         }
@@ -117,6 +121,19 @@ public class MediaContentsController {
         ratingOptions.put("4", "★★★★☆");
         ratingOptions.put("5", "★★★★★");
         mav.addObject("ratingOptions", ratingOptions);
+
+        double ratingAvg = mediaReplyService.getRatingAvg(contentsNum, code);
+        mav.addObject("ratingAvg", ratingAvg);
+
+        List<VideoDto> videoList = contentsService.getTrailer(contentsType, contentsNum);
+        if (!videoList.isEmpty()) {
+            String videoUrl = videoList.get(0).getKey();
+            System.out.println(videoUrl);
+            mav.addObject("videoUrl", videoUrl);
+        } else {
+            mav.addObject("videoUrl", null);
+        }
+
 
         return mav;
     }
