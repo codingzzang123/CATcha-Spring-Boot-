@@ -21,7 +21,7 @@
     <jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/templates/infoHeader.jsp"/>
 
     <section>
-        <div class="css-Like-Body" scroll=auto style="overflow-x:hidden">
+        <div class="css-Like-Body" scroll=auto style="overflow-x:hidden; height: auto; max-height: 790px; min-height: 250px;">
             <div style="text-align: center; margin-top: 7px;" >
                 <span>나의 관심 목록</span>
                 <span style="margin-left: 20px;">영화 :  </span><input type="button" id="movie" value="" class="css-circle" style="width: 30px;"/>
@@ -80,6 +80,7 @@
                 },
                 success:function (data){
                     resultHTML ="";
+                    imgPath='';
                     console.log(data);
                     if(data.length != 0){
                         ckcode = data[0].code;
@@ -93,8 +94,8 @@
                     }
 
                     if(data.length == 0){
-                        resultHTML = "<div style='text-align: center; margin-top: 7em;'>"+
-                            "<h2 style='font: italic bold 2em/1em Georgia, serif;'>관심 목록은 현재 비어있습니다..❗ </h2></div>"
+                        resultHTML = "<div style='text-align: center; margin-top: 4em;'>"+
+                            "<img style='height: 150px; width: auto;' src='https://cdn-icons-png.flaticon.com/512/4826/4826311.png'></div>"
                     }else{
 
                         for(let i=0; i<data.length; i++){
@@ -102,7 +103,7 @@
                             resultHTML += ("<div class='css-infoItem' id='item"+data[i].contentsNum+"' >"+
                                 "<div class='row mt-1'>"+
                                 "<div class='col-lg-3 item-img' style='text-align:center;'>"+
-                                "<img src= "+ prefix + data[i].posterPath+">"+
+                                "<img class='rounded-circle' style='width:220px; height:220px;' src= "+ data[i].posterPath +">"+
                                 "</div>"+
                                 "<div class='col-lg-9'>"+
                                 "<div id='con'>"+
@@ -158,6 +159,7 @@
                     let deleteDiv = document.getElementById("item"+i);
                     deleteDiv.remove();
                     getCount();
+                    getList();
                 },error:function (){
                     console.log("fail");
                 }

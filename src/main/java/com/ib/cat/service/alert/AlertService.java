@@ -38,10 +38,17 @@ public class AlertService {
         alert.setSubName(alertDto.getSubName()); alert.setPubName(alertDto.getPubName());
         alert.setBno(alertDto.getBno()); alert.setCode(alertDto.getCode());
 
-        alertRepository.save(alert);
+        Alert check = alertRepository.findBySubNameAndPubNameAndBnoAndCode(
+                alertDto.getSubName(),alertDto.getPubName(),alertDto.getBno(),alertDto.getCode()
+        );
+
+//        if(check == null)
+            alertRepository.save(alert);
+//        else
+//            System.out.println("duplicated!");
     }
 
-    public void delete(String object)throws Exception{
+    public void deleteAlertBoard(String object)throws Exception{
         AlertDto alertDto = parserAlert(object);
         Alert alert = alertRepository.findBySubNameAndPubNameAndBnoAndCode(
           alertDto.getSubName(),alertDto.getPubName(),alertDto.getBno(),
@@ -50,6 +57,14 @@ public class AlertService {
         if(alert != null)
             alertRepository.delete(alert);
     }
+
+    public void deleteAlertNav(Integer no){
+        Optional<Alert> alert = alertRepository.findById(no);
+        if (alert.isPresent()){
+            alertRepository.delete(alert.get());
+        }
+    }
+
 
     public AlertDto parserAlert(String object)throws Exception{
         JSONParser parser = new JSONParser();
