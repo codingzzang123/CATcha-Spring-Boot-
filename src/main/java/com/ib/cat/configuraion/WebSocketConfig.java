@@ -1,6 +1,6 @@
 package com.ib.cat.configuraion;
 
-import com.ib.cat.alert.WebSockAlertHandler;
+import com.ib.cat.controller.alert.WebSockAlertHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

@@ -419,12 +419,12 @@
                         if(data == 'true') {
                             // document.getElementById("b1").style.background="grey"
                             // document.getElementById("b1").style.border="#ffffff";
-                            document.querySelector("#ex").src='https://img.icons8.com/color/452/hearts.png';
+                            document.querySelector("#ex").src='/img/icon/media/Heart.png';
                         }
                         if (data == 'false') {
                             // document.getElementById("b1").style.background="#ffffff";
                             // document.getElementById("b1").style.border="#ffffff";
-                            document.querySelector("#ex").src='https://img.icons8.com/ios/500/hearts--v1.png';
+                            document.querySelector("#ex").src='/img/icon/media/Emptyheart.png';
                         }
                         // return flag;
                     }, error: function (){
@@ -464,11 +464,11 @@
                             if(data == 'true') {
                                 // document.getElementById("b1").style.background='grey';
                                 // document.getElementById("b1").style.border="#ffffff";
-                                document.querySelector("#ex").src='https://img.icons8.com/color/452/hearts.png';
+                                document.querySelector("#ex").src='/img/icon/media/Heart.png';
                             } else {
                                 // document.getElementById("b1").style.background="#ffffff";
                                 // document.getElementById("b1").style.border="#ffffff";
-                                document.querySelector("#ex").src='https://img.icons8.com/ios/500/hearts--v1.png';
+                                document.querySelector("#ex").src='/img/icon/media/Emptyheart.png';
                             }
                         }, error: function(request,error){
                             console.log("likeController 동작 fail");

@@ -1,4 +1,4 @@
-package com.ib.cat.alert;
+package com.ib.cat.controller.alert;
 
 import com.ib.cat.dto.member.Auth;
 import org.apache.commons.lang.StringUtils;
@@ -52,6 +52,12 @@ public class WebSockAlertHandler extends TextWebSocketHandler {
             String cmd = strs[0];
             String replyWriter = strs[1];
             String boardWriter = strs[2];
+            String title = strs[3];
+
+            if(title.length() > 10){
+                title = title.substring(0,Math.min(title.length(),10));
+                title += "..";
+            }
 
             WebSocketSession replyWriterSession =
                     userSessionsMap.get(replyWriter);
@@ -66,9 +72,9 @@ public class WebSockAlertHandler extends TextWebSocketHandler {
                 System.out.println("좋아요 onMessage");
 
                 TextMessage tmpMsg = new TextMessage(
-                        replyWriter+"님이"+boardWriter+"" +
-                                "님의 게시글에 좋아요를 눌렀습니다"
-                ); //왼쪽 주는사람(mouse), 오른쪽 받는사람(wendy)
+                        "<strong>"+replyWriter+"</strong>"+"님이 [" +
+                                "<strong>"+ title+"</strong>" +"] 게시글에<br> 좋아요❤를 눌렀습니다."
+                );
                 boardWriterSession.sendMessage(tmpMsg);
             }
         }
