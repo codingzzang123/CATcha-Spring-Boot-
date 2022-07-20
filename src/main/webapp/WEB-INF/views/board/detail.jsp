@@ -58,7 +58,7 @@
         </div>
 
         <div>
-            <button type="button" id="b1" <c:if test="${auth ne null} && ${board.name ne auth.name }"> onclick="like()"</c:if> class="btn btn-default btn-xs" >
+            <button type="button" id="b1" <c:if test="${board.name ne auth.name }"> onclick="like()"</c:if> class="btn btn-default btn-xs" >
                 <img src="" style="width: 50px; height: 50px; cursor:pointer; border:0px;" id="ex">
             </button>
         </div>
@@ -70,6 +70,7 @@
                href='/board/edit/${board.no}'>수정</a>
             <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-black rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center"
                href='/board/delete/${board.no}'>삭제</a>
+            <button id="testa" type="button">test</button>
         </div>
     </form>
 
@@ -90,6 +91,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
         window.onload=function(){
+
             let hdiv = document.getElementById('emptyReview');
             if(hdiv == null)
                 flag = true;
@@ -113,10 +115,10 @@
                         console.log("onload function 실행 - flag:" + data);
                         $('#flag').val(data);
                         if(data == 'true') {
-                            document.querySelector("#ex").src='https://img.icons8.com/color/452/hearts.png';
+                            document.querySelector("#ex").src='/img/icon/media/Heart.png';
                         }
                         if (data == 'false') {
-                            document.querySelector("#ex").src='https://img.icons8.com/ios/500/hearts--v1.png';
+                            document.querySelector("#ex").src='/img/icon/media/Emptyheart.png';
                         }
                     }, error: function (){
                         console.log("onload function 실패")
@@ -152,9 +154,11 @@
                             console.log("likeController 동작 성공: "+data);
                             //버튼 누르면 컬러 바꾸기..
                             if(data == 'true') {
-                                document.querySelector("#ex").src='https://img.icons8.com/color/452/hearts.png';
+                                insertLikeAlert();
+                                document.querySelector("#ex").src='/img/icon/media/Heart.png';
                             } else {
-                                document.querySelector("#ex").src='https://img.icons8.com/ios/500/hearts--v1.png';
+                                deleteLikeAlert();
+                                document.querySelector("#ex").src='/img/icon/media/Emptyheart.png';
                             }
                         }, error: function(request,error){
                             console.log("likeController 동작 fail");
@@ -163,6 +167,65 @@
                     });
             }
         }
+        var name = '${auth.name }'
+        /* Alert 스크립트 */
+
+
+        /* 1.좋아요(하트) 눌렀을때 db 저장 -> 메세지 toast + 알림 카운트 업데이트 */
+        function insertLikeAlert(){
+            var targetUser = '${board.name }';
+
+            let insertObject ={
+                'subName':targetUser,
+                'pubName':'${auth.name }',
+                'bno':'${board.no }',
+                'code':0
+            }
+            $.ajax({
+                type: "put",
+                data: {
+                   object : JSON.stringify(insertObject)
+                },
+                url: "${pageContext.request.contextPath}/alert/like/insert",
+                success: function (data) {
+                    console.log("Success update(insert)");
+                    let socketMsg = "like,"+'${auth.name },'+targetUser+","+ '${board.title }';
+                    console.log(socketMsg);
+                    socket.send(socketMsg);
+                }
+            });
+
+            <%--if(socket){--%>
+            <%--    let socketMsg = "like"+'${auth.name }',targetUser;--%>
+            <%--    console.log(socketMsg);--%>
+            <%--    socket.send(socketMsg);--%>
+            <%--}--%>
+        }
+
+        function deleteLikeAlert(){
+            var targetUser = '${board.name }'
+
+            let deleteObject ={
+                'subName':targetUser,
+                'pubName':'${auth.name }',
+                'bno':'${board.no }',
+                'code':0
+            }
+            $.ajax({
+                type: "delete",
+                data: {
+                    object : JSON.stringify(deleteObject)
+                },
+                url: "${pageContext.request.contextPath}/alert/like/delete",
+                success: function (data) {
+                    console.log("Success update(delete)");
+                }
+            });
+        }
+
+        // $("#testa").click(function(){
+        //     insertLikeAlert();
+        // });
     </script>
 
 </body>
