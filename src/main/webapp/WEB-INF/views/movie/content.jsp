@@ -155,6 +155,12 @@
                                 </c:otherwise>
                             </c:choose>
                             </div>
+                            <c:choose>
+                                <c:when test="${videoUrl eq null}"></c:when>
+                                <c:otherwise>
+                            <div style="text-align: right; margin-right:20px;"><a href="https://www.youtube.com/watch?v=${videoUrl}"><b>트레일러 보기</b></a></div>
+                                </c:otherwise>
+                            </c:choose>
                             <div>
                                 <br><strong>Overview</strong><br>
 <%--                                <div class="contentsOverview" style="border: 1px solid black; border-radius: 15px; padding:15px; ">--%>
@@ -281,6 +287,13 @@
             <div class="css-1qq59e8">
 <%--                <div class="css-pbseb6-StyledHomeListTitleRow">--%>
                     <span class="css-16qa0p7" style="font-size: xx-large;">Review</span>
+                    <div style="text-align: right; margin-right: 100px;">
+                    <c:choose>
+                        <c:when test="${ratingAvg == 0}"></c:when>
+                        <c:otherwise>회원들이 평가한 점수 : <b>${ratingAvg}<b></c:otherwise>
+                    </c:choose>
+                    </div>
+
 <%--                </div>--%>
 
                 <div id="result" scroll=auto style="overflow-x:hidden; margin-bottom: 30px;" class="review-body">
@@ -383,6 +396,11 @@
             </div>
         </div>
     </section>
+
+
+
+
+
     <jsp:include page="/WEB-INF/views/templates/footer.jsp"></jsp:include>
 
 
