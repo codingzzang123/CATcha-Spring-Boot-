@@ -250,7 +250,7 @@ public class ContentsService {
 
     /*  컨텐츠 리스트 전체 추출  */
     public List<ContentsDto> getInfoList(String type) {
-        int pages = 50;
+        int pages = 10;
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date = "0001-01-01";
 
@@ -349,13 +349,13 @@ public class ContentsService {
 //    }
 
 
-    public List<String> getImages(String type, int id) {
+    public List<String> getImages(String type, int contentsNum) {
         //이미지 주소 - String
         List<String> imageList = null;
 
         try {
             imageList = new ArrayList<String>();
-            String apiURL = API_URL + type + "/" + id + "/images?api_key=" + KEY;
+            String apiURL = API_URL + type + "/" + contentsNum + "/images?api_key=" + KEY;
             URL url = new URL(apiURL);
             BufferedReader bf;
             bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
@@ -378,12 +378,12 @@ public class ContentsService {
         return imageList;
     }
 
-    public List<CreditsDto> getCredits(String type, int id, String kind) {
+    public List<CreditsDto> getCredits(String type, int contentsNum, String kind) {
         List<CreditsDto> creditList = null;
 
         try {
             creditList = new ArrayList<CreditsDto>();
-            String apiURL = API_URL + type + "/" + id + "/credits?api_key=" + KEY;
+            String apiURL = API_URL + type + "/" + contentsNum + "/credits?api_key=" + KEY;
             URL url = new URL(apiURL);
 
             BufferedReader bf;

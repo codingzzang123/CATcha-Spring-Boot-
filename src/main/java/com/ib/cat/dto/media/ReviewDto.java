@@ -18,4 +18,5 @@ public class ReviewDto {
     private int code;
     private String img;
     private Timestamp regdate;
+    private int rating;
 }

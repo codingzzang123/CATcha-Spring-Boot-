@@ -18,6 +18,11 @@
 
     <link href="/css/hosun/main.css" rel="stylesheet"/>
     <link href="/css/jieun/contentList.css" rel="stylesheet"/>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/jieun/star-rating.css" media="all" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        <script src="js/jieun/star-rating.js" type="text/javascript">
 
     <script src="https://kit.fontawesome.com/325cf61a47.js" crossorigin="anonymous"></script>
     <title>컨텐츠 디테일 화면</title>
@@ -240,7 +245,7 @@
                                     <ul class="css-1ya1z7z-VisualUl">
                                         <li class="css-8y23cj">
                                             <c:forEach var="reco"  begin="0" end="19" step="1" items="${reco}">
-                                                <a href="<c:url value='/movie/content/${reco.contentsNum}'/>">
+                                                <a href="<c:url value='/tv/content/${reco.contentsNum}'/>">
                                                     <div class="css-1qmeemv">
                                                         <div class=" css-1rdb949-StyledLazyLoadingImage ezcopuc0">
                                                             <img src="https://image.tmdb.org/t/p/w200${reco.posterPath}" class="css-qhzw1o-StyledImg ezcopuc1">
@@ -295,7 +300,29 @@
                                 <div style="display: inline-block; width: 1000px; height: 40px;">
                                     <span style="margin-left: 20px; font-family: Cambria; font-size: medium;"><b>${review.content}</b></span>
                                 </div>
-                                <div style="display: inline-block; width: 200px; height: 40px; text-align: end; margin-bottom: 12px; ">
+                                <div style="width:105px;">
+                                    <c:choose>
+                                        <c:when test="${review.rating eq '0'}">
+                                            ☆☆☆☆☆
+                                        </c:when>
+                                        <c:when test="${review.rating eq '1'}">
+                                            ★☆☆☆☆
+                                        </c:when>
+                                        <c:when test="${review.rating eq '2'}">
+                                            ★★☆☆☆
+                                        </c:when>
+                                        <c:when test="${review.rating eq '3'}">
+                                            ★★★☆☆
+                                        </c:when>
+                                        <c:when test="${review.rating eq '4'}">
+                                            ★★★★☆
+                                        </c:when>
+                                        <c:when test="${review.rating eq '5'}">
+                                            ★★★★★
+                                        </c:when>
+                                    </c:choose>
+                                </div>
+                                <div style="display: inline-block; width: 100px; height: 40px; text-align: end; margin-bottom: 12px; ">
                                         <span style="font-size: small; margin-bottom: 3px;">
                                                 <fmt:formatDate value="${review.regdate }" pattern="MMM dd HH:mm:ss" /><br>by ${review.writer}
                                         </span>
@@ -310,6 +337,7 @@
                         </c:forEach>
                     </c:otherwise>
                 </c:choose>
+
             </div>
             <c:choose>
                 <c:when test="${auth eq null}">
@@ -327,21 +355,31 @@
                         <div class="card-header bi bi-chat-right-dots">
                             <b style="font-family: Cambria">Write a Comment</b>
                         </div>
-                        <form action="${pageContext.request.contextPath}/addReply" modelAttribute="review">
-                            <div class="row" id="row">
-                                <div class="col-lg-11">
-                                    <textarea id="comment" name="content" placeholder="리뷰를 추가해주세요" style="resize: none; font-size: small;"></textarea>
+
+                        <form:form action="${pageContext.request.contextPath}/addReply" modelAttribute="review" id="reviewForm" name="reviewForm"
+                                   onsubmit="return reviewFunction();">
+                        <div class="row" id="row">
+                            <div class="col-lg-11">
+                                <textarea id="comment" name="content" placeholder="리뷰를 추가해주세요" style="resize: none; font-size: small;"></textarea>
+                                <div style="margin-left:20px; resize: none; font-size: small;">
+                                    <form:label path="rating">평점: </form:label>
+                                    <form:select path="rating" id="rating" name="rating" style="width: 105px;" itemValue="">
+                                        <form:options items="${ratingOptions}" />
+                                    </form:select>
                                 </div>
-                                <div class="col-lg-1" id="divbtn">
-                                    <button type="submit" id="btn-comment-save"class="btn btn-outline-primary bi bi-pencil-square">등록</button>
-                                </div>
+                            </div>
+                            <div class="col-lg-1" id="divbtn">
+                                <button type="submit" id="btn-comment-save" class="btn btn-outline-primary bi bi-pencil-square">등록</button>
+                            </div>
+
+
                                 <input type="hidden" name="contentsNum" value="${contents.contentsNum}">
                                 <input type="hidden" name="writer" value="${auth.name }">
                                 <input type="hidden" name="title" value="${contents.title}">
                                 <input type="hidden" name="code" value="${code }">
                                 <input type="hidden" name="img" value="${auth.imgs }">
                             </div>
-                        </form>
+                        </form:form>
                     </div>
                 </c:otherwise>
             </c:choose>
@@ -370,12 +408,11 @@
 
 <input type="hidden" id="contentsNum" value="${contents.contentsNum}">
 <%--<input type="hidden" id="userId2" name="userId" value="<sec:authentication property="principal.username">">--%>
-<%--<input type="hidden" id="userId" value="${auth.id}">--%>
 <input type="hidden" id="userName" value="${auth.name }">
-<input type="hidden" id="userId" value="${auth.id }">
-<input type="hidden" id="title" value="${contents.title}">
-<input type="hidden" id="overview" value="${contents.overview}">
-<input type="hidden" id="posterPath" value="${contents.posterPath}">
+<%--<input type="hidden" id="userId" value="${auth.id }">--%>
+<%--<input type="hidden" id="title" value="${contents.title}">--%>
+<%--<input type="hidden" id="overview" value="${contents.overview}">--%>
+<%--<input type="hidden" id="posterPath" value="${contents.posterPath}">--%>
 <input type="hidden" id="flag" value="">
 
 <script src="${pageContext.request.contextPath}/js/hosun/jquery-3.6.0.min.js"></script>
@@ -393,8 +430,10 @@
     });
 
     window.onload=function(){
-        let userId = $('#userId').val();
-        let contentsNum = $('#contentsNum').val();
+        // let userId = $('#userId').val();
+        let userId = '${auth.id}';
+        // let contentsNum = $('#contentsNum').val();
+        let contentsNum = '${contents.contentsNum}';
         let object1 = {
             'contentsNum': contentsNum,
             'userId': userId,
@@ -431,12 +470,17 @@
     function like() {
         console.log("script - like() 실행")
 
-        let userId = $('#userId').val();
+        // let userId = $('#userId').val();
+        let userId = '${auth.id}';
         let flag = document.getElementById("flag").value;
-        let contentsNum = $('#contentsNum').val();
-        let title = $('#title').val();
-        let overview = $('#overview').val();
-        let posterPath = $('#posterPath').val();
+        // let contentsNum = $('#contentsNum').val();
+        let contentsNum = '${contents.contentsNum}';
+        // let title = $('#title').val();
+        let title = '${contents.title}';
+        // let overview = $('#overview').val();
+        let overview = '${contents.overview}';
+        // let posterPath = $('#posterPath').val();
+        let posterPath = '${contents.posterPath}';
 
         if (userId != 'default') {
             var object2 = {
@@ -497,7 +541,17 @@
             }
         });
     }
+    function reviewFunction(){
+        let star = $("#rating").val();
+        let comment = $("#comment").val();
 
+        if(!star || star=="" || !comment || comment==""){
+            alert("리뷰를 작성해주세요.");
+            return false;
+        }else{
+            return true;
+        }
+    }
     // var resultHTML="";
     // $(".btn").click(function () {
     //     addReview();

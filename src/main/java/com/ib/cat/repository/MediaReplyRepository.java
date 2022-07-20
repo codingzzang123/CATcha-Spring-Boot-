@@ -1,6 +1,6 @@
 package com.ib.cat.repository;
 
-import com.ib.cat.dto.media.ContentReplyDto;
+//import com.ib.cat.dto.media.ContentReplyDto;
 import com.ib.cat.entity.ContentReply;
 import org.springframework.data.jpa.repository.JpaRepository;
 
