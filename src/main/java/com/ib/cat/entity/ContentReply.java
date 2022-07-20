@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 @Entity(name="content_reply")
@@ -38,8 +39,11 @@ public class ContentReply {
     @Column(name="code")
     private int code; // movie:0, tv:1
 
-
+    @Column(name="img")
     private String img; //유저 imgs 스트링 값
 
-//    public ContentReply(int contentsNum, String writer, String content,String title, int code){}
+    @Column(name="rating")
+    @NotNull
+    private int rating; //평점
+
 }
