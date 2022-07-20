@@ -138,7 +138,7 @@
                     'contentsNum': contentsNum,
                     'title': title,
                     'overview': overview,
-                    'posterPath': posterPath,
+                    'posterPath': "/img/profile/"+posterPath,
                     'userId': userId,
                     'code': '2'
                 }

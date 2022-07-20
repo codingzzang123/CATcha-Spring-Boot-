@@ -27,14 +27,19 @@ public class AlertController {
     }
 
     @DeleteMapping("/alert/like/delete")
-    public int delete(@RequestParam String object)throws Exception{
-        System.out.println("delete Object : " + object);
-        alertService.delete(object);
+    public int alertBoard(@RequestParam String object)throws Exception{
+        alertService.deleteAlertBoard(object);
         return 1;
     }
 
     @GetMapping("/alert/list")
     public List<AlertDto> getList(@RequestParam String name){
         return alertService.getList(name);
+    }
+
+    @DeleteMapping("/alert/delete")
+    public int alertNav(@RequestParam Integer no)throws Exception{
+        alertService.deleteAlertNav(no);
+        return 1;
     }
 }

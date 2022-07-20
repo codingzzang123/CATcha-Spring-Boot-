@@ -46,35 +46,38 @@
         a:hover{color: black;}
         a:active{color: black;}
 
-        .alertDiv{
-            width: 400px; height: 150px; border-radius: 5em;
+        ::-webkit-scrollbar {
+            display: none;
         }
 
-        .myUl{ width: 400px; height:auto; max-height: 255px; overflow-y: scroll; white-space: nowrap;
-            margin-top: 20px;
+        .myUl{ width: 400px; height:auto; max-height: 290px; overflow-y: scroll; white-space: nowrap;
+            margin-top: 20px; overflow-x: hidden;
         }
 
-        .alertImg{
-            height: 2em; width: 2em; margin-left: 20px;
+        .alertLi{
+            margin-bottom: 5px;
         }
 
-        .alertDiv1{
+        .alertMain{
+            width: 382px; height: 86px; max-width: 382px; max-height: 86px; overflow: hidden; display: flex; margin-left: 7px; align-items: center; padding-left: 10px; background-color: #f5f5f5; border-radius: 2em;
+        }
+
+        .alertdiv1{
             display: inline-block;
         }
 
-        .alertDiv2{
-            display: inline-block;
-            margin-left: 20px;
+        .alertdiv2{
+            display: inline-block; margin-left: 15px;
         }
 
-        .alertSpan{
+        .alertdiv1 img{
+            width: 3.3em; height: 3.3em;
+        }
+
+        .alertSpan1{
             font-size: small;
         }
 
-        .alertBorder{
-            border: #2563eb;
-        }
-        /*.myLi{ display: inline-block; *display: inline; zoom: 1 }*/
     </style>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script>
@@ -167,7 +170,8 @@
                         for(let i=0; i<data.length; i++){
                             var contextPath = '${pageContext.request.contextPath}';
                             var date = new Date(data[i].regdate);
-                            innerDate = date.getMonth()+1+"."+date.getDate()+" "+date.getHours()+":"+date.getMinutes();
+                            // innerDate = date.getMonth()+1+"."+date.getDate()+" "+date.getHours()+":"+date.getMinutes();
+                            innerDate = timeForToday(date);
                             title = data[i].title;
                             if(title.length > 8) {
                                 title = title.substring(0, 10) + ".."
@@ -184,12 +188,12 @@
                                 type ="댓글에"
                             }
 
-                            alertHTML += "<li class='myLi'><div style='margin-top: 1px;' class='alertBorder'><div class='alertDiv1'><img class='rounded-circle alertImg' src='/img/profile/"+data[i].imgs+"'/><br>"+
-                                        "<span class='alertSpan' style='margin-left: 7px;'>"+innerDate+"</span></div>"+
-                                    "<div class='alertDiv2'>"+
-                                            "<a href='"+contextPath+"/board/"+data[i].bno+"'><span class='alertSpan'>회원님의 [<strong>"+title+"</strong>] "+" "+type+"<br>"+
-                                                "<strong>"+data[i].pubName+"</strong>"+innerMessage+"</span></div></div><hr></li>";
-
+                            alertHTML += "<li class='alertLi' id='li"+data[i].no+"'><div class='alertMain'><div class='alertdiv1'><img class='rounded-circle' src='/img/profile/"+data[i].imgs+"'/></div>"+
+                                        "<div class='alertdiv2'><div><span class='alertSpan1'>회원님의 \"<strong style='font-style: italic;'>"+title+"</strong>\" "+" "+type+"<br>"+
+                                "<strong>"+data[i].pubName+"</strong>"+innerMessage+"</span></div>"+
+                                "<div style='width: 260px; max-width: 280px;'><span style='font-size: x-small; font-style: italic;'><strong>"+innerDate+"</strong><span>"+
+                                "<button class='ml-2 mb-1 close' onclick='removeLi("+ data[i].no +")'>&times;</button></div>"+
+                                "</div></div></li>";
                         }
 
                     }else{
@@ -201,9 +205,59 @@
                 }
             });
         }
+
+
+        function timeForToday(value) {
+            const today = new Date();
+            const timeValue = new Date(value);
+
+            const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+            if (betweenTime < 1) return '방금전';
+            if (betweenTime < 60) {
+                return betweenTime+"분 전";
+            }
+
+            const betweenTimeHour = Math.floor(betweenTime / 60);
+            if (betweenTimeHour < 24) {
+                return betweenTimeHour+"시간 전";
+            }
+
+            const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+            if (betweenTimeDay < 365) {
+                return betweenTimeDay+"일 전";
+            }
+
+            return `${Math.floor(betweenTimeDay / 365)}년전`;
+        }
+
+
         // $("#navAlert").click(function(){
         //     AlertCount();
         // });
+
+        <!-- Dropdown Menu -->
+        function removeLi(i){
+            let id = "li"+i;
+            let deleteLi = document.getElementById(id);
+            deleteLi.remove();
+            deleteAlert(i);
+
+        }
+
+        function deleteAlert(i){
+            $.ajax({
+                type: "delete",
+                data: {
+                    'no':i
+                },
+                url: "${pageContext.request.contextPath}/alert/delete",
+                success: function (data) {
+                    console.log("Success update(delete)");
+                    AlertCount();
+                    getAlertList();
+                }
+            });
+        }
     </script>
 
 </head>
@@ -300,8 +354,13 @@
                                 <span id="newNoticeCnt" class="badge badge-pill badge-danger"></span>
                             </a>
                             <ul class="dropdown-menu myUl" id="alertInner" aria-labelledby="navbarDropdown">
-
+                                <script>
+                                    $('#alertInner').on('click', function(event){
+                                        event.stopPropagation();
+                                    });
+                                </script>
                             </ul>
+
                         </li>
 
 

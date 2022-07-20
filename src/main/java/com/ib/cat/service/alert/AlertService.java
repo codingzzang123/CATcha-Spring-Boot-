@@ -41,7 +41,7 @@ public class AlertService {
         alertRepository.save(alert);
     }
 
-    public void delete(String object)throws Exception{
+    public void deleteAlertBoard(String object)throws Exception{
         AlertDto alertDto = parserAlert(object);
         Alert alert = alertRepository.findBySubNameAndPubNameAndBnoAndCode(
           alertDto.getSubName(),alertDto.getPubName(),alertDto.getBno(),
@@ -50,6 +50,14 @@ public class AlertService {
         if(alert != null)
             alertRepository.delete(alert);
     }
+
+    public void deleteAlertNav(Integer no){
+        Optional<Alert> alert = alertRepository.findById(no);
+        if (alert.isPresent()){
+            alertRepository.delete(alert.get());
+        }
+    }
+
 
     public AlertDto parserAlert(String object)throws Exception{
         JSONParser parser = new JSONParser();
