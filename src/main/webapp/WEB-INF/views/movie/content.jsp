@@ -307,7 +307,7 @@
                             <c:forEach var="review" items="${reviews}">
                                 <div class='review-items' id="${review.no }">
                                     <img src="/img/profile/${review.img }" class="rounded-circle css-memImg" style="width: 3em; height:3em; margin-bottom: 3px;">
-                                    <div style="display: inline-block; width: 1000px; height: 40px;">
+                                    <div style="display: inline-block; width: 950px; height: 40px;">
                                         <span style="margin-left: 20px; font-family: Cambria; font-size: medium;"><b>${review.content}</b></span>
                                     </div>
                                     <div style="width:105px;">

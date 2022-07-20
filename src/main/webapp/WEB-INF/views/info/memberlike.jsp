@@ -95,7 +95,7 @@
 
                     if(data.length == 0){
                         resultHTML = "<div style='text-align: center; margin-top: 4em;'>"+
-                            "<h2 style='font: italic bold 2em/1em Georgia, serif;'>관심 목록은 현재 비어있습니다..❗ </h2></div>"
+                            "<img style='height: 150px; width: auto;' src='https://cdn-icons-png.flaticon.com/512/4826/4826311.png'></div>"
                     }else{
 
                         for(let i=0; i<data.length; i++){

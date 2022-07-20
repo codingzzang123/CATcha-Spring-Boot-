@@ -38,7 +38,14 @@ public class AlertService {
         alert.setSubName(alertDto.getSubName()); alert.setPubName(alertDto.getPubName());
         alert.setBno(alertDto.getBno()); alert.setCode(alertDto.getCode());
 
-        alertRepository.save(alert);
+        Alert check = alertRepository.findBySubNameAndPubNameAndBnoAndCode(
+                alertDto.getSubName(),alertDto.getPubName(),alertDto.getBno(),alertDto.getCode()
+        );
+
+//        if(check == null)
+            alertRepository.save(alert);
+//        else
+//            System.out.println("duplicated!");
     }
 
     public void deleteAlertBoard(String object)throws Exception{

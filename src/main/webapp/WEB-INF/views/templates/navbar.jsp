@@ -191,14 +191,15 @@
                             alertHTML += "<li class='alertLi' id='li"+data[i].no+"'><div class='alertMain'><div class='alertdiv1'><img class='rounded-circle' src='/img/profile/"+data[i].imgs+"'/></div>"+
                                         "<div class='alertdiv2'><div><span class='alertSpan1'>회원님의 \"<strong style='font-style: italic;'>"+title+"</strong>\" "+" "+type+"<br>"+
                                 "<strong>"+data[i].pubName+"</strong>"+innerMessage+"</span></div>"+
-                                "<div style='width: 260px; max-width: 280px;'><span style='font-size: x-small; font-style: italic;'><strong>"+innerDate+"</strong><span>"+
+                                "<div style='width: 260px; max-width: 280px; margin-top: 5px;'><span style='font-size: small; font-style: italic;'><strong>"+innerDate+"</strong><span>"+
                                 "<button class='ml-2 mb-1 close' onclick='removeLi("+ data[i].no +")'>&times;</button></div>"+
                                 "</div></div></li>";
                         }
 
                     }else{
                         alertHTML = "<div style='text-align: center'>"+
-                            "<span style='font-size: medium; font-style: italic;'>확인 할 알림이 없습니다.</span>"+
+                            "<img style='width: 60px; height: 60px;' src='https://as1.ftcdn.net/v2/jpg/01/71/15/98/1000_F_171159851_rbqcuNaXXvNaZSdXzRlDtpADHt3Xtp6a.jpg'/>"+
+                            "<span style='font-size: medium; font-style: italic;'>&nbsp;모든 알림을 확인하셨습니다.</span>"+
                         "</div>";
                     }
                     document.querySelector('#alertInner').innerHTML = alertHTML;
@@ -347,10 +348,11 @@
                     <sec:authorize access="isAuthenticated()">
                         <li>
                             <a class="nav-link dropdown-toggle py-0" href="#" data-bs-toggle="dropdown" aria-expanded="true" onclick="callFunction(this);">
-                                <svg width="2.3em" height="2.3em" viewBox="0 0 16 16" class="bi bi-bell" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2z"/>
-                                    <path fill-rule="evenodd" d="M8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/>
-                                </svg>
+<%--                                <svg width="2.3em" height="2.3em" viewBox="0 0 16 16" class="bi bi-bell" fill="currentColor" xmlns="http://www.w3.org/2000/svg">--%>
+<%--                                    <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2z"/>--%>
+<%--                                    <path fill-rule="evenodd" d="M8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/>--%>
+<%--                                </svg>--%>
+                                <img src="https://cdn-icons-png.flaticon.com/512/1827/1827271.png" style="width: 2.5em; height: 2.4em;">
                                 <span id="newNoticeCnt" class="badge badge-pill badge-danger"></span>
                             </a>
                             <ul class="dropdown-menu myUl" id="alertInner" aria-labelledby="navbarDropdown">
