@@ -19,7 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MediaContentsController {
@@ -35,8 +37,7 @@ public class MediaContentsController {
     public ModelAndView detail(Model model,
                                @PathVariable(value="type") String contentsType,
                                @PathVariable("contentsNum") int contentsNum
-                               ) { //HttpSession session,
-
+                               ) {
         model.addAttribute("contentsNum", contentsNum);
         //contentsNum(id) 컨텐츠 Dto 가져옴
         ContentsDto contents = (ContentsDto) contentsService.getSpecificContent(contentsType, contentsNum);
@@ -52,11 +53,11 @@ public class MediaContentsController {
         if (contentsType.equals("tv")) {
             mav.setViewName("tv/content");
             code=1;
-            System.out.println("tv/content");
+//            System.out.println("tv/content");
         } else {
             mav.setViewName("movie/content");
             code=0;
-            System.out.println("movie/content");
+//            System.out.println("movie/content");
         }
         mav.addObject("code", code);
         mav.addObject("contents", contents); //        mav.addObject("imageList", imageList);
@@ -78,34 +79,61 @@ public class MediaContentsController {
 
         for (int i = 0 ; i < temp.size() ; i++) {
             List<Integer> list1 = new ArrayList<>(temp.get(i).getGenres()); //전체
-//            System.out.println("controller - list1.size: "+ list1.size());
             List<Integer> list2 = new ArrayList<>(contents.getGenres()); //target
-//            System.out.println("controller - list2: " + list2);
 
             if(list2.size() == 1) { //target-등록 장르 1개일때
                 list1.retainAll(list2); //list1, list2 공통 요소만 list1에 남김
                 if (list1.size() == 1) {
                     ContentsDto dto = new ContentsDto();
-                    dto = temp.get(i);
-                    reco.add(dto);
+                    if (temp.get(i).getContentsNum() !=contents.getContentsNum()) { //+if절 : 자기 자신 빼기
+                        dto = temp.get(i);
+                        reco.add(dto);
+                    }
                 }
             } else if (list2.size() == 2) {
                 list1.retainAll(list2);
                 if(list1.size() == 2) {
                     ContentsDto dto = new ContentsDto();
-                    dto = temp.get(i);
-                    reco.add(dto);
+                    if (temp.get(i).getContentsNum() !=contents.getContentsNum()) {
+                        dto = temp.get(i);
+                        reco.add(dto);
+                    }
                 }
             } else {
                 list1.retainAll(list2);
                 if(list1.size() >= 3) {
                     ContentsDto dto = new ContentsDto();
-                    dto = temp.get(i);
-                    reco.add(dto);
+                    if (temp.get(i).getContentsNum() !=contents.getContentsNum()) {
+                        dto = temp.get(i);
+                        reco.add(dto);
+                    }
                 }
             }
         }
         mav.addObject("reco", reco);
+
+        /*  평점 옵션  */
+        Map ratingOptions = new HashMap<String,String>();
+        ratingOptions.put("0", "☆☆☆☆☆");
+        ratingOptions.put("1", "★☆☆☆☆");
+        ratingOptions.put("2", "★★☆☆☆");
+        ratingOptions.put("3", "★★★☆☆");
+        ratingOptions.put("4", "★★★★☆");
+        ratingOptions.put("5", "★★★★★");
+        mav.addObject("ratingOptions", ratingOptions);
+
+        double ratingAvg = mediaReplyService.getRatingAvg(contentsNum, code);
+        mav.addObject("ratingAvg", ratingAvg);
+
+        List<VideoDto> videoList = contentsService.getTrailer(contentsType, contentsNum);
+        if (!videoList.isEmpty()) {
+            String videoUrl = videoList.get(0).getKey();
+            System.out.println(videoUrl);
+            mav.addObject("videoUrl", videoUrl);
+        } else {
+            mav.addObject("videoUrl", null);
+        }
+
 
         return mav;
     }

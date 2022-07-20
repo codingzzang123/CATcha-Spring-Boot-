@@ -1,9 +1,6 @@
 package com.ib.cat.service.media;
 
-import com.ib.cat.dto.media.ContentsDto;
-import com.ib.cat.dto.media.CreditsDto;
-import com.ib.cat.dto.media.GenresDto;
-import com.ib.cat.dto.media.OttDto;
+import com.ib.cat.dto.media.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -105,8 +102,6 @@ public class ContentsService {
             /*  장르 List / String  */
             genreList = new ArrayList<Integer>();
             JSONArray genre_list = (JSONArray)contents.get("genres");
-
-
             for(int l = 0 ; l < genre_list.size() ; l++) {
                 JSONObject genre = (JSONObject) genre_list.get(l);
                 //List<Integer> 형태로 저장 -> 저장 형태 : [1,3,5]
@@ -120,8 +115,6 @@ public class ContentsService {
             }
             vo.setGenres(genreList);
             vo.setGenre(genres);
-
-
 
             /*  장르 dto  */
             List<GenresDto> tmpls = new ArrayList<>();
@@ -137,7 +130,6 @@ public class ContentsService {
             vo.setLs(tmpls);
 
             sContent = vo;
-
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -159,8 +151,8 @@ public class ContentsService {
             if (platform.equals("") || platform.equals("none")) {
                 url = new URL(API_URL+"discover/"+type+"?api_key="+KEY
                         +"&language=ko&sort_by="+sortBy+"&include_adult=false&page="+page);
-                System.out.println("getInfoPageList - 실행된 api: "+API_URL+"/discover/"+type+"?api_key="+KEY
-                        +"&language=ko&sort_by="+sortBy+"&include_adult=false&page="+page);
+//                System.out.println("getInfoPageList - 실행된 api: "+API_URL+"/discover/"+type+"?api_key="+KEY
+//                        +"&language=ko&sort_by="+sortBy+"&include_adult=false&page="+page);
             } else {
                 int providerCode;
                 if (platform.equals("Netflix")) {
@@ -176,8 +168,8 @@ public class ContentsService {
                 }
                 url = new URL(API_URL+"discover/"+type+"?api_key="+KEY
                         +"&language=ko&sort_by="+sortBy+"&include_adult=false&page="+page+"&with_watch_providers="+providerCode+"&watch_region=KR");
-                System.out.println("getInfoPageList - 실행된 api: "+API_URL+"/discover/"+type+"?api_key="+KEY
-                        +"&language=ko&sort_by="+sortBy+"&include_adult=false&page="+page+"&with_watch_providers="+providerCode+"&watch_region=KR");
+//                System.out.println("getInfoPageList - 실행된 api: "+API_URL+"/discover/"+type+"?api_key="+KEY
+//                        +"&language=ko&sort_by="+sortBy+"&include_adult=false&page="+page+"&with_watch_providers="+providerCode+"&watch_region=KR");
             }
 
             BufferedReader bf;
@@ -233,7 +225,6 @@ public class ContentsService {
                 vo.setGenres(genreList);
                 infoList.add(vo);
             }
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
@@ -250,7 +241,7 @@ public class ContentsService {
 
     /*  컨텐츠 리스트 전체 추출  */
     public List<ContentsDto> getInfoList(String type) {
-        int pages = 50;
+        int pages = 10;
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date = "0001-01-01";
 
@@ -263,8 +254,6 @@ public class ContentsService {
             for (int i = 1; i <= pages ; i++) {
                 URL url = new URL(API_URL+"discover/"+type+"?api_key="+KEY
                         +"&language=ko&sort_by=popularity.desc&include_adult=false&page="+i);
-//                System.out.println("infoList: "+API_URL+"discover/"+type+"?api_key="+KEY
-//                        +"&language=ko&include_adult=false&page=");
 
                 BufferedReader bf;
                 bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
@@ -347,15 +336,13 @@ public class ContentsService {
 //        }
 //        return pages;
 //    }
-
-
-    public List<String> getImages(String type, int id) {
+    public List<String> getImages(String type, int contentsNum) {
         //이미지 주소 - String
         List<String> imageList = null;
 
         try {
             imageList = new ArrayList<String>();
-            String apiURL = API_URL + type + "/" + id + "/images?api_key=" + KEY;
+            String apiURL = API_URL + type + "/" + contentsNum + "/images?api_key=" + KEY;
             URL url = new URL(apiURL);
             BufferedReader bf;
             bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
@@ -378,12 +365,12 @@ public class ContentsService {
         return imageList;
     }
 
-    public List<CreditsDto> getCredits(String type, int id, String kind) {
+    public List<CreditsDto> getCredits(String type, int contentsNum, String kind) {
         List<CreditsDto> creditList = null;
 
         try {
             creditList = new ArrayList<CreditsDto>();
-            String apiURL = API_URL + type + "/" + id + "/credits?api_key=" + KEY;
+            String apiURL = API_URL + type + "/" + contentsNum + "/credits?api_key=" + KEY;
             URL url = new URL(apiURL);
 
             BufferedReader bf;
@@ -545,5 +532,43 @@ public class ContentsService {
             throw new RuntimeException(e);
         }
         return getOtt;
+    }
+
+    public List<VideoDto> getTrailer(String type, int contentsNum) {
+        String keyUrl = "";
+        List<VideoDto> videoKey = new ArrayList<VideoDto>();
+        try {
+            URL url = new URL(API_URL + type + "/" + contentsNum + "/videos?api_key=" + KEY + "&language=ko");
+            System.out.println("여기!!"+API_URL + type + "/" + contentsNum + "/videos?api_key=" + KEY + "&language=ko");
+            BufferedReader bf;
+            bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+
+            result = bf.readLine();
+            JSONParser jsonParser = new JSONParser();
+            JSONObject contents = (JSONObject) jsonParser.parse(result);
+//            System.out.println(contents);
+            JSONArray results = (JSONArray) contents.get("results");
+//            System.out.println(results);
+            VideoDto videoDto = new VideoDto();
+            for (int i = 0; i < results.size(); i++) {
+//                System.out.println(results.get(i));
+                JSONObject tmp = (JSONObject) results.get(i);
+                videoDto.setName(tmp.get("name").toString());
+                videoDto.setKey(tmp.get("key").toString());
+                videoDto.setOfficial((Boolean) tmp.get("official"));
+                videoKey.add(videoDto);
+            }
+
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        return videoKey;
     }
 }

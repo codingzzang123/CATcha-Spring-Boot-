@@ -18,6 +18,11 @@
 
     <link href="/css/hosun/main.css" rel="stylesheet"/>
     <link href="/css/jieun/contentList.css" rel="stylesheet"/>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/jieun/star-rating.css" media="all" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        <script src="js/jieun/star-rating.js" type="text/javascript">
 
     <script src="https://kit.fontawesome.com/325cf61a47.js" crossorigin="anonymous"></script>
     <title>컨텐츠 디테일 화면</title>
@@ -150,6 +155,12 @@
                                 </c:otherwise>
                             </c:choose>
                             </div>
+                            <c:choose>
+                                <c:when test="${videoUrl eq null}"></c:when>
+                                <c:otherwise>
+                            <div style="text-align: right; margin-right:20px;"><a href="https://www.youtube.com/watch?v=${videoUrl}"><b>트레일러 보기</b></a></div>
+                                </c:otherwise>
+                            </c:choose>
                             <div>
                                 <br><strong>Overview</strong><br>
 <%--                                <div class="contentsOverview" style="border: 1px solid black; border-radius: 15px; padding:15px; ">--%>
@@ -276,6 +287,13 @@
             <div class="css-1qq59e8">
 <%--                <div class="css-pbseb6-StyledHomeListTitleRow">--%>
                     <span class="css-16qa0p7" style="font-size: xx-large;">Review</span>
+                    <div style="text-align: right; margin-right: 100px;">
+                    <c:choose>
+                        <c:when test="${ratingAvg == 0}"></c:when>
+                        <c:otherwise>회원들이 평가한 점수 : <b>${ratingAvg}<b></c:otherwise>
+                    </c:choose>
+                    </div>
+
 <%--                </div>--%>
 
                 <div id="result" scroll=auto style="overflow-x:hidden; margin-bottom: 30px;" class="review-body">
@@ -292,7 +310,29 @@
                                     <div style="display: inline-block; width: 1000px; height: 40px;">
                                         <span style="margin-left: 20px; font-family: Cambria; font-size: medium;"><b>${review.content}</b></span>
                                     </div>
-                                    <div style="display: inline-block; width: 200px; height: 40px; text-align: end; margin-bottom: 12px; ">
+                                    <div style="width:105px;">
+                                        <c:choose>
+                                            <c:when test="${review.rating eq '0'}">
+                                                ☆☆☆☆☆
+                                            </c:when>
+                                            <c:when test="${review.rating eq '1'}">
+                                                ★☆☆☆☆
+                                            </c:when>
+                                            <c:when test="${review.rating eq '2'}">
+                                                ★★☆☆☆
+                                            </c:when>
+                                            <c:when test="${review.rating eq '3'}">
+                                                ★★★☆☆
+                                            </c:when>
+                                            <c:when test="${review.rating eq '4'}">
+                                                ★★★★☆
+                                            </c:when>
+                                            <c:when test="${review.rating eq '5'}">
+                                                ★★★★★
+                                            </c:when>
+                                        </c:choose>
+                                    </div>
+                                    <div style="display: inline-block; width: 100px; height: 40px; text-align: end; margin-bottom: 12px; ">
                                         <span style="font-size: small; margin-bottom: 3px;">
                                                 <fmt:formatDate value="${review.regdate }" pattern="MMM dd HH:mm:ss" /><br>by ${review.writer}
                                         </span>
@@ -300,13 +340,16 @@
                                     <div style="display: inline-block; width: 40px; height: 40px;">
                                         <c:if test="${auth.name eq review.writer }">
                                             <button type="button" data-bs-toggle="modal" data-bs-target="#DelModal" data-test=${review.no }
-                                                    class="btn btn-default btn-xs"><i class="fa-solid fa-square-minus"></i></button>
+                                                    class="btn btn-default btn-xs">&times;</button>
                                         </c:if>
                                     </div>
                                 </div>
                             </c:forEach>
                         </c:otherwise>
                     </c:choose>
+
+
+
                 </div>
                 <c:choose>
                     <c:when test="${auth eq null}">
@@ -324,27 +367,40 @@
                             <div class="card-header bi bi-chat-right-dots">
                                 <b style="font-family: Cambria">Write a Comment</b>
                             </div>
-                            <form action="${pageContext.request.contextPath}/addReply" modelAttribute="review">
+                            <form:form action="${pageContext.request.contextPath}/addReply" modelAttribute="review" id="reviewForm" name="reviewForm"
+                                onsubmit="return reviewFunction();">
                                 <div class="row" id="row">
                                     <div class="col-lg-11">
                                         <textarea id="comment" name="content" placeholder="리뷰를 추가해주세요" style="resize: none; font-size: small;"></textarea>
+                                        <div style="margin-left:20px; resize: none; font-size: small;">
+                                            <form:label path="rating">평점: </form:label>
+                                            <form:select path="rating" id="rating" name="rating" style="width: 105px;" itemValue="">
+                                                <form:options items="${ratingOptions}" />
+                                            </form:select>
+                                        </div>
                                     </div>
                                     <div class="col-lg-1" id="divbtn">
-                                        <button type="submit" id="btn-comment-save"class="btn btn-outline-primary bi bi-pencil-square">등록</button>
+                                        <button type="submit" id="btn-comment-save" class="btn btn-outline-primary bi bi-pencil-square">등록</button>
                                     </div>
+
                                     <input type="hidden" name="contentsNum" value="${contents.contentsNum}">
                                     <input type="hidden" name="writer" value="${auth.name }">
                                     <input type="hidden" name="title" value="${contents.title}">
                                     <input type="hidden" name="code" value="${code }">
                                     <input type="hidden" name="img" value="${auth.imgs }">
                                 </div>
-                            </form>
+                            </form:form>
                         </div>
                     </c:otherwise>
                 </c:choose>
             </div>
         </div>
     </section>
+
+
+
+
+
     <jsp:include page="/WEB-INF/views/templates/footer.jsp"></jsp:include>
 
 
@@ -417,14 +473,10 @@
                         console.log("onload function 실행 - flag:" + data);
                         $('#flag').val(data);
                         if(data == 'true') {
-                            // document.getElementById("b1").style.background="grey"
-                            // document.getElementById("b1").style.border="#ffffff";
-                            document.querySelector("#ex").src='/img/icon/media/Heart.png';
+                            document.querySelector("#ex").src='https://img.icons8.com/color/452/hearts.png';
                         }
                         if (data == 'false') {
-                            // document.getElementById("b1").style.background="#ffffff";
-                            // document.getElementById("b1").style.border="#ffffff";
-                            document.querySelector("#ex").src='/img/icon/media/Emptyheart.png';
+                            document.querySelector("#ex").src='https://img.icons8.com/ios/500/hearts--v1.png';
                         }
                         // return flag;
                     }, error: function (){
@@ -462,13 +514,9 @@
                             console.log("likeController 동작 성공: "+data);
                             //버튼 누르면 컬러 바꾸기..
                             if(data == 'true') {
-                                // document.getElementById("b1").style.background='grey';
-                                // document.getElementById("b1").style.border="#ffffff";
-                                document.querySelector("#ex").src='/img/icon/media/Heart.png';
+                                document.querySelector("#ex").src='https://img.icons8.com/color/452/hearts.png';
                             } else {
-                                // document.getElementById("b1").style.background="#ffffff";
-                                // document.getElementById("b1").style.border="#ffffff";
-                                document.querySelector("#ex").src='/img/icon/media/Emptyheart.png';
+                                document.querySelector("#ex").src='https://img.icons8.com/ios/500/hearts--v1.png';
                             }
                         }, error: function(request,error){
                             console.log("likeController 동작 fail");
@@ -477,7 +525,6 @@
                     });
             }
         }
-
         $("#delete").click(function(){
             var d = $('#deleteModal').val()
             console.log(d);
@@ -498,6 +545,17 @@
                     console.log("fail");
                 }
             });
+        }
+        function reviewFunction(){
+            let star = $("#rating").val();
+            let comment = $("#comment").val();
+
+            if(!star || star=="" || !comment || comment==""){
+                alert("리뷰를 작성해주세요.");
+                return false;
+            }else{
+                return true;
+            }
         }
 
         // var resultHTML="";
