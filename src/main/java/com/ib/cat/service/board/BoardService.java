@@ -28,8 +28,13 @@ public class BoardService {
         boardRepository.delete(board);
     }
 
-    public Board getOne(int id){
+    public Board getOne(int id) {
         Board board = boardRepository.findById(id).get();
         return board;
     }
+
+
+
+
+
 }
