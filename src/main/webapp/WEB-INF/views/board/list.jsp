@@ -16,6 +16,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>목록</title>
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+    <link href="/css/hosun/main.css" rel="stylesheet"/>
+    <link href="/css/jieun/contentList.css" rel="stylesheet"/>
+
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include> <br><br><br>
@@ -34,7 +37,7 @@
                     <th>조회</th>
                     <th>추천</th>
                 </tr>
-                <c:forEach var="board" items="${boards }" varStatus="no">
+                <c:forEach var="board" items="${boards.content}">
                     <tr>
                         <td>${board.no}</td>
                         <td>${board.cate }</td>
@@ -47,32 +50,50 @@
                 </c:forEach>
             </table>
         </div>
-                <div class="css-paging">
-                    <nav aria-label="Page navigation example" class="css-paging">
-                        <ul class="pagination">
-                            <!-- 페이징 << 버튼 -->
-                            <c:if test="${paging.curPage ne 1 }">
-                                <li class="page-item"><a class="page-link" href="<c:url value='/board?page=${paging.curPage-1 }&category=${category}&platform=${platform}'/>">&laquo;</a></li>
-                            </c:if>
-                            <!-- 페이징 블럭 번호  -->
-                            <c:forEach begin="${paging.blockStartNum }" end="${paging.blockLastNum }" var="i">
-                                <c:choose>
-                                    <c:when test="${i eq paging.curPage }">
-                                        <li class="page-item active"><a class="page-link" href="<c:url value='/board?page=${i }&category=${category}&platform=${platform}'/>">${i }</a></li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li class="page-item"><a class="page-link" href="<c:url value='/board?page=${i }&category=${category}&platform=${platform}'/>">${i }</a></li>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
+       <!--페이징 시작-->
+        <div class="text-xs-center" style="margin-top: 20px;">
 
-                            <!-- 페이징 >> 버튼 -->
-                            <c:if test="${paging.curPage ne paging.lastPageNum }">
-                                <li class="page-item"><a class="page-link" href="<c:url value='/board?page=${paging.curPage+1 }&category=${category}&platform=${platform}'/>">&raquo;</a></li>
-                            </c:if>
-                        </ul>
-                    </nav>
-                </div>
+        <div class="css-paging">
+            <nav aria-label="Page navigation example" class="css-paging">
+                <ul class="pagination justify-content-center">
+                    <!--이전-->
+                    <c:choose>
+                        <c:when test="${pageList.first}"></c:when>
+                        <c:otherwise>
+                            <li class="page-item"><a class="page-link" href="/board?field=${param.field}&searchKeyword=${param.searchKeyword}&page=0">처음</a></li>
+                            <li class="page-item"><a class="page-link" href="/board?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${pageList.number - 1}">&laquo;</a></li>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <!--페이지 그룹-->
+                    <c:forEach begin="${startBlockPage}" end="${endBlockPage}" var="i">
+                        <c:choose>
+                            <c:when test="${pageNumber + 1 eq i}"> <!-- pageNumber 시작은 0 , i는 1부터 -->
+                                <li class="page-item active"><a class="page-link" href="/board?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${i - 1}">${i}</a></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="page-item"><a class="page-link" href="/board?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${i - 1}">${i}</a></li>
+                            </c:otherwise>
+                        </c:choose>
+<%--                        <li class="page-item">--%>
+<%--                            <a class="page-link <c:if test="${pageNumber + 1 eq i}"> active </c:if>"--%>
+<%--                               href="/board?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${i - 1}">${i}</a>--%>
+<%--                        </li>--%>
+                    </c:forEach>
+
+                    <!--다음-->
+                    <c:choose>
+                        <c:when test="${pageList.last}"></c:when>
+                        <c:otherwise>
+                            <li class="page-item"><a class="page-link" href="/board?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${pageList.number + 1}">&raquo;</a></li>
+                            <li class="page-item"><a class="page-link" href="/board?field=${param.field}&searchKeyword=${param.searchKetword}&page=${pageList.totalPages - 1}">마지막</a></li>
+                        </c:otherwise>
+                    </c:choose>
+                </ul>
+            </nav>
+        </div>
+
+
 
         <div>
             <a href="/board/write">

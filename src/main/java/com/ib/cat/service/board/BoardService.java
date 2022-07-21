@@ -6,6 +6,8 @@ import com.ib.cat.entity.Member;
 import com.ib.cat.repository.BoardRepository;
 import com.ib.cat.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +22,20 @@ public class BoardService {
 
     public List<Board> getAll(){
         return  boardRepository.findAllByOrderByNoDesc();
+    }
+    //페이징
+    public Page<Board> findAll(Pageable pageable){
+        return boardRepository.findAll(pageable);
+    }
+
+    //서치 이름 + 페이징
+    public Page<Board> search1(String searchKeyword, Pageable pageable){
+        return boardRepository.findByNameContaining(searchKeyword, pageable);
+    }
+
+    //서치 제목 + 페이징
+    public Page<Board> search2(String searchKeyword, Pageable pageable){
+        return boardRepository.findByTitleContaining(searchKeyword, pageable);
     }
 
     public void insert(Board board){
