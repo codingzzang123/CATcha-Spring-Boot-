@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +24,7 @@ public class TestController {
     public String test(){
 
         /* 1. 전체 댓글 (댓글만) 가져오기 */
-        List<BoardReply> test1 = reply.findByRefAndBoardNoOrderByNoDesc(0,34);
+        List<BoardReply> test1 = reply.findByRefAndBoardNoOrderByNoAsc(0,34);
         for(BoardReply b : test1)
             System.out.println(b.toString());
 

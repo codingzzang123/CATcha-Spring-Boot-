@@ -51,4 +51,11 @@ public class BoardService {
         return board;
     }
 
+    public void views(int no){
+        Board board = boardRepository.findById(no).get();
+        board.setViews(board.getViews()+1);
+        boardRepository.save(board);
+    }
+
+
 }
