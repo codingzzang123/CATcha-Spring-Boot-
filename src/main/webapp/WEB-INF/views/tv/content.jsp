@@ -19,6 +19,7 @@
     <link href="/css/hosun/main.css" rel="stylesheet"/>
     <link href="/css/jieun/contentList.css" rel="stylesheet"/>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/jieun/content.css" rel="stylesheet"/>
     <link href="/css/jieun/star-rating.css" media="all" rel="stylesheet" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js">
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
@@ -159,12 +160,6 @@
                                     </c:otherwise>
                                 </c:choose>
                             </div>
-                            <c:choose>
-                                <c:when test="${videoUrl eq null}"></c:when>
-                                <c:otherwise>
-                                    <div style="text-align: right; margin-right:20px;"><a href="https://www.youtube.com/watch?v=${videoUrl}"><b>트레일러 보기</b></a></div>
-                                </c:otherwise>
-                            </c:choose>
                             <div>
                                 <br><strong>Overview</strong><br>
 <%--                                <div class="contentsOverview" style="border: 1px solid black; border-radius: 15px; padding:15px;">--%>
@@ -178,6 +173,18 @@
                 </div>
             </div>
         </section>
+
+        <c:choose>
+            <c:when test="${videoUrl eq null}"></c:when>
+            <c:otherwise>
+                <div class="popupVideo" style="margin-left: 100px;">
+                    <a data-video="${videoUrl}"><b>트레일러 보기</b></a>
+                </div>
+                <div class="video-popup">
+                    <div class="video-popup-closer"></div>
+                </div>
+            </c:otherwise>
+        </c:choose>
 
     <c:choose>
         <c:when test="${empty cast}">
@@ -564,6 +571,19 @@
             return true;
         }
     }
+    $(".popupVideo a").click(function() {
+        $(".video-popup").addClass("reveal"),
+            $(".video-popup .video-wrapper").remove(),
+            $(".video-popup").append("<div class='video-wrapper'>" +
+                "<iframe width='560' height='315' src='https://youtube.com/embed/"+$(this).data("video")+"?rel=0&playsinline=1&autoplay=1' allow='autoplay; encrpted-media' allowfullscreen>" +
+                "</iframe></div>")
+    }),
+        $("video-popup-closer").click(function(){
+            $(".video-popup .video-wrapper").remove(),
+                $(".video-popup").removeClass("reveal")
+        });
+
+
     // var resultHTML="";
     // $(".btn").click(function () {
     //     addReview();
