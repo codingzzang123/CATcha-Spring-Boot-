@@ -45,7 +45,6 @@ public class WebSockAlertHandler extends TextWebSocketHandler {
         String msg =  message.getPayload(); //script에서 받은 message
 
         if(StringUtils.isNotEmpty(msg)){
-            System.out.println("into if");
 
             String[] strs = msg.split(",");
 
@@ -69,11 +68,16 @@ public class WebSockAlertHandler extends TextWebSocketHandler {
             System.out.println("boardWriterSession = "+boardWriterSession);
 
             if ("like".equals(cmd)&&boardWriterSession !=null){
-                System.out.println("좋아요 onMessage");
 
                 TextMessage tmpMsg = new TextMessage(
                         "<strong>"+replyWriter+"</strong>"+"님이 [" +
                                 "<strong>"+ title+"</strong>" +"] 게시글에<br> 좋아요❤를 눌렀습니다."
+                );
+                boardWriterSession.sendMessage(tmpMsg);
+            }else if("comment".equals(cmd)&&boardWriterSession !=null){
+                TextMessage tmpMsg = new TextMessage(
+                        "<strong>"+replyWriter+"</strong>"+"님이 [" +
+                                "<strong>"+ title+"</strong>" +"] 게시글에<br> 댓글을 달았습니다."
                 );
                 boardWriterSession.sendMessage(tmpMsg);
             }
