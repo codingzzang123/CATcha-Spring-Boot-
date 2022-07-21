@@ -5,7 +5,7 @@ target/
 !**/src/test/**/target/
 
 /src/main/resources/static/img/profile/*
-#/src/main/resources/static/img/board/*
+/src/main/resources/static/img/board/*
 
 ### STS ###
 .apt_generated
