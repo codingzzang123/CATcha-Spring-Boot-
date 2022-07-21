@@ -23,7 +23,7 @@ public class KakaoController {
     @Autowired
     MemberService memberService;
     @RequestMapping(value = "/kakaocallback")
-    public String file(String code) {
+    public String kakao(String code) {
         String token = kakaoService.getAccessToken(code);
         HashMap<String, Object> info = kakaoService.getUserInfo(token);
 
