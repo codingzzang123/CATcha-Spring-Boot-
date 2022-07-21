@@ -106,28 +106,28 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr class="mytr">
-                                        <th scope="col">No</th>
-                                        <th scope="col">Title</th>
-                                        <th scope="col">Content</th>
-                                        <th scope="col">Writer</th>
-                                        <th scope="col">Regdate</th>
+                                        <th style="width:80px; height:50px; scope="col">No</th>
+                                        <th style="width:250px; height:50px; scope="col">Title</th>
+                                        <th style="width:250px; height:50px; scope="col">Content</th>
+                                        <th style="width:150px; height:50px; scope="col">Writer</th>
+                                        <th style="width:205px; height:50px; scope="col">Regdate</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     <c:forEach var="content" items="${content }">
                                         <tr class="mytr">
-                                            <td  style="width:80px; height:80px; word-break:break-all;table-layout:fixed;">
+                                            <td  style="width:80px; height:50px; word-break:break-all;table-layout:fixed;">
                                                 ${content.no }
                                             </td>
-                                            <td class="media-frame" style="width:250px; height:80px; word-break:break-all;table-layout:fixed;">
+                                            <td class="media-frame" style="width:250px; height:50px; word-break:break-all;table-layout:fixed;">
                                                 <a href="<c:url value='/board/${content.no }'/>">
                                                         ${content.title }
                                                 </a>
                                             </td>
-                                            <td  style="width:250px; height:80px; word-break:break-all;table-layout:fixed;">${content.content }</>
-                                            <td  style="width:150px; height:80px; word-break:break-all;table-layout:fixed;">${content.name }</>
-                                            <td  style="width:205px; height:80px; word-break:break-all;table-layout:fixed;">${content.regdate }</>
+                                            <td  style="width:250px; height:50px; word-break:break-all;table-layout:fixed;">${content.content }</>
+                                            <td  style="width:150px; height:50px; word-break:break-all;table-layout:fixed;">${content.name }</>
+                                            <td  style="width:205px; height:50px; word-break:break-all;table-layout:fixed;">${content.regdate }</>
                                         </tr>
                                     </c:forEach>
                                 </tbody>

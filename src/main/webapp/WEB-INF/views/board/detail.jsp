@@ -16,22 +16,23 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/hosun/main.css" rel="stylesheet"/>
     <title>상세보기</title>
     <style>
-        * {
-            font-family: 'Noto Sans KR', sans-serif;
-            color:#333;
-        }
-        .board_wrap {
-            background: #ddd;
-            padding:1rem; ;
-        }
-        .board_write::placeholder{
-            display: flex; justify-content: center; align-items: center;
-            text-align: center;
-            vertical-align: center;
-            padding-top:100px;
-        }
+        /** {*/
+        /*    font-family: 'Noto Sans KR', sans-serif;*/
+        /*    color:#333;*/
+        /*}*/
+        /*.board_wrap {*/
+        /*    background: #ddd;*/
+        /*    padding:1rem; ;*/
+        /*}*/
+        /*.board_write::placeholder{*/
+        /*    display: flex; justify-content: center; align-items: center;*/
+        /*    text-align: center;*/
+        /*    vertical-align: center;*/
+        /*    padding-top:100px;*/
+        /*}*/
         .comment-items{
             margin-top: 12px;
             height: 3.5em;
@@ -47,156 +48,187 @@
     </style>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include> <br><br><br>
-<div class="container mx-auto">
-    <h1 class="text-2xl mb-10 text-left">Name of Board</h1>
-    <form method="POST" action="/board/detail">
-        <div class="board_wrap">
-            <div class="flex justify-start items-center gap-5">
-                <span style="font-size: large"><strong>카테고리 </strong></span>
-                <span style="font-size:medium">${board.cate}</span>
+    <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include>
+    <section class="css-7klu3x" id="wrapper">
+        <div class="container mt-5 mb-5">
+            <div style="margin-top:50px;">
+                <span style="font-style: italic; font-family: Inter; border: 1px dotted #d3d3d3;
+                    font-size: xxx-large; padding-left: 10px; padding-right: 15px; border-radius: 2em; ">CATcha Community</span>
+            </div>
+            <hr>
+
+            <h2><b>[${board.cate}]&nbsp;${board.title }</b></h2>
+
+            <div class="row" style="margin-top:20px; margin-bottom: 25px;">
+                <div class="col-lg-5">
+                    written by <b>${board.name }</b>&nbsp;&nbsp;&nbsp;<span style="color: #d3d3d3">|</span>&nbsp;&nbsp;&nbsp;<b><fmt:formatDate value="${board.regdate }" type="both"/></b>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2"></div>
+                <div class="col-lg-4 text-end">
+                    조회&nbsp;&nbsp;${board.views }&nbsp;&nbsp;<span style="color: #d3d3d3">|</span>&nbsp;&nbsp;
+                    추천&nbsp;&nbsp;${board.likes }&nbsp;&nbsp;<span style="color: #d3d3d3">|</span>&nbsp;&nbsp;
+                    댓글${board.replys }
+                </div>
             </div>
 
-            <div class="flex w-2/3 justify-start mt-5" style="margin-top: 20px; margin-bottom: 20px;">
-                <span style="font-size: large">제목 </span>
-                <span style="font-size:medium">${board.title}</span>
+            <div>
+                <textarea class="form-control" style="height: 400px; resize:none;" readonly>${board.content }</textarea>
             </div>
 
-            <!-- 조회수, 추천수, 댓글 수 , 작성시간, 작성자 나와야 함 -->
+            <div class="row">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-3">
+                </div>
+                <div class="col-lg-6 text-end" style="margin-top: 15px;">
+                    <div style="display: inline-block;margin-right: 5px;">
+                        <button type="button" id="b1" <c:if test="${board.name ne auth.name }"> onclick="like()"</c:if> class="btn btn-default btn-xs" >
+                            <img src="" style="width: 50px; height: 50px; cursor:pointer; border:0px;" id="ex">
+                        </button>
+                    </div>
 
-            <div class="mt-5 flex justify-center items-center">
-                <textarea class="w-full board_write p-5" name="content" id="" cols="100" rows="10" id ="{board.content}"
-                          style="resize: none; overflow-y: hidden;" disabled>${board.content}</textarea>
+                    <div style="display: inline-block;">
+                        <a href='/board'>
+                            <button type="button" class="btn btn-outline-info">
+                                뒤로가기
+                            </button>
+                        </a>
+
+                        <a href='/board/edit/${board.no}'>
+                            <button type="button" class="btn btn-outline-info">
+                            수정
+                            </button>
+                        </a>
+
+                        <a href='/board/delete/${board.no}'>
+                            <button type="button" class="btn btn-outline-danger">
+                                삭제
+                            </button>
+                        </a>
+                    </div>
+                </div>
+
             </div>
-        </div>
 
-        <div>
-            <button type="button" id="b1" <c:if test="${board.name ne auth.name }"> onclick="like()"</c:if> class="btn btn-default btn-xs" >
-                <img src="" style="width: 50px; height: 50px; cursor:pointer; border:0px;" id="ex">
-            </button>
-        </div>
 
-        <div class="flex justify-end mt-5" style="margin-top: 20px;">
-            <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-black rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center"
-               href='/board'>뒤로가기</a>
-            <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-black rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center"
-               href='/board/edit/${board.no}'>수정</a>
-            <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-black rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center"
-               href='/board/delete/${board.no}'>삭제</a>
-        </div>
-    </form>
 
-    <div class="css-lufi3b" style="margin-top: 25px;">
-        <div class="css-1qq59e8">
-            <span class="css-16qa0p7" style="font-size: xx-large;">Comment</span>
-            <div id="result" scroll=auto style="overflow-x:hidden; margin-bottom: 30px;" class="review-body">
 
-                <c:choose>
-                    <c:when test="${empty comment}">
-                        <div class='comment-items'>
-                            <span style="font-family: Cambria; font-size: medium;" >아직 등록된 댓글가 없습니다!</span>
-                        </div>
-                    </c:when>
-                    <c:otherwise>
-                        <c:forEach var="comment" items="${comment}">
-                            <div class='comment-items' id="${comment.no}" >
-                                <div style="display: inline-block; width: 950px; height: 40px;">
-                                    <span style="margin-left: 20px; font-family: Cambria; font-size: medium; cursor: pointer" onclick="showReply(${comment.no})"><b>${comment.content}</b></span>
+            <div class="css-lufi3b" style="margin-top: 25px;">
+                <div class="css-1qq59e8">
+                    <span class="css-16qa0p7" style="font-size: xx-large;">Comment</span>
+                    <div id="result" scroll=auto style="overflow-x:hidden; margin-bottom: 30px;" class="review-body">
+
+                        <c:choose>
+                            <c:when test="${empty comment}">
+                                <div class='comment-items'>
+                                    <span style="font-family: Cambria; font-size: medium;" >아직 등록된 댓글이 없습니다!</span>
                                 </div>
-                                <div style="display: inline-block; width: 100px; height: 40px; text-align: end; margin-bottom: 12px; ">
-                                        <span style="font-size: small; margin-bottom: 3px;">
-                                                <fmt:formatDate value="${comment.regdate }" pattern="MMM dd HH:mm:ss" /><br>by ${comment.writer}
-                                        </span>
-                                </div>
-                                <div style="display: inline-block; width: 40px; height: 40px;">
-                                    <c:if test="${auth.name eq comment.writer }">
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#DelModal" data-test="${comment.no }"
-                                                class="btn btn-default btn-xs">&times;</button>
-                                    </c:if>
-                                </div>
-                                <input type="hidden" id="${comment.no}" name="${comment.no}" value="${comment.no}">
-                            </div>
-                            <div id="reply${comment.no}" name="${comment.no}" style="display: none">
-                                <sec:authorize access="!isAuthenticated()">
-                                    <div class="card" style="margin-top: 50px;">
-                                        <div class="card-body" style="font-size: small">
-                                            <a href="${pageContext.request.contextPath}/member/login"><b>로그인</b></a>을 하시면 댓글를 등록할 수 있습니다.
+                            </c:when>
+                            <c:otherwise>
+                                <c:forEach var="comment" items="${comment}">
+                                    <div class='comment-items' id="${comment.no}" >
+                                        <div style="display: inline-block; width: 950px; height: 40px;">
+                                            <span style="margin-left: 20px; font-family: Cambria; font-size: medium; cursor: pointer" onclick="showReply(${comment.no})"><b>${comment.content}</b></span>
                                         </div>
+                                        <div style="display: inline-block; width: 100px; height: 40px; text-align: end; margin-bottom: 12px; ">
+                                                <span style="font-size: small; margin-bottom: 3px;">
+                                                        <fmt:formatDate value="${comment.regdate }" pattern="MMM dd HH:mm:ss" /><br>by ${comment.writer}
+                                                </span>
+                                        </div>
+                                        <div style="display: inline-block; width: 40px; height: 40px;">
+                                            <c:if test="${auth.name eq comment.writer }">
+                                                <button type="button" data-bs-toggle="modal" data-bs-target="#DelModal" data-test="${comment.no }"
+                                                        class="btn btn-default btn-xs">&times;</button>
+                                            </c:if>
+                                        </div>
+                                        <input type="hidden" id="${comment.no}" name="${comment.no}" value="${comment.no}">
                                     </div>
-                                </sec:authorize>
-                                <sec:authorize access="isAuthenticated()">
-                                    <div class="card" style="margin-top: 3px;">
-                                        <form action="/board/reply" method="post">
-                                            <div class="card-header bi bi-chat-right-dots">
-                                                <b style="font-family: Cambria;">Write a Reply</b>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-11">
-                                                    <textarea id="replay" name="replay" placeholder="답글을 작성해주세요" style="resize: none; font-size: small; height : 100px; width: 1030px; border : none; margin-top : 5px; margin-left: 5px;"></textarea>
-                                                </div>
-                                                <div class="col-lg-1">
-                                                    <input type="submit" value="등록"  class="btn btn-outline-primary bi bi-pencil-square" style="margin-top: 65px;">
+                                    <div id="reply${comment.no}" name="${comment.no}" style="display: none">
+                                        <sec:authorize access="!isAuthenticated()">
+                                            <div class="card" style="margin-top: 50px;">
+                                                <div class="card-body" style="font-size: small">
+                                                    <a href="${pageContext.request.contextPath}/member/login"><b>로그인</b></a>을 하시면 댓글를 등록할 수 있습니다.
                                                 </div>
                                             </div>
-                                            <input type="hidden" value="${auth.name}" name="writer">
-                                            <input type="hidden" value="${board.no}" name="boardNo">
-                                        </form>
+                                        </sec:authorize>
+                                        <sec:authorize access="isAuthenticated()">
+                                            <div class="card" style="margin-top: 3px;">
+                                                <form action="/board/reply" method="post">
+                                                    <div class="card-header bi bi-chat-right-dots">
+                                                        <b style="font-family: Cambria;">Write a Reply</b>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-11">
+                                                            <textarea id="replay" name="replay" placeholder="답글을 작성해주세요" style="resize: none; font-size: small; height : 100px; width: 1030px; border : none; margin-top : 5px; margin-left: 5px;"></textarea>
+                                                        </div>
+                                                        <div class="col-lg-1">
+                                                            <input type="submit" value="등록"  class="btn btn-outline-primary bi bi-pencil-square" style="margin-top: 65px;">
+                                                        </div>
+                                                    </div>
+                                                    <input type="hidden" value="${auth.name}" name="writer">
+                                                    <input type="hidden" value="${board.no}" name="boardNo">
+                                                </form>
+                                            </div>
+                                        </sec:authorize>
                                     </div>
-                                </sec:authorize>
+                                </c:forEach>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </div>
+            </div>
+
+            <sec:authorize access="!isAuthenticated()">
+                <div class="card" style="margin-top: 10px;">
+                    <div class="card-header bi bi-chat-right-dots">
+                        <b style="font-family: Cambria">Write a Comment</b>
+                    </div>
+                    <div class="card-body" style="font-size: small">
+                        <a href="${pageContext.request.contextPath}/member/login"><b>로그인</b></a>을 하시면 댓글를 등록할 수 있습니다.
+                    </div>
+                </div>
+            </sec:authorize>
+            <sec:authorize access="isAuthenticated()">
+                <div class="card" style="margin-top: 10px;">
+                    <form action="/board/comment" method="post" onsubmit="return submitComment();">
+                        <div class="card-header bi bi-chat-right-dots">
+                            <b style="font-family: Cambria;">Write a Comment</b>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-11">
+                                <textarea id="comment" name="content" placeholder="댓글을 작성해주세요" style="resize: none; font-size: small; height : 100px; width: 1030px; border : none; margin-top : 5px; margin-left: 5px;"></textarea>
                             </div>
-                        </c:forEach>
-                    </c:otherwise>
-                </c:choose>
-            </div>
-        </div>
-    </div>
-
-    <sec:authorize access="!isAuthenticated()">
-        <div class="card" style="margin-top: 50px;">
-            <div class="card-header bi bi-chat-right-dots">
-                <b style="font-family: Cambria">Write a Comment</b>
-            </div>
-            <div class="card-body" style="font-size: small">
-                <a href="${pageContext.request.contextPath}/member/login"><b>로그인</b></a>을 하시면 댓글를 등록할 수 있습니다.
-            </div>
-        </div>
-    </sec:authorize>
-    <sec:authorize access="isAuthenticated()">
-        <div class="card" style="margin-top: 50px;">
-            <form action="/board/comment" method="post" onsubmit="return submitComment();">
-                <div class="card-header bi bi-chat-right-dots">
-                    <b style="font-family: Cambria;">Write a Comment</b>
+                            <div class="col-lg-1">
+                                <input type="submit" id="insertComment" value="등록"  class="btn btn-outline-primary bi bi-pencil-square" style="margin-top: 65px;">
+                            </div>
+                        </div>
+                        <input type="hidden" value="${auth.name}" name="writer">
+                        <input type="hidden" value="${board.no}" name="boardNo">
+                    </form>
                 </div>
-                <div class="row">
-                    <div class="col-lg-11">
-                        <textarea id="comment" name="content" placeholder="댓글을 작성해주세요" style="resize: none; font-size: small; height : 100px; width: 1030px; border : none; margin-top : 5px; margin-left: 5px;"></textarea>
-                    </div>
-                    <div class="col-lg-1">
-                        <input type="submit" id="insertComment" value="등록"  class="btn btn-outline-primary bi bi-pencil-square" style="margin-top: 65px;">
-                    </div>
-                </div>
-                <input type="hidden" value="${auth.name}" name="writer">
-                <input type="hidden" value="${board.no}" name="boardNo">
-            </form>
+            </sec:authorize>
         </div>
-    </sec:authorize>
+    </section>
 
-</div>
-<input type="hidden" id="userId" value="${auth.id }">
-<input type="hidden" id="contentsNum" value="${board.no }">
-<input type="hidden" id="title" value="${board.title }">
-<input type="hidden" id="overview" value="${board.content}">
-<input type="hidden" id="posterPath" value="${board.imgs }">
+    <jsp:include page="/WEB-INF/views/templates/footer.jsp"></jsp:include>
 
-<input type="hidden" id="userName" value="${auth.name }">
-<input type="hidden" id="flag" value="">
 
-<script src="${pageContext.request.contextPath}/js/hosun/jquery-3.6.0.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/hosun/main.js"></script>
-<script src="${pageContext.request.contextPath}/js/hosun/scroll.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script>
+
+    <input type="hidden" id="userId" value="${auth.id }">
+    <input type="hidden" id="contentsNum" value="${board.no }">
+    <input type="hidden" id="title" value="${board.title }">
+    <input type="hidden" id="overview" value="${board.content}">
+    <input type="hidden" id="posterPath" value="${board.imgs }">
+
+    <input type="hidden" id="userName" value="${auth.name }">
+    <input type="hidden" id="flag" value="">
+
+    <script src="${pageContext.request.contextPath}/js/hosun/jquery-3.6.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/hosun/main.js"></script>
+    <script src="${pageContext.request.contextPath}/js/hosun/scroll.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
     window.onload=function(){
 
         let hdiv = document.getElementById('emptyReview');

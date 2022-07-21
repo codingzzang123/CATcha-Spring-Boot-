@@ -8,6 +8,7 @@
              pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,148 +22,157 @@
 
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include> <br><br><br>
-<div class="container mx-auto">
-    <h1 class="text-2xl mb-10 text-center">Title of Board</h1>
-    <form method="GET" action=/board/write">
+    <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include>
+    <section class="css-7klu3x" id="wrapper">
+        <div class="container mt-5">
+            <span style="font-style: italic; font-family: Inter; border: 1px dotted #d3d3d3;
+                    font-size: xxx-large; padding-left: 10px; padding-right: 15px; border-radius: 2em; ">CATcha Community</span>
 
-        <div class="tables">
-            <table class="board">
-                <tr>
-                    <th>번호</th>
-                    <th>카테고리</th>
-                    <th>제목</th>
-                    <th>글쓴이</th>
-                    <th>작성일</th>
-                    <th>조회</th>
-                    <th>추천</th>
-                </tr>
-                <c:forEach var="board" items="${boards.content}">
+
+            <table class="table table-hover" style="margin-top: 20px;">
+                <thead class="text-center">
                     <tr>
-                        <td>${board.no}</td>
-                        <td>${board.cate }</td>
-                        <td><a href="<c:url value="/board/${board.no}"/>">${board.title }</a></td>
-                        <td>${board.name }</td>
-                        <td><fmt:formatDate value="${board.regdate }" pattern="yyyy-MM-dd"/></td>
-                        <td>${board.views }
-                        <td>${board.likes }</td>
+                        <th scope="col">번호</th>
+                        <th scope="col">말머리</th>
+                        <th scope="col">제목</th>
+                        <th scope="col">글쓴이</th>
+                        <th scope="col">작성일</th>
+                        <th scope="col">조회</th>
+                        <th scope="col">추천</th>
                     </tr>
-                </c:forEach>
+                </thead>
+
+
+
+                <tbody class="text-center">
+                    <c:if test="${!empty boards}">
+                        <c:forEach var="board" items="${boards.content}">
+                            <tr>
+                                <td style="width: 72px;">${board.no}</td>
+                                <td style="width: 100px;">${board.cate }</td>
+                                <td style="width: 500px;">
+                                    <a href="<c:url value="/board/${board.no}"/>">
+                                        <c:choose>
+                                            <c:when test="${fn:length(board.title) > 15}">
+                                                <c:if test="${board.replys gt 0}">
+                                                    ${fn:substring(board.title,0,15)}...&nbsp;[${board.replys}]
+                                                </c:if>
+                                                <c:if test="${board.replys eq 0}">
+                                                    ${fn:substring(board.title,0,14)}...
+                                                </c:if>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:if test="${board.replys gt 0}">
+                                                    ${board.title }&nbsp;[${board.replys}]
+                                                </c:if>
+                                                <c:if test="${board.replys eq 0}">
+                                                    ${board.title }
+                                                </c:if>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </a>
+                                </td>
+                                <td style="width: 220px;">${board.name }</td>
+
+                                <td style="width: 100px;">
+                                    <fmt:parseDate value="${today }" var="now2" pattern="yyyy-MM-dd"/>
+                                    <fmt:parseDate value="${board.regdate }" var="regdate2" pattern="yyyy-MM-dd"/>
+
+                                    <fmt:parseNumber value="${now2.time / (1000*60*60*24)}" integerOnly="true" var="nowDate"/>
+                                    <fmt:parseNumber value="${regdate2.time / (1000*60*60*24)}" integerOnly="true" var="regDate"/>
+
+<%--                                    <c:out value="${nowDate - regDate}"/>--%>
+
+                                    <c:if test="${(nowDate - regDate) gt 0}">
+                                        <fmt:formatDate value="${board.regdate }" pattern="MM/dd"/>
+                                    </c:if>
+                                    <c:if test="${(nowDate - regDate) eq 0}">
+                                        <fmt:formatDate value="${board.regdate }" pattern="hh:mm"/>
+                                    </c:if>
+                                </td>
+                                <td style="width: 72px;">${board.views }
+                                <td style="width: 72px;">${board.likes }</td>
+                            </tr>
+                        </c:forEach>
+                    </c:if>
+
+                    <c:if test="${empty boards}">
+                        <br><br>
+                        <img src="https://cdn-icons-png.flaticon.com/512/5058/5058046.png" width="60px;" height="60px;">
+                        <br><br>
+                        <span style="font-size: medium; font-style: italic;">&nbsp;&nbsp;등록된 게시물이 없습니다.</span><br>
+                    </c:if>
+                </tbody>
             </table>
+
+            <div class="row mt-2">
+                <div class="col-lg-10"></div>
+                <div class="col-lg-2 text-end">
+                    <a href="${pageContext.request.contextPath}/board/write">
+                        <button type="button" class="btn btn-outline-info">글쓰기</button></a>
+
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="text-center">
+                    <form method="get">
+                        <select name="s_type">
+                            <option value="title" selected>제목</option>
+                            <option value="name">글쓴이</option>
+<%--                            <option value="con">내용</option>--%>
+                            <input name="s_keyword" type="text" size="50" value=""><button>검색</button>
+                        </select>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10 text-center">
+                    <div class="css-paging">
+                        <nav aria-label="Page navigation example" class="css-paging">
+                            <ul class="pagination justify-content-center">
+                                <!--이전-->
+                                <c:choose>
+                                    <c:when test="${pageList.first}"></c:when>
+                                    <c:otherwise>
+<%--                                        <li class="page-item"><a class="page-link" href="/board?s_type=${param.field}&s_search=${param.searchKeyword}&page=0">처음</a></li>--%>
+                                        <li class="page-item"><a class="page-link" href="/board?s_type=${param.field}&s_search=${param.searchKeyword}&page=${pageList.number - 1}">&laquo;</a></li>
+                                    </c:otherwise>
+                                </c:choose>
+
+                                <!--페이지 그룹-->
+                                <c:forEach begin="${startBlockPage}" end="${endBlockPage}" var="i">
+                                    <c:choose>
+                                        <c:when test="${pageNumber + 1 eq i}"> <!-- pageNumber 시작은 0 , i는 1부터 -->
+                                            <li class="page-item active"><a class="page-link" href="/board?s_type=${param.field}&s_search=${param.searchKeyword}&page=${i - 1}">${i}</a></li>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <li class="page-item"><a class="page-link" href="/board?s_type=${param.field}&s_search=${param.searchKeyword}&page=${i - 1}">${i}</a></li>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+
+                                <!--다음-->
+                                <c:choose>
+                                    <c:when test="${pageList.last}"></c:when>
+                                    <c:otherwise>
+                                        <li class="page-item"><a class="page-link" href="/board?s_type=${param.field}&s_search=${param.searchKeyword}&page=${pageList.number + 1}">&raquo;</a></li>
+<%--                                        <li class="page-item"><a class="page-link" href="/board?s_type=${param.field}&s_search=${param.searchKetword}&page=${pageList.totalPages - 1}">마지막</a></li>--%>
+                                    </c:otherwise>
+                                </c:choose>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-lg-1"></div>
+
+
         </div>
-       <!--페이징 시작-->
-        <div class="text-xs-center" style="margin-top: 20px;">
-
-        <div class="css-paging">
-            <nav aria-label="Page navigation example" class="css-paging">
-                <ul class="pagination justify-content-center">
-                    <!--이전-->
-                    <c:choose>
-                        <c:when test="${pageList.first}"></c:when>
-                        <c:otherwise>
-                            <li class="page-item"><a class="page-link" href="/board?field=${param.field}&searchKeyword=${param.searchKeyword}&page=0">처음</a></li>
-                            <li class="page-item"><a class="page-link" href="/board?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${pageList.number - 1}">&laquo;</a></li>
-                        </c:otherwise>
-                    </c:choose>
-
-                    <!--페이지 그룹-->
-                    <c:forEach begin="${startBlockPage}" end="${endBlockPage}" var="i">
-                        <c:choose>
-                            <c:when test="${pageNumber + 1 eq i}"> <!-- pageNumber 시작은 0 , i는 1부터 -->
-                                <li class="page-item active"><a class="page-link" href="/board?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${i - 1}">${i}</a></li>
-                            </c:when>
-                            <c:otherwise>
-                                <li class="page-item"><a class="page-link" href="/board?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${i - 1}">${i}</a></li>
-                            </c:otherwise>
-                        </c:choose>
-<%--                        <li class="page-item">--%>
-<%--                            <a class="page-link <c:if test="${pageNumber + 1 eq i}"> active </c:if>"--%>
-<%--                               href="/board?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${i - 1}">${i}</a>--%>
-<%--                        </li>--%>
-                    </c:forEach>
-
-                    <!--다음-->
-                    <c:choose>
-                        <c:when test="${pageList.last}"></c:when>
-                        <c:otherwise>
-                            <li class="page-item"><a class="page-link" href="/board?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${pageList.number + 1}">&raquo;</a></li>
-                            <li class="page-item"><a class="page-link" href="/board?field=${param.field}&searchKeyword=${param.searchKetword}&page=${pageList.totalPages - 1}">마지막</a></li>
-                        </c:otherwise>
-                    </c:choose>
-                </ul>
-            </nav>
-        </div>
-
-
-
-        <div>
-            <a href="/board/write">
-                <button type="button" class="btn btn-primary">글쓰기</button>
-            </a>
-        </div>
-
-    </form>
-</div>
+    </section>
 </body>
 
 </html>
 
-<style>
-    * {
-        font-family: 'Noto Sans KR', sans-serif;
-        color:#333;
-    }
-    .board {
-        width:100%;
-    }
-    .board tr td:nth-child(1){
-        width: 100px
-    }
-    .board tr td:nth-child(2){
-        width: 200px
-    }
-    .board tr td:nth-child(3){
-        /* width: 100px */
-    }
-    .board tr td:nth-child(4){
-        width: 150px
-    }
-    .board tr td:nth-child(5){
-        width: 150px
-    }
-    .board tr td:nth-child(6){
-        width: 80px
-    }
-    .board tr td:nth-child(7){
-        width: 80px
-    }
-    .board tr th {
-        padding:1rem;
-        background: #eee;
-        border:1px solid #ddd
-    }
-    .board tr td {
-        border:1px solid #ddd;
-        padding:1rem;
-        text-align: center;
-    }
-    .page_navigation {
-        display: flex;
-    }
-    .page_navigation a {
-        background: #eee;
-        padding:1.5rem;
-        color:#111;
-        margin:0 0.5rem;
-        display: flex;;
-        justify-content: center;
-        align-items: center;
-        width:1.5rem;
-        height: 1.5rem;
-
-    }
-    .page_navigation a.active {
-        background:#2563eb;
-        color:white
-    }
-</style>

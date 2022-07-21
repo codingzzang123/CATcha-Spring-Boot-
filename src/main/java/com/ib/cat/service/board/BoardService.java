@@ -20,9 +20,6 @@ public class BoardService {
     @Autowired
     MemberRepository memberRepository;
 
-    public List<Board> getAll(){
-        return  boardRepository.findAllByOrderByNoDesc();
-    }
     //페이징
     public Page<Board> findAll(Pageable pageable){
         return boardRepository.findAll(pageable);
