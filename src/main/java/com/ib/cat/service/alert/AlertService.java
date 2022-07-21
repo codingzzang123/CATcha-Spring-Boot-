@@ -7,8 +7,6 @@ import com.ib.cat.entity.Member;
 import com.ib.cat.repository.AlertRepository;
 import com.ib.cat.repository.BoardRepository;
 import com.ib.cat.repository.MemberRepository;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,58 +25,6 @@ public class AlertService {
 
     @Autowired
     BoardRepository boardRepository;
-
-    public int alertCount(String subName){
-        return alertRepository.countBySubName(subName);
-    }
-
-    public void insert(String object)throws Exception{
-        Alert alert = new Alert();
-        AlertDto alertDto = parserAlert(object);
-        alert.setSubName(alertDto.getSubName()); alert.setPubName(alertDto.getPubName());
-        alert.setBno(alertDto.getBno()); alert.setCode(alertDto.getCode());
-
-        Alert check = alertRepository.findBySubNameAndPubNameAndBnoAndCode(
-                alertDto.getSubName(),alertDto.getPubName(),alertDto.getBno(),alertDto.getCode()
-        );
-
-//        if(check == null)
-            alertRepository.save(alert);
-//        else
-//            System.out.println("duplicated!");
-    }
-
-    public void deleteAlertBoard(String object)throws Exception{
-        AlertDto alertDto = parserAlert(object);
-        Alert alert = alertRepository.findBySubNameAndPubNameAndBnoAndCode(
-          alertDto.getSubName(),alertDto.getPubName(),alertDto.getBno(),
-          alertDto.getCode()
-        );
-        if(alert != null)
-            alertRepository.delete(alert);
-    }
-
-    public void deleteAlertNav(Integer no){
-        Optional<Alert> alert = alertRepository.findById(no);
-        if (alert.isPresent()){
-            alertRepository.delete(alert.get());
-        }
-    }
-
-
-    public AlertDto parserAlert(String object)throws Exception{
-        JSONParser parser = new JSONParser();
-        JSONObject jsonObject = (JSONObject) parser.parse(object);
-
-        AlertDto alertDto = new AlertDto(
-                jsonObject.get("subName").toString(),
-                jsonObject.get("pubName").toString(),
-                Integer.parseInt(String.valueOf(jsonObject.get("bno"))),
-                Integer.parseInt(String.valueOf(jsonObject.get("code")))
-        );
-
-        return alertDto;
-    }
 
     public List<AlertDto> getList(String name){
         List<Alert> list = alertRepository.findBySubNameOrderByNoDesc(name);
@@ -104,4 +50,15 @@ public class AlertService {
         }
         return  results;
     }
+
+    public int alertCount(String subName){
+        return alertRepository.countBySubName(subName);
+    }
+    public void deleteAlertNav(Integer no){
+        Optional<Alert> alert = alertRepository.findById(no);
+        if (alert.isPresent()){
+            alertRepository.delete(alert.get());
+        }
+    }
+
 }

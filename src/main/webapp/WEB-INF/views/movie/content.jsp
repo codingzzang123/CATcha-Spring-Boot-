@@ -22,8 +22,8 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/jieun/star-rating.css" media="all" rel="stylesheet" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js">
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-        <script src="js/jieun/star-rating.js" type="text/javascript">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    <script src="js/jieun/star-rating.js" type="text/javascript">
 
     <script src="https://kit.fontawesome.com/325cf61a47.js" crossorigin="anonymous"></script>
     <title>컨텐츠 디테일 화면</title>

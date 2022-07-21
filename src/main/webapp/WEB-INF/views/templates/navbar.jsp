@@ -107,8 +107,6 @@
             };
 
             ws.onmessage = function (evt){
-                // AlertCount(name);
-
                 var data = evt.data;
 
                 let toast = "<div class='toast' id='toast' data-autohide='false'>";

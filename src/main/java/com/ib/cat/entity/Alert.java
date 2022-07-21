@@ -25,4 +25,7 @@ public class Alert {
     private Integer bno;
     private Integer code;
     private Timestamp regdate;
+
+//    @Column(name="reply_code") /* 나중에 추가 될 가능성 있음 */
+//    private Integer replyCode;
 }

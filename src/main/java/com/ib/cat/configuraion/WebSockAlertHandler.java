@@ -1,4 +1,4 @@
-package com.ib.cat.controller.alert;
+package com.ib.cat.configuraion;
 
 import com.ib.cat.dto.member.Auth;
 import org.apache.commons.lang.StringUtils;
