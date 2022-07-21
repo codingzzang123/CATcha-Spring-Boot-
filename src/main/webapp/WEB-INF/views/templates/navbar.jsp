@@ -117,8 +117,8 @@
                 $("#msgStack").append(toast);   // msgStack div에 생성한 toast 추가
                 $(".toast").toast({"animation": true, "autohide": false});
                 $('.toast').toast('show');
-                $("#newNoticeCnt").text($("#newNoticeCnt").text()*1+1); //알림 받았을때 카운트 +1증가
-
+                // $("#newNoticeCnt").text($("#newNoticeCnt").text()*1+1); //알림 받았을때 카운트 +1증가
+                AlertCount();
             };
 
         }
@@ -171,6 +171,8 @@
                         for(let i=0; i<data.length; i++){
                             var contextPath = '${pageContext.request.contextPath}';
                             var date = new Date(data[i].regdate);
+                            var link ="";
+                            var aID = '';
                             innerDate = timeForToday(date);
                             title = data[i].title;
                             if(title.length > 8) {
@@ -179,18 +181,25 @@
 
                             if(data[i].code == 0){
                                 innerMessage = "님이 좋아요를 눌렀습니다.";
-                                type ="게시글에"
+                                type ="게시글에";
+                                link='#';
+                                aID = 0;
                             }else if(data[i].code == 1){
                                 innerMessage = "님이 댓글을 달았습니다.";
                                 type ="게시글에"
+                                link=contextPath+"/board/"+data[i].bno;
+                                aID = data[i].no;
                             }else{
                                 innerMessage = "님이 댓글을 달았습니다.";
                                 type ="댓글에"
+                                link=contextPath+"/board/"+data[i].bno;
+                                aID = data[i].no;
                             }
 
+
                             alertHTML += "<li class='alertLi' id='li"+data[i].no+"'><div class='alertMain'><div class='alertdiv1'><img class='rounded-circle' src='/img/profile/"+data[i].imgs+"'/></div>"+
-                                        "<div class='alertdiv2'><div><span class='alertSpan1'>회원님의 \"<strong style='font-style: italic;'>"+title+"</strong>\" "+" "+type+"<br>"+
-                                "<strong>"+data[i].pubName+"</strong>"+innerMessage+"</span></div>"+
+                                        "<div class='alertdiv2'><div><a id='myA"+aID+"' onclick='removeLi("+ aID +")' href="+link+"><span class='alertSpan1'>회원님의 \"<strong style='font-style: italic;'>"+title+"</strong>\" "+" "+type+"<br>"+
+                                "<strong>"+data[i].pubName+"</strong>"+innerMessage+"</span></a></div>"+
                                 "<div style='width: 260px; max-width: 280px; margin-top: 5px;'><span style='font-size: small; font-style: italic;'><strong>"+innerDate+"</strong><span>"+
                                 "<button class='ml-2 mb-1 close' onclick='removeLi("+ data[i].no +")'>&times;</button></div>"+
                                 "</div></div></li>";
@@ -234,11 +243,15 @@
 
         <!-- Dropdown Menu (안쪽 Click시 menu 숨겨지지 않도록 -->
         function removeLi(i){
-            let id = "li"+i;
-            let deleteLi = document.getElementById(id);
-            deleteLi.remove();
-            deleteAlert(i);
-
+            if(i != '0'){ //좋아요에 대한 알림은 클릭해도 삭제 x(없애려면 x버튼을 눌러야함)
+                let id = "li"+i;
+                let deleteLi = document.getElementById(id);
+                deleteLi.remove();
+                deleteAlert(i);
+            }else{
+                myA = '#myA'+i;
+                $(myA).removeAttr("href");
+            }
         }
 
         <!-- 알림리스트 x 버튼 눌렀을때 DB에서 삭제및 화면Div 삭제 -->
@@ -256,6 +269,9 @@
                 }
             });
         }
+        $("#action").click(function (){
+
+        });
     </script>
 
 </head>

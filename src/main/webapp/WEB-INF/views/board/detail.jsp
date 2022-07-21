@@ -163,7 +163,7 @@
     </sec:authorize>
     <sec:authorize access="isAuthenticated()">
         <div class="card" style="margin-top: 50px;">
-            <form action="/board/comment" method="post">
+            <form action="/board/comment" method="post" onsubmit="return submitComment();">
                 <div class="card-header bi bi-chat-right-dots">
                     <b style="font-family: Cambria;">Write a Comment</b>
                 </div>
@@ -172,7 +172,7 @@
                         <textarea id="comment" name="content" placeholder="댓글을 작성해주세요" style="resize: none; font-size: small; height : 100px; width: 1030px; border : none; margin-top : 5px; margin-left: 5px;"></textarea>
                     </div>
                     <div class="col-lg-1">
-                        <input type="submit" value="등록"  class="btn btn-outline-primary bi bi-pencil-square" style="margin-top: 65px;">
+                        <input type="submit" id="insertComment" value="등록"  class="btn btn-outline-primary bi bi-pencil-square" style="margin-top: 65px;">
                     </div>
                 </div>
                 <input type="hidden" value="${auth.name}" name="writer">
@@ -324,6 +324,66 @@
             }
         });
     }
+
+    /* 댓글 생성,삭제 -> 알림 */
+    function insertCommentAlert(){ //댓글( 게시글에 대한 댓글 ) => target은 그러면 게시글 주인이여야함. + 자기 글에 대한 자신의 댓글은 알림x
+        var targetUser = '${board.name }'; //targetUser = sub_name
+        if(targetUser != '${auth.name}'){
+            let insertObject ={
+                'subName':targetUser,
+                'pubName':'${auth.name }',
+                'bno':'${board.no }',
+                'code':1
+            }
+            $.ajax({
+                type: "put",
+                data: {
+                    object : JSON.stringify(insertObject)
+                },
+                url: "${pageContext.request.contextPath}/alert/reply/insert",
+                success: function (data) {
+                    console.log("Success update(Comment Insert)");
+                    let socketMsg = "comment,"+'${auth.name },'+targetUser+","+ '${board.title }'; // " ..게시글에 auth.name유저가 댓글을 달았습니다"
+                    console.log(socketMsg);
+                    socket.send(socketMsg);
+                }
+            });
+        }
+    }
+
+    function deleteCommentAlert(){
+        var targetUser = '${board.name }'
+
+        if(targetUser != '${auth.name}'){
+            let deleteObject ={
+                'subName':targetUser,
+                'pubName':'${auth.name }',
+                'bno':'${board.no }',
+                'code':1
+            }
+            $.ajax({
+                type: "delete",
+                data: {
+                    object : JSON.stringify(deleteObject)
+                },
+                url: "${pageContext.request.contextPath}/alert/reply/delete",
+                success: function (data) {
+                    console.log("Success update(delete)");
+                }
+            });
+        }
+    }
+    /* 댓글은 한 글자 이상, 조건맞으면 알림 테이블과 비동기 통신 시작 */
+    function submitComment(){
+        var check = $("textarea#comment").val().length;
+        if(check < 1){
+            return false;
+        }else{
+            insertCommentAlert();
+            return true;
+        }
+    }
+
 
     //Reply
     var beforeNo = null;
