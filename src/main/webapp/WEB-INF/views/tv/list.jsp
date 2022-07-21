@@ -27,16 +27,22 @@
             <div class="css-1qq59e8" style="display: flex;">
                 <div class="media-cate">
                     <div>
-                        <h5>TV</h5>
+
                         <form action="${pageContext.request.contextPath}/tv/list">
-                            <select name="category" id="category">
+                            <div style="border:1px solid white; border-radius: 5px; width: 200px; text-align: center; padding:3px;">
+                                <h2>TV</h2>
+                                <div style="background-color: white; border:1px solid burlywood;border-radius: 2em; width: 200px; text-align: center; padding:10px; margin-top: 15px;">
+                                    <h5>How to sort</h5>
+                                <select name="category" id="category">
                                 <option value="popularity.desc" <c:if test="${category eq 'popularity.desc'}">selected="selected"</c:if>>인기도 내림차순</option>
                                 <option value="popularity.asc" <c:if test="${category eq 'popularity.asc'}">selected="selected"</c:if>>인기도 오름차순</option>
                                 <option value="vote_average.desc" <c:if test="${category eq 'vote_average.desc'}">selected="selected"</c:if>>평점 내림차순</option>
                                 <option value="vote_average.asc" <c:if test="${category eq 'vote_average.asc'}">selected="selected"</c:if>>평점 오름차순</option>
                             </select>
-                            <br><br><br>
-                            <h5>where to watch</h5>
+
+                            <br><br>
+                                    <div style="border:1px solid white; border-radius: 5px; width: 180px; text-align: center; padding:10px;">
+                                    <h5>where to watch</h5>
                             <input type="radio" class="p_btn" id="p_btn_01" name="platform" value="Netflix" <c:if test="${platform eq 'Netflix'}">checked="checked"</c:if>>
                             <label for="p_btn_01">
                                 <img src="https://www.themoviedb.org/t/p/original/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg" width="50" height="50" style="border-radius: 5px; margin: 3px;" alt="Netflix"></label>
@@ -50,9 +56,11 @@
                             <label for="p_btn_04">
                                 <img src="https://www.themoviedb.org/t/p/original/vXXZx0aWQtDv2klvObNugm4dQMN.jpg" width="50" height="50" style="border-radius: 5px; margin: 3px;" alt="Watcha"></label><br>
                             <input type="radio" class="p_btn" id="p_btn_05" name="platform" value="none" <c:if test="${platform eq 'none'}">checked="checked"</c:if>>
-                            <label for="p_btn_05">모두 보기</label>
-
-                            </label><br><input type="submit" value="확인">
+                                        <label for="p_btn_05" style="background-color: lavender; border-radius: 5px; padding: 5px; width: 50px;">All</label>
+                                    </div>
+                                </div>
+                                <br><input type="submit" value="확인" style="width: 100px; background-color: aliceblue; border-radius: 5px; border:1px solid white; padding-top: 5px;">
+                            </div>
                         </form>
                     </div>
                 </div>

@@ -171,15 +171,39 @@
             </div>
         </section>
 
+<%--        <c:choose>--%>
+<%--            <c:when test="${videoUrl eq null}"></c:when>--%>
+<%--            <c:otherwise>--%>
+<%--                ${videoUrl}--%>
+<%--                <div class="popupVideo" style="text-align: center; border: 1px solid black; width: 130px; border-radius: 5px; margin:0 auto;">--%>
+<%--                    <a data-video="${videoUrl}"><b>트레일러 보기</b></a>--%>
+<%--                </div><br>--%>
+<%--                <div class="video-popup">--%>
+<%--                    <div class="video-popup-closer"></div>--%>
+<%--                </div>--%>
+<%--            </c:otherwise>--%>
+<%--        </c:choose>--%>
+
         <c:choose>
             <c:when test="${videoUrl eq null}"></c:when>
             <c:otherwise>
-                <div class="popupVideo" style="text-align: center;">
-                    <a data-video="${videoUrl}"><b>트레일러 보기</b></a>
+                <div class="trailWrapper">
+                    <button id="bt_toggle" style="text-align: center; border: 1px solid black; width: 150px; border-radius: 5px; margin:0 auto;"><b>트레일러 보기</b></button>
+                    <div id="Toggle">
+                        <iframe width="100%" height="500" src="https://www.youtube.com/embed/${videoUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
                 </div>
-                <div class="video-popup">
-                    <div class="video-popup-closer"></div>
-                </div>
+<%--        <div class="trailWrapper1">--%>
+<%--                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">--%>
+<%--                    관련 영상 보기--%>
+<%--                </button>--%>
+<%--                </p>--%>
+<%--                <div class="collapse" id="collapseExample">--%>
+<%--                    <div class="card card-body">--%>
+<%--                        <iframe width="560" height="315" src="https://www.youtube.com/embed/${videoUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--        </div>--%>
             </c:otherwise>
         </c:choose>
 
@@ -379,7 +403,7 @@
                                 onsubmit="return reviewFunction();">
                                 <div class="row" id="row">
                                     <div class="col-lg-11">
-                                        <textarea id="comment" name="content" placeholder="리뷰를 추가해주세요" style="resize: none; font-size: small;"></textarea>
+                                        <textarea id="comment" name="content" placeholder="리뷰를 추가해주세요" style="resize: none; font-size: small;" minlength="10"></textarea>
                                         <div style="margin-left:20px; resize: none; font-size: small;">
                                             <form:label path="rating">평점: </form:label>
                                             <form:select path="rating" id="rating" name="rating" style="width: 105px;" itemValue="">
@@ -565,17 +589,23 @@
                 return true;
             }
         }
-        $(".popupVideo a").click(function() {
-            $(".video-popup").addClass("reveal"),
-                $(".video-popup .video-wrapper").remove(),
-                $(".video-popup").append("<div class='video-wrapper'>" +
-                    "<iframe width='560' height='315' src='https://youtube.com/embed/"+$(this).data("video")+"?rel=0&playsinline=1&autoplay=1' allow='autoplay; encrypted-media' allowfullscreen>" +
-                    "</iframe></div>")
-        });
+        // $(".popupVideo a").click(function() {
+        //     $(".video-popup").addClass("reveal");
+        //         $(".video-popup .video-wrapper").remove();
+        //         $(".video-popup").append("<div class='video-wrapper'>" +
+        //             "<iframe width='560' height='315' src='https://youtube.com/embed/"+$(this).data("video")+"?rel=0&playsinline=1&autoplay=1' allow='autoplay; encrypted-media' allowfullscreen>" +
+        //             "</iframe></div>");
+        // });
+        //
+        // $("video-popup-closer").click(function() {
+        //     $(".video-popup .video-wrapper").remove();
+        //         $(".video-popup").removeClass("reveal");
+        // });
 
-        $("video-popup-closer").click(function() {
-            $(".video-popup .video-wrapper").remove(),
-                $(".video-popup").removeClass("reveal")
+        $(function(){
+            $("#bt_toggle").click(function(){
+                $("#Toggle").toggle();
+            });
         });
 
         // var resultHTML="";
