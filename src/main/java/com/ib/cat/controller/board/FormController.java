@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.Timestamp;
+
 @Controller
 public class FormController {
 
@@ -28,9 +30,10 @@ public class FormController {
     @GetMapping(value = "/board")
     public String listForm(Model model,
                            @PageableDefault(size = 10, sort = "no", direction = Sort.Direction.DESC)Pageable pageable,
-                           @RequestParam(required = false, defaultValue = "")String field,
-                           @RequestParam(required = false, defaultValue = "")String searchKeyword){
+                           @RequestParam(required = false, defaultValue = "",name = "s_type")String field,
+                           @RequestParam(required = false, defaultValue = "",name = "s_keyword")String searchKeyword){
         Page<Board> pageList = boardRepository.findAll(pageable);
+
         if(field.equals("name")){
             pageList = boardService.search1(searchKeyword, pageable);
         }else if(field.equals("title")){
@@ -45,16 +48,14 @@ public class FormController {
         int endBlockPage = startBlockPage + pageBlock - 1;
         endBlockPage = totalPages < endBlockPage ? totalPages : endBlockPage;
 
-        System.out.println("pageNumber = "+pageNumber);
-        System.out.println("startBlockPage = "+startBlockPage);
-        System.out.println("endBlockPage = "+endBlockPage);
-
-
-        //model.addAttribute("pageList", pageList);
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("startBlockPage", startBlockPage);
         model.addAttribute("endBlockPage", endBlockPage);
         model.addAttribute("boards", pageList);
+
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        model.addAttribute("today", timestamp);
 
         return "board/list";
     }
@@ -72,11 +73,12 @@ public class FormController {
         return "board/write";
     }
 
-
     @GetMapping(value = "/board/edit/{no}")
     public String editForm(@PathVariable Integer no, Model model){
         model.addAttribute("board",boardService.findBoard(no));
         return "/board/edit";
     }
+
+
 
 }
