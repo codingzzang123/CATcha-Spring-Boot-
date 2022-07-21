@@ -177,12 +177,19 @@
         <c:choose>
             <c:when test="${videoUrl eq null}"></c:when>
             <c:otherwise>
-                <div class="popupVideo" style="margin-left: 100px;">
-                    <a data-video="${videoUrl}"><b>트레일러 보기</b></a>
+<%--                <div class="popupVideo" style="margin-left: 100px;">--%>
+<%--                    <a data-video="${videoUrl}"><b>트레일러 보기</b></a>--%>
+<%--                </div>--%>
+<%--                <div class="video-popup">--%>
+<%--                    <div class="video-popup-closer"></div>--%>
+<%--                </div>--%>
+                <div class="trailWrapper">
+                    <button id="bt_toggle" style="text-align: center; border: 1px solid black; width: 150px; border-radius: 5px; margin:0 auto;"><b>트레일러 보기</b></button>
+                    <div id="Toggle">
+                        <iframe width="100%" height="500" src="https://www.youtube.com/embed/${videoUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
                 </div>
-                <div class="video-popup">
-                    <div class="video-popup-closer"></div>
-                </div>
+
             </c:otherwise>
         </c:choose>
 
@@ -571,17 +578,12 @@
             return true;
         }
     }
-    $(".popupVideo a").click(function() {
-        $(".video-popup").addClass("reveal"),
-            $(".video-popup .video-wrapper").remove(),
-            $(".video-popup").append("<div class='video-wrapper'>" +
-                "<iframe width='560' height='315' src='https://youtube.com/embed/"+$(this).data("video")+"?rel=0&playsinline=1&autoplay=1' allow='autoplay; encrpted-media' allowfullscreen>" +
-                "</iframe></div>")
-    }),
-        $("video-popup-closer").click(function(){
-            $(".video-popup .video-wrapper").remove(),
-                $(".video-popup").removeClass("reveal")
+    $(function(){
+        $("#bt_toggle").click(function(){
+            $("#Toggle").toggle();
         });
+    });
+
 
 
     // var resultHTML="";
