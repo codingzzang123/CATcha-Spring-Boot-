@@ -23,15 +23,11 @@ public class LoginController {
     String kakao_client_id = "fc6944c62dae67a30e23da58dc978e9f";
     String kakao_redirect_uri = "http://localhost:8080/kakaocallback";
 
-    String google_client_id = "516786604299-idqmu109ihn6h70b2kda60m32se1rir7.apps.googleusercontent.com";
-    String google_redirect_uri = "http://localhost:8080/test/googlecallback";
+    String google_client_id = "1022596664094-r26vimfhq0ooql9516nctpombjqv3ilg.apps.googleusercontent.com";
+    String google_redirect_uri = "http://localhost:8080/googlecallback";
 
     @GetMapping("member/login")
-    public String getLogin(Model model, HttpSession httpSession){
-        Auth auth = new Auth();
-        auth.setId("test1234");
-        httpSession.setAttribute("auth", auth);
-
+    public String getLogin(Model model){
         String naver = naverService.getRegUrl();
 
         String kakao = "https://kauth.kakao.com/oauth/authorize?"
@@ -43,8 +39,8 @@ public class LoginController {
                 + "?client_id="+google_client_id
                 + "&redirect_uri="+ google_redirect_uri
                 + "&response_type=code"
-                + "&scope=email%20profile%20openid"
-                + "&access_type=offline";
+                + "&scope=email%20profile%20openid";
+                //+ "&access_type=offline";
 
         model.addAttribute("naver", naver);
         model.addAttribute("kakao", kakao);

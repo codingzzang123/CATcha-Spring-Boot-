@@ -6,9 +6,6 @@ import com.ib.cat.entity.Member;
 import com.ib.cat.repository.BoardRepository;
 import com.ib.cat.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,16 +15,12 @@ public class BoardService {
     @Autowired
     BoardRepository boardRepository;
 
+    @Autowired
     MemberRepository memberRepository;
 
     public List<Board> getAll(){
         return  boardRepository.findAllByOrderByNoDesc();
     }
-    public Page<Board> list(int page){
-        return boardRepository.findAll(PageRequest.of(
-                page, 20, Sort.by(Sort.Direction.DESC, "no")));
-    }
-
 
     public void insert(Board board){
         boardRepository.save(board);
@@ -40,7 +33,6 @@ public class BoardService {
     public void delete(Board board){
         boardRepository.delete(board);
     }
-
 
     public BoardDetailDto getBoard(int id){
         Board board = boardRepository.findById(id).get();
@@ -59,6 +51,11 @@ public class BoardService {
         return board;
     }
 
+    public void views(int no){
+        Board board = boardRepository.findById(no).get();
+        board.setViews(board.getViews()+1);
+        boardRepository.save(board);
+    }
 
 
 }

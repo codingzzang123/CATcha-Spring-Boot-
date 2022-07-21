@@ -1,9 +1,7 @@
 package com.ib.cat.dto.alert;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 import java.sql.Timestamp;
 
@@ -18,6 +16,9 @@ public class AlertDto {
     private String imgs;
 
     private String title;
+
+    /* add reply code */
+    private int replyCode;
 
     @Builder
     public AlertDto(String subName,String pubName,int bno,int code){
@@ -37,6 +38,15 @@ public class AlertDto {
         this.regdate = regdate;
         this.imgs = imgs;
         this.title = title;
+    }
+
+    @Builder
+    public AlertDto(String subName,String pubName,int bno,int code,int replyCode){
+        this.subName =subName;
+        this.pubName = pubName;
+        this.bno = bno;
+        this.code = code;
+        this.replyCode = replyCode;
     }
 
 }
