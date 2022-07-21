@@ -3,6 +3,7 @@ package com.ib.cat.controller.board;
 import com.ib.cat.entity.Board;
 import com.ib.cat.service.board.BoardService;
 import com.ib.cat.service.member.FileService;
+import com.ib.cat.utils.PagingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,9 @@ public class ActionController {
 
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    private PagingUtil pagingUtil;
 
     @GetMapping(value = "/board/delete/{no}")
     public String deleteAction(@PathVariable Integer no){

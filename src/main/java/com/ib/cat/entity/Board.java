@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @Entity(name = "board")
 @Data
 @DynamicInsert
-public class Board {
+public class Board{
     @Id
     @SequenceGenerator(name="seq", sequenceName="SEQ_BOARD", allocationSize=1)
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="seq")
