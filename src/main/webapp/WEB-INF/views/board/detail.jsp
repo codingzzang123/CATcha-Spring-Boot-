@@ -70,7 +70,6 @@
                href='/board/edit/${board.no}'>수정</a>
             <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-black rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center"
                href='/board/delete/${board.no}'>삭제</a>
-            <button id="testa" type="button">test</button>
         </div>
     </form>
 
@@ -195,11 +194,6 @@
                 }
             });
 
-            <%--if(socket){--%>
-            <%--    let socketMsg = "like"+'${auth.name }',targetUser;--%>
-            <%--    console.log(socketMsg);--%>
-            <%--    socket.send(socketMsg);--%>
-            <%--}--%>
         }
 
         function deleteLikeAlert(){
@@ -222,10 +216,6 @@
                 }
             });
         }
-
-        // $("#testa").click(function(){
-        //     insertLikeAlert();
-        // });
     </script>
 
 </body>

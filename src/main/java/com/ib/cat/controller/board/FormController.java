@@ -21,7 +21,7 @@ public class FormController {
 
     @GetMapping(value = "/board/{no}")
     public String detailForm(@PathVariable Integer no, Model model){
-        model.addAttribute("board", boardService.getOne(no));
+        model.addAttribute("board", boardService.getBoard(no));
         return "board/detail";
     }
 
@@ -33,7 +33,7 @@ public class FormController {
 
     @GetMapping(value = "/board/edit/{no}")
     public String editForm(@PathVariable Integer no, Model model){
-        model.addAttribute("board",boardService.getOne(no));
+        model.addAttribute("board",boardService.findBoard(no));
         return "/board/edit";
     }
 

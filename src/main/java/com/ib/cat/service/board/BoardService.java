@@ -1,7 +1,10 @@
 package com.ib.cat.service.board;
 
+import com.ib.cat.dto.Board.BoardDetailDto;
 import com.ib.cat.entity.Board;
+import com.ib.cat.entity.Member;
 import com.ib.cat.repository.BoardRepository;
+import com.ib.cat.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +14,9 @@ import java.util.List;
 public class BoardService {
     @Autowired
     BoardRepository boardRepository;
+
+    @Autowired
+    MemberRepository memberRepository;
 
     public List<Board> getAll(){
         return  boardRepository.findAllByOrderByNoDesc();
@@ -28,8 +34,21 @@ public class BoardService {
         boardRepository.delete(board);
     }
 
-    public Board getOne(int id){
+    public BoardDetailDto getBoard(int id){
+        Board board = boardRepository.findById(id).get();
+        Member member = memberRepository.findByName(board.getName());
+
+        BoardDetailDto result = new BoardDetailDto(
+                board.getNo(),board.getName(),board.getCate(),board.getTitle(),
+                board.getContent(),board.getRegdate(),board.getViews(),
+                board.getLikes(),board.getReplys(),member.getImgs()
+        );
+        return result;
+    }
+
+    public Board findBoard(int id){
         Board board = boardRepository.findById(id).get();
         return board;
     }
+
 }
