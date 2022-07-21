@@ -14,22 +14,20 @@
     <title>Search</title>
     <style>
 
-        /*.test{width: 60px; height: 100px;}*/
-        /*tr{vertical-align: middle;}*/
 
-        /*.main{*/
-        /*    float:right;*/
-        /*    text-align: center;*/
-        /*}*/
-        /*.css-paging{*/
-        /*    margin-top: 30px;*/
-        /*    display: inline-block;*/
-        /*    text-align: center;*/
-        /*}*/
-        .mytr th{
-            min-width: 200px;
-            min-height: 250px;
+        #searchResults div{
+            display: inline-block;
+            max-width: 90px;
+            min-width: 90px;
+            display: flex;
+            margin-bottom: 5px;
         }
+        .word{
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+        }
+
     </style>
     <link href="/css/hosun/main.css" rel="stylesheet"/>
     <link href="/css/jieun/contentList.css" rel="stylesheet"/>
@@ -43,30 +41,63 @@
             <div class="css-1qq59e8" style="display: flex;">
                 <div class="media-cate">
                     <div>
-                        <h5><span>🔎 Search by ${query }</span></h5>
-                        <div name="category" id="category">
-                            <!-- empty -->
+
+                        <div style="border:1px solid white; border-radius: 5px; width: 200px; text-align: center; padding:3px;">
+                            <h2 style="font-style: italic;"><strong>Search Results</strong></h2>
+                            <div style="background-color: white; border:1px solid burlywood;border-radius: 2em; width: 200px; text-align: center; padding:10px; margin-top: 15px;">
+                                <span style="font-style: italic; font-size: medium;"><String>Keyword ${query }</String></span>
+                                <div name="category" id="category">
+                                <!-- empty -->
+                                </div>
+                                <br><br>
+
+                                <div style="border:1px solid white; border-radius: 5px; width: 180px; text-align: center; padding:10px;"
+                                    id="searchResults">
+
+                                    <div>
+                                        <div>
+                                            <a href="<c:url value='/search/movie?query=${query }&page=1'/>">
+                                                <strong style="font-size: large;">Movies</strong>
+                                            </a>
+                                        </div>
+
+                                        <div style="padding-left: 35px;">
+                                            <span class="badge rounded-pill bg-warning text-dark" style="min-width: 30px; max-width: 60px; height: 30px; text-align: center; vertical-align: middle;
+                                                        font-size: large;">${scd.movie }</span>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div>
+                                            <a href="<c:url value='/search/tv?query=${query }&page=1'/>">
+                                                <strong style="font-size: large;">TV shows</strong>
+                                            </a>
+                                        </div>
+
+                                        <div style="padding-left: 35px;">
+                                            <span class="badge rounded-pill bg-warning text-dark" style="min-width: 30px; max-width: 60px; height: 30px; text-align: center; vertical-align: middle;
+                                                        font-size: large;">${scd.tv }</span>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div>
+                                            <a href="<c:url value='/search/board?query=${query }&page=1'/>">
+                                                <strong style="font-size: large;">Boards</strong>
+                                            </a>
+                                        </div>
+
+                                        <div style="padding-left: 35px;">
+                                            <span class="badge rounded-pill bg-warning text-dark" style="min-width: 30px; max-width: 50px; height: 30px; text-align: center; vertical-align: middle;
+                                                        font-size: large;">${scd.board }</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <br><br><br>
-                        <span>
-                            <a href="<c:url value='/search/movie?query=${query }&page=1'/>">
-                                <button>영화 : ${scd.movie }개</button>
-                            </a>
-                        </span><br>
-
-                        <span>
-                            <a href="<c:url value='/search/tv?query=${query }&page=1'/>">
-                                <button>TV : ${scd.tv }개</button>
-                            </a>
-                        </span><br>
-
-                        <span>
-                            <a href="<c:url value='/search/board?query=${query }&page=1'/>">
-                                <button>게시판 : ${scd.board }개</button>
-                            </a>
-                        </span><br>
                         <br>
                     </div>
+
                 </div>
 
                 <div class="media-main">
@@ -75,60 +106,79 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr class="mytr">
-                                        <th scope="col">글 번호</th>
-                                        <th scope="col">제목</th>
-                                        <th scope="col">내용</th>
-                                        <th scope="col">작성자</th>
-                                        <th scope="col">작성일</th>
+                                        <th scope="col">No</th>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">Content</th>
+                                        <th scope="col">Writer</th>
+                                        <th scope="col">Regdate</th>
                                     </tr>
                                 </thead>
+
                                 <tbody>
                                     <c:forEach var="content" items="${content }">
                                         <tr class="mytr">
-                                            <td class="media-frame" style="width:250px; height:200px; word-break:break-all;table-layout:fixed;">${content.no }</td>
-                                            <td class="media-frame" style="width:250px; height:200px; word-break:break-all;table-layout:fixed;">${content.title }</td>
-                                            <td class="media-frame" style="width:250px; height:200px; word-break:break-all;table-layout:fixed;">${content.content }</>
-                                            <td class="media-frame" style="width:250px; height:200px; word-break:break-all;table-layout:fixed;">${content.name }</>
-                                            <td class="media-frame" style="width:250px; height:200px; word-break:break-all;table-layout:fixed;">${content.regdate }</>
+                                            <td  style="width:80px; height:80px; word-break:break-all;table-layout:fixed;">
+                                                ${content.no }
+                                            </td>
+                                            <td class="media-frame" style="width:250px; height:80px; word-break:break-all;table-layout:fixed;">
+                                                <a href="<c:url value='/board/${content.no }'/>">
+                                                        ${content.title }
+                                                </a>
+                                            </td>
+                                            <td  style="width:250px; height:80px; word-break:break-all;table-layout:fixed;">${content.content }</>
+                                            <td  style="width:150px; height:80px; word-break:break-all;table-layout:fixed;">${content.name }</>
+                                            <td  style="width:205px; height:80px; word-break:break-all;table-layout:fixed;">${content.regdate }</>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
+                            <c:if test="${empty content}">
+                                <br><br>
+                                <img src="https://cdn-icons-png.flaticon.com/512/5058/5058046.png" width="60px;" height="60px;">
+                                <br><br>
+                                <span style="font-size: medium; font-style: italic;">&nbsp;&nbsp;검색 결과가 없습니다.</span><br>
+                            </c:if>
                         </c:when>
                         <c:otherwise>
                             <table class="table table-hover">
-                                <thead>
-                                <tr>
-                                    <th scope="col" class="center">포스터</th>
-                                    <th scope="col">제목</th>
-                                    <th scope="col">평점</th>
-                                    <th scope="col">개봉일 </th>
-                                </tr>
-                                </thead>
-                                <tbody>
+
                                 <c:forEach var="content" items="${contents }">
-                                    <tr>
-                                        <td class="media-frame" style="width:250px; height:200px; word-break:break-all;table-layout:fixed;">
+                                    <tr style="width:250px; height:180px; word-break:break-all;table-layout:fixed;">
+                                        <td class="media-frame">
                                             <strong>
                                                 <a href="<c:url value='/movie/content/${content.contentsNum }'/>">
-                                                    <img class="test" src="${Image_URL }${content.posterPath }" style="width: 170px; height: 200px;">
+                                                    <img class="test" src="${Image_URL }${content.posterPath }" style="width: 140px; height: 180px;">
                                                 </a>
                                             </strong>
                                         </td>
-                                        <td class="media-frame" style="width:250px; height:200px; word-break:break-all;table-layout:fixed;">
-                                            <strong>
+
+                                        <td class="media-frame" style="width:750px; height:180px; word-break:break-all;table-layout:fixed;">
+                                            <strong style="font-size: x-large;">
                                                 <a href="<c:url value='/movie/content/${content.contentsNum }'/>">${content.title }</a>
                                             </strong>
-                                        </td>
-                                        <td class="media-frame" style="width:250px; height:200px; word-break:break-all;table-layout:fixed;">
-                                            <strong>${Math.ceil((content.voteAverage)/2*10)/10}</strong>
-                                        </td>
-                                        <td class="media-frame" style="width:250px; height:200px; word-break:break-all;table-layout:fixed;">
-                                            <strong><fmt:formatDate value="${content.releaseDate }" pattern="y년 MMM dd일 EEE HH:mm" /></strong>
+
+<%--                                            <strong>${Math.ceil((content.voteAverage)/2*10)/10}</strong>--%>
+                                            <br>
+                                            <strong style="font-size: large; color: #aaaaaa;"><fmt:formatDate value="${content.releaseDate }" pattern="y년 MMM dd일 EEE HH:mm" /></strong>
+
+                                            <br><br><br>
+                                            <div class="word" style="font-size: large; overflow: hidden; text-overflow: ellipsis;">
+                                                <c:choose>
+                                                    <c:when test="${empty content.overview}">
+                                                        <img src="https://cdn-icons-png.flaticon.com/512/5058/5058046.png" width="60px;" height="60px;">
+                                                        <span style="font-size: medium; font-style: italic;">&nbsp;&nbsp;등록 된 줄거리를 찾을 수 없습니다.</span>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <span style="font-size: medium;">${content.overview }</span>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                
+                                            </div>
                                         </td>
                                     </tr>
                                 </c:forEach>
-                                </tbody>
+
+
                             </table>
                         </c:otherwise>
                     </c:choose>
