@@ -27,7 +27,7 @@ public class ActionController {
 
     @GetMapping(value = "/board/delete/{no}")
     public String deleteAction(@PathVariable Integer no){
-        boardService.delete(boardService.getOne(no));
+        boardService.delete(boardService.findBoard(no));
         return "redirect:/board";
     }
 

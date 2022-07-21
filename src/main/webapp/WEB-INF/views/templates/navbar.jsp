@@ -84,13 +84,15 @@
         var socket;
         var name = '${auth.name }'
 
+        /* Page roading 후 실행될 function */
         $(document).ready(function(){
-            if( ${auth ne null} ){ //로그인 했을때
+            if( ${auth ne null} ){
                 connect();
                 AlertCount(name);
             }
         });
 
+        /* Socket Connect function */
         function connect() {
             console.log('into connect function');
             var ws = new SockJS("/gs-websocket");
@@ -105,7 +107,7 @@
             };
 
             ws.onmessage = function (evt){
-                AlertCount(name);
+                // AlertCount(name);
 
                 var data = evt.data;
 
@@ -117,13 +119,20 @@
                 $("#msgStack").append(toast);   // msgStack div에 생성한 toast 추가
                 $(".toast").toast({"animation": true, "autohide": false});
                 $('.toast').toast('show');
-                // $("#newNoticeCnt").text($("#newNoticeCnt").text()*1+1); //알림 받았을때 카운트 +1증가
+                $("#newNoticeCnt").text($("#newNoticeCnt").text()*1+1); //알림 받았을때 카운트 +1증가
 
             };
 
         }
 
-        /* 1. 알림 카운트 가져오기 */
+        /* 알림 Bell Click 시 */
+        function callFunction() {
+            AlertCount();
+            getAlertList();
+            return true;
+        }
+
+        /*  알림 카운트 가져오기 */
         function AlertCount(){
             var name = '${auth.name }';
             console.log('TEST AlertCount : '+name);
@@ -146,13 +155,7 @@
             });
         }
 
-        function callFunction() { //징글벨 눌렀을때
-            AlertCount();
-            getAlertList();
-            return true;
-        }
-
-
+        /* 알림 Dropdown menu Click시 실행되는 function */
         function getAlertList(){
             var alertHTML="";
             $.ajax({
@@ -170,7 +173,6 @@
                         for(let i=0; i<data.length; i++){
                             var contextPath = '${pageContext.request.contextPath}';
                             var date = new Date(data[i].regdate);
-                            // innerDate = date.getMonth()+1+"."+date.getDate()+" "+date.getHours()+":"+date.getMinutes();
                             innerDate = timeForToday(date);
                             title = data[i].title;
                             if(title.length > 8) {
@@ -207,7 +209,7 @@
             });
         }
 
-
+        /* 알림 시간 revert function */
         function timeForToday(value) {
             const today = new Date();
             const timeValue = new Date(value);
@@ -232,11 +234,7 @@
         }
 
 
-        // $("#navAlert").click(function(){
-        //     AlertCount();
-        // });
-
-        <!-- Dropdown Menu -->
+        <!-- Dropdown Menu (안쪽 Click시 menu 숨겨지지 않도록 -->
         function removeLi(i){
             let id = "li"+i;
             let deleteLi = document.getElementById(id);
@@ -245,6 +243,7 @@
 
         }
 
+        <!-- 알림리스트 x 버튼 눌렀을때 DB에서 삭제및 화면Div 삭제 -->
         function deleteAlert(i){
             $.ajax({
                 type: "delete",
@@ -348,10 +347,6 @@
                     <sec:authorize access="isAuthenticated()">
                         <li>
                             <a class="nav-link dropdown-toggle py-0" href="#" data-bs-toggle="dropdown" aria-expanded="true" onclick="callFunction(this);">
-<%--                                <svg width="2.3em" height="2.3em" viewBox="0 0 16 16" class="bi bi-bell" fill="currentColor" xmlns="http://www.w3.org/2000/svg">--%>
-<%--                                    <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2z"/>--%>
-<%--                                    <path fill-rule="evenodd" d="M8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/>--%>
-<%--                                </svg>--%>
                                 <img src="https://cdn-icons-png.flaticon.com/512/1827/1827271.png" style="width: 2.5em; height: 2.4em;">
                                 <span id="newNoticeCnt" class="badge badge-pill badge-danger"></span>
                             </a>
@@ -364,7 +359,6 @@
                             </ul>
 
                         </li>
-
 
                         <li>
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -396,16 +390,6 @@
 
 </body>
 
-<%--<div class="toast">--%>
-<%--    <div class="toast-header">--%>
-<%--        <strong class="mr-auto text-primary">알림</strong>--%>
-<%--        <small class="text-muted">just now</small>--%>
-<%--        <button type="button" id="test" class="ml-2 mb-1 close" data-bs-dismiss='toast' aria-label='Close'>--%>
-<%--            &times;--%>
-<%--        </button>--%>
-<%--    </div>--%>
-<%--    <div class="toast-body">회원님의 게시물에 댓글이 달렸습니다.</div>--%>
-<%--</div>--%>
 
 
 
