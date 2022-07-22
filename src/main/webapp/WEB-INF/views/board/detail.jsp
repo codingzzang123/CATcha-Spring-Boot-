@@ -201,7 +201,7 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-11">
-                                <textarea id="content" name="content" placeholder="댓글을 작성해주세요" style="resize: none; font-size: small; height : 100px; width: 1030px; border : none; margin-top : 5px; margin-left: 5px;"></textarea>
+                                <textarea id="comment" name="content" placeholder="댓글을 작성해주세요" style="resize: none; font-size: small; height : 100px; width: 1030px; border : none; margin-top : 5px; margin-left: 5px;"></textarea>
                             </div>
                             <div class="col-lg-1">
                                 <input type="submit" id="insertComment" value="등록"  class="btn btn-outline-primary bi bi-pencil-square" style="margin-top: 65px;">
