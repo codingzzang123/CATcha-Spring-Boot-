@@ -562,6 +562,14 @@
                 console.log("Delete Success");
                 let deleteDiv = document.getElementById(i);
                 deleteDiv.remove();
+
+                if($('#results').length == 0) {
+                    d = document.getElementById('result');
+                    n = document.createElement('div');
+                    n.setAttribute('class', 'review-items');
+                    n.innerHTML = "<span style='font-family: Cambria; font-size: medium;'>아직 등록된 리뷰가 없습니다!</span>";
+                    d.appendChild(n);
+                }
             },error:function (){
                 console.log("fail");
             }

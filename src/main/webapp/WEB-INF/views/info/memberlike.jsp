@@ -10,6 +10,20 @@
 
     <link href="/css/hosun/main.css" rel="stylesheet"/>
     <%--    <link href="/css/hosun/info.css" rel="stylesheet"/>--%>
+    <style>
+        #test{
+            min-height: 250px;
+            max-height: 250px;
+            height: 250px;
+            position: relative;
+        }
+        #testbtn{
+            vertical-align: bottom;
+            width: 60px;
+            height: 40px;
+            margin-left: 850px;
+        }
+    </style>
 </head>
 <body>
 
@@ -22,11 +36,20 @@
 
     <section>
         <div class="css-Like-Body" scroll=auto style="overflow-x:hidden; height: auto; max-height: 790px; min-height: 250px;">
-            <div style="text-align: center; margin-top: 7px;" >
-                <span>나의 관심 목록</span>
-                <span style="margin-left: 20px;">영화 :  </span><input type="button" id="movie" value="" class="css-circle" style="width: 30px;"/>
-                <span style="margin-left: 20px;">TV :  </span><input type="button" id="tv" value="" class="css-circle" style="width: 30px;"/>
-                <span style="margin-left: 20px;">게시판 :  </span><input type="button" id="board" value="" class="css-circle" style="width: 30px;"/>
+            <div style="text-align: center; margin-top: 7px;" ><strong>Movies&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+                <div style="display: inline-block">
+                <span class="badge rounded-pill bg-warning text-dark btn btn-mini" style="min-width: 30px; max-width: 60px; height: 30px; text-align: center; vertical-align: middle;
+                                                        font-size: large;" id="movie"></span></div>
+                <div style="display: inline-block"><strong>&nbsp;&nbsp;TV shows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+                <span class="badge rounded-pill bg-warning text-dark btn btn-mini" style="min-width: 30px; max-width: 60px; height: 30px; text-align: center; vertical-align: middle;
+                                                        font-size: large;" id="tv"></span></div>
+                <div style="display: inline-block"><strong>&nbsp;&nbsp;&nbsp;Boards&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+                <span class="badge rounded-pill bg-warning text-dark btn btn-mini" style="min-width: 30px; max-width: 60px; height: 30px; text-align: center; vertical-align: middle;
+                                                        font-size: large;" id="board"></span></div>
+
+<%--                <span style="margin-left: 20px;">영화 :  </span><input type="button" id="movie" value="" class="css-circle" style="width: 30px;"/>--%>
+<%--                <span style="margin-left: 20px;">TV :  </span><input type="button" id="tv" value="" class="css-circle" style="width: 30px;"/>--%>
+<%--                <span style="margin-left: 20px;">게시판 :  </span><input type="button" id="board" value="" class="css-circle" style="width: 30px;"/>--%>
             </div>
 
             <div id="result"><!-- datas --></div>
@@ -105,14 +128,14 @@
                                 "<div class='col-lg-3 item-img' style='text-align:center;'>"+
                                 "<img class='rounded-circle' style='width:220px; height:220px;' src= "+ data[i].posterPath +">"+
                                 "</div>"+
-                                "<div class='col-lg-9'>"+
+                                "<div id='test' class='col-lg-9'>"+
                                 "<div id='con'>"+
                                 "<p id='title' style='font: italic bold 1.5em/1em Georgia, serif ;'>"+data[i].title+"</p>"+
                                 "<a href=\" <c:url value=' " + path+data[i].contentsNum +"'/> \">"+"<div id='con2'>"+
                                 data[i].overview+
                                 "</div></a>"+
-                                "<button type='button' class='btn btn-danger' style='margin-top: 95px;' data-bs-toggle='modal' data-bs-target='#Modal' data-test='"+ data[i].contentsNum +"'>삭제</button>"+
                                 "</div>"+
+                                "<div id='testbtn'><button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#Modal' data-test='"+ data[i].contentsNum +"'>삭제</button></div>"+
                                 "</div>"+
                                 "</div>"+
                                 "</div>");
@@ -123,6 +146,11 @@
                     console.log("fail");
                 }
             });
+        }
+
+        function testc(){
+            code=0;
+            getList();
         }
 
         $("#movie").click(function(){
@@ -172,9 +200,9 @@
                 data:{
                     'memberId':memberId
                 },success:function (data){
-                    $('#movie').val(data.movie);
-                    $('#tv').val(data.tv);
-                    $('#board').val(data.board);
+                    $('#movie').text(""+data.movie+"");
+                    $('#tv').text(""+data.tv+"");
+                    $('#board').text(""+data.board+"");
                 },error:function (){
                     console.log("fail");
                 }

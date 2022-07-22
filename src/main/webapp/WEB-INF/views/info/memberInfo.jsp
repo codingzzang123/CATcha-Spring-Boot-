@@ -126,14 +126,14 @@
                             <c:when test="${review.code eq 0}">
                                 <a href="<c:url value="/movie/content/${review.contentNum }" />">
                                     <span style="font-size: large;"><b>${review.content }</b></span>
-                                </a><br>
-                                <span style="background-color: #e1f6fa; font-size: medium; margin-left: 5px;">Movie(${review.title })</span>
+                                <br>
+                                <span style="background-color: #e1f6fa; font-size: medium; margin-left: 5px;">Movie(${review.title })</span></a>
                             </c:when>
                             <c:when test="${review.code eq 1}">
                                 <a href="<c:url value="/tv/content/${review.contentNum }" />">
                                     <span style="font-size: large;"><b>${review.content }</b></span>
-                                </a><br>
-                                <span style="background-color: #e1f6fa; font-size: medium; margin-left: 5px;">Tv(${review.title })</span>
+                                <br>
+                                <span style="background-color: #e1f6fa; font-size: medium; margin-left: 5px;">Tv(${review.title })</span></a>
                             </c:when>
                         </c:choose>
                         <span style="margin-left: 10px;"><fmt:formatDate value="${review.regdate }" pattern="yyyy.MM.dd" /></span><hr>
