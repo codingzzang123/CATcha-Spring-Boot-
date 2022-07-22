@@ -107,12 +107,21 @@
 
             <div class="row mt-2">
                 <div class="col-lg-10"></div>
+
+                <c:choose>
+                    <c:when test="${auth.name eq null}">
+
+                    </c:when>
+                    <c:otherwise>
+
                 <div class="col-lg-2 text-end">
                     <a href="${pageContext.request.contextPath}/board/write">
                         <button type="button" class="btn btn-outline-info">글쓰기</button></a>
 
 
                 </div>
+                    </c:otherwise>
+                </c:choose>
             </div>
 
             <div class="row">

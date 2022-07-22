@@ -21,26 +21,41 @@
 <body>
     <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include> <br><br><br>
     <div class="container mx-auto">
-        <h1 class="text-2xl mb-10 text-left">Title of Board</h1>
+        <div style="margin-top:50px;">
+                <span style="font-style: italic; font-family: Inter; border: 1px dotted #d3d3d3;
+                    font-size: xxx-large; padding-left: 10px; padding-right: 15px; border-radius: 2em; ">CATcha Community</span>
+        </div>
+        <hr>
 
-        <form method="POST" action="/board/edit">
-            <div class="board_wrap">
+<%--        <h1 class="text-2xl mb-10 text-left">Title of Board</h1>--%>
+
+<%--        <form method="POST" action="/board/edit">--%>
+        <form modelAttribute="editForm" method="POST" action="/board/edit">
+            <div class="board_wrap" style="margin-top:20px; margin-bottom: 25px;">
                 <div class="flex justify-start items-center gap-5">
-                    <span>카테고리</span>
-                    <select name="cate" id="cate" value ="${board.cate}" class="p-1 w-48">
+                    카테고리
+                    <select name="cate" id="cate" value="${board.cate} class="p-1 w-48" aria-label="Default select example" style="width: 10%">
+<%--                    <select name="cate" id="cate" value ="${board.cate}" class="p-1 w-48">--%>
                         <option value="일반" selected>일반</option>
                         <option value="영화">영화</option>
                         <option value="TV">TV</option>
                     </select>
                 </div>
 
-                <div class="flex w-2/3 justify-start mt-5">
-                    <input type="text"  class="p-2 w-full" placeholder="제목을 입력해주세요" value="${board.title}">
+<%--                <div class="flex w-2/3 justify-start mt-5">--%>
+<%--                    <input type="text"  class="p-2 w-full" placeholder="제목을 입력해주세요" value="${board.title}">--%>
+<%--                </div>--%>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="title" name="title" value="${board.title}" minlength="5" >
                 </div>
 
-                <div class="mt-5 flex justify-center items-center">
-                    <textarea class="w-full board_write p-5" name="content" id="" cols="100" rows="10" placeholder ="${board.content}"
-                              style="resize: none; overflow-y: hidden;"></textarea>
+<%--                <div class="mt-5 flex justify-center items-center">--%>
+<%--                    <textarea class="w-full board_write p-5" name="content" id="" cols="100" rows="10" placeholder ="${board.content}"--%>
+<%--                              style="resize: none; overflow-y: hidden;"></textarea>--%>
+<%--                </div>--%>
+                <div>
+                    <textarea class="form-control" name="content" id="exampleFormControlTextarea1" placeholder="${board.content}"
+                              cols="100" rows="10" minlength="10" style="height: 400px; resize:none; "></textarea>
                 </div>
 
                 <div class="flex justify-start items-center gap-5">
@@ -49,14 +64,20 @@
                     </td>
                 </div>
 
-
-                <div class="flex justify-end mt-5">
-                    <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-black rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center"
-                       href='/board/${board.no}'>뒤로가기</a>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a class="btn btn-outline-secondary" type="button" href="${pageContext.request.contextPath}/board/${board.no}">뒤로 가기</a>
+                    <!-- 수정 완료 버튼 미 구현  -->
+                    <button class="btn btn-outline-primary" type="submit">수정완료</button>
                 </div>
-                <!-- 수정 완료 버튼 미 구현  -->
-                <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-black rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center"
-                   href='/board/list'>수정완료</a>
+
+
+<%--                <div class="flex justify-end mt-5">--%>
+<%--                    <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-black rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center"--%>
+<%--                       href='/board/${board.no}'>뒤로가기</a>--%>
+<%--                </div>--%>
+<%--                <!-- 수정 완료 버튼 미 구현  -->--%>
+<%--                <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-black rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center"--%>
+<%--                   href='/board/list'>수정완료</a>--%>
             </div>
         </form>
     </div>
