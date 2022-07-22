@@ -187,11 +187,7 @@
     var signForm = document.signForm;
     var inputed = $('#pass').val();
     var reinputed = $('#repwd').val();
-    if(inputed != reinputed){
-      $("#pw_match").prop("disabled", true);
-      $("#pw_match").text("비밀번호 틀립니다");
-      $("#pw_match").css("color", "red");
-    }else if(id_check == true &&
+    if(id_check == true &&
             pw_check == true &&
             pwReg_check == true &&
             name_check == true &&
@@ -199,6 +195,12 @@
             img_check == true){
       console.log("서밋")
       signForm.submit();
+    }else {
+      checkId();
+      checkPw();
+      checkEmail();
+      matchPw();
+      checkName();
     }
 
   }
@@ -212,7 +214,7 @@
       type:'post', //POST 방식으로 전달
       data:{id:id},
       success:function(data){
-        if(!idReg.test(id)){
+        if(!idReg.test(id) || id == null){
           $("#id_check").prop("disabled", true);
           $("#id_check").text("영소문자와 숫자를 조합해 6~12자리로 이루어져야합니다.");
           $("#id_check").css("color", "grey");
@@ -255,12 +257,12 @@
     var reinputed = $('#repwd').val();
     $("#pw_match").css("font-size", "12px");
 
-    if(inputed == reinputed){
+    if(inputed == reinputed && reinputed != ""){
       $("#pw_match").prop("disabled", true);
       $("#pw_match").text("비밀번호 맞습니다");
       $("#pw_match").css("color", "green");
       pwReg_check = true;
-    }else if(inputed != reinputed || passReg.test(reinputed)){
+    }else if(inputed != reinputed || passReg.test(reinputed) || reinputed == ""){
       $("#pw_match").prop("disabled", true);
       $("#pw_match").text("비밀번호 틀립니다");
       $("#pw_match").css("color", "red");
