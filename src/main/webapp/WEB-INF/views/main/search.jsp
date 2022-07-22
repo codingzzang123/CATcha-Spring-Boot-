@@ -26,6 +26,7 @@
             display: -webkit-box;
             -webkit-line-clamp: 4;
             -webkit-box-orient: vertical;
+            overflow: hidden; text-overflow: ellipsis;
         }
 
     </style>
@@ -201,7 +202,7 @@
                                             <strong style="font-size: large; color: #aaaaaa;"><fmt:formatDate value="${content.releaseDate }" pattern="y년 MMM dd일 EEE HH:mm" /></strong>
 
                                             <br><br><br>
-                                            <div class="word" style="font-size: large; overflow: hidden; text-overflow: ellipsis;">
+                                            <div class="word" style="font-size: large;">
                                                 <c:choose>
                                                     <c:when test="${empty content.overview}">
                                                         <img src="https://cdn-icons-png.flaticon.com/512/5058/5058046.png" width="60px;" height="60px;">

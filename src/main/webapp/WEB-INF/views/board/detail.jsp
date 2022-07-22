@@ -525,6 +525,7 @@
                 'no' : i
             }, success:function(data) {
                 console.log("Delete Success");
+                window.location.href = '${pageContext.request.contextPath}/board';
             }, error:function(){
                 console.log("fail");
             }

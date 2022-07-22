@@ -55,7 +55,10 @@ div.cell-header > img{
     transition: opacity 420ms ease 0s;
 }
 .css-infoItem{
-    margin-top: 14px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    vertical-align: center;
+
     height: 240px;
     width: 98%;
     display: inline-block;
@@ -83,12 +86,21 @@ div.cell-header > img{
     display: flex;	/*flex 컨테이너 생성*/
     flex-direction: column;	/*default value*/
     padding: 10px;
-    overflow: hidden;
-    word-break: break-all;
+    /*overflow: hidden;*/
+    /*word-break: break-all;*/
+
+
 }
 
 #con2{
-    height: 40px;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 121px;
+    min-height: 121px;
+    max-height: 121px;
 }
 
 #con2 > a{
