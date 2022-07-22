@@ -47,8 +47,12 @@ public class SearchService {
     }
 
     public List<SearchBoardDto> board(String query){
-        List<Board> tmp = boardRepository.findByTitleContainingOrContentContainingIgnoreCase(query,query);
         List<SearchBoardDto> list = new ArrayList<>();
+
+        if(query==null||query.length()==0||query.equals("")||query.equals(""))
+            return null;
+
+        List<Board> tmp = boardRepository.findByTitleContainingOrContentContainingIgnoreCase(query,query);
 
         for(Board board : tmp){
             list.add(new SearchBoardDto(
@@ -59,7 +63,9 @@ public class SearchService {
     }
 
     public Integer boardTuples(String query){
-        System.out.println("query = "+query);
+        if(query.equals("")||query.length()==0||query.isEmpty()||query.startsWith(" "))
+            return 0;
+
         return boardRepository.countByTitleContainingOrContentContainingIgnoreCase(query,query);
     }
 }

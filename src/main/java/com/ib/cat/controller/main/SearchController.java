@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class SearchController {
     @Autowired
@@ -27,34 +29,38 @@ public class SearchController {
 
 @RequestMapping(value = {"/search", "/search/{path}"})
     public String searchFrom(Model model, @PathVariable Optional<String> path,
-                             @RequestParam(value="query", defaultValue=" ")String query,
-                             @RequestParam(value="page", defaultValue="1")Integer page){
+                             @RequestParam(required = false, value="query",defaultValue = "")String query,
+                             @RequestParam(value="page", defaultValue="1")Integer page, HttpServletRequest request){
 
+        if(query.isEmpty()||query.startsWith(" ")||query==null||query.length()==0)
+            query="";
         String resultPath="";
-        if(path.isPresent())
-            resultPath=path.get();
+        if (path.isPresent())
+            resultPath = path.get();
 
         SearchCountDto scd = new SearchCountDto();
-        scd = searchService.scd(query); // query가 포함된 movie,tv 수
+        scd = searchService.scd(query); // query가 포함된 movie,tv 수 -> query가 빈 문자열이면 null
         scd.setBoard(searchService.boardTuples(query)); // query가 포함된 게시물의 수
 
-        List<ContentsDto> contents= new ArrayList<>();
-        String type=null;
 
-        if(resultPath.equals("")||resultPath.equals("movie")||resultPath==null){
-            contents = searchService.movie(page,query); Collections.sort(contents, new SortByVote());
+
+        List<ContentsDto> contents = new ArrayList<>();
+        String type = null;
+
+        if (resultPath.equals("") || resultPath.equals("movie") || resultPath == null) {
+            contents = searchService.movie(page, query);
             pagingUtil.startPaging(page, scd.getMovie());
             type = "movie";
 
-        }else if(resultPath.equals("tv")){
-            contents = searchService.tv(page,query); Collections.sort(contents, new SortByVote());
+        } else if (resultPath.equals("tv")) {
+            contents = searchService.tv(page, query);
             pagingUtil.startPaging(page, scd.getTv());
             type = "tv";
 
-        }else{
+        } else {
             pagingUtil.startPaging(page, scd.getBoard());
-            type="board";
-            model.addAttribute("content",searchService.board(query)); //게시물 같은 경우 content로 반환
+            type = "board";
+            model.addAttribute("content", searchService.board(query)); //게시물 같은 경우 content로 반환
         }
 
         model.addAttribute("contents", contents);
@@ -62,7 +68,8 @@ public class SearchController {
         model.addAttribute("query", query);
         model.addAttribute("type", type);
         model.addAttribute("scd", scd);
-        model.addAttribute("paging",pagingUtil);
+        model.addAttribute("paging", pagingUtil);
         return "main/search";
+
     }
 }
