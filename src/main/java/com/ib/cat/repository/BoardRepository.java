@@ -26,18 +26,18 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
     public List<Board> findByName(String name);
 
     //서치 이름+페이징
-    Page<Board> findByNameContaining (String searchKeyword, Pageable pageable);
 
     //서치 제목+페이징
-    Page<Board> findByTitleContaining (String searchKeyword, Pageable pageable);
 
     //페이징
     Page<Board> findAll(Pageable pageable);
 
+    Page<Board> findByContentContainingOrTitleContainingIgnoreCase(String keyword, String keyword2, Pageable pageable);
 
+    Page<Board> findByTitleContaining (String searchKeyword, Pageable pageable);
 
+    Page<Board> findByContentContaining(String keyword, Pageable pageable);
 
-
-
+    Page<Board> findByNameContaining (String searchKeyword, Pageable pageable);
 
 }

@@ -25,15 +25,20 @@ public class BoardService {
         return boardRepository.findAll(pageable);
     }
 
-    //서치 이름 + 페이징
-    public Page<Board> search1(String searchKeyword, Pageable pageable){
+
+    public Page<Board> searchSubjectMemo(String keyword,String Keyword,Pageable pageable){
+        return boardRepository.findByContentContainingOrTitleContainingIgnoreCase(keyword,keyword,pageable);
+    }
+    public Page<Board> searchSubject(String searchKeyword, Pageable pageable){
+        return boardRepository.findByTitleContaining(searchKeyword, pageable);
+    }
+    public Page<Board> searchMemo(String keyword, Pageable pageable){
+        return boardRepository.findByContentContaining(keyword,pageable);
+    }
+    public Page<Board> searchName(String searchKeyword, Pageable pageable){
         return boardRepository.findByNameContaining(searchKeyword, pageable);
     }
 
-    //서치 제목 + 페이징
-    public Page<Board> search2(String searchKeyword, Pageable pageable){
-        return boardRepository.findByTitleContaining(searchKeyword, pageable);
-    }
 
     public void insert(Board board){
         boardRepository.save(board);

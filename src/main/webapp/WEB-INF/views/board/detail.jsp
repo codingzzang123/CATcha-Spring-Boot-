@@ -52,12 +52,12 @@
     <section class="css-7klu3x" id="wrapper">
         <div class="container mt-5 mb-5">
             <div style="margin-top:50px;">
-                <span style="font-style: italic; font-family: Inter; border: 1px dotted #d3d3d3;
-                    font-size: xxx-large; padding-left: 10px; padding-right: 15px; border-radius: 2em; ">CATcha Community</span>
+                <span style="font-family: Inter;
+                    font-size: x-large;">[${board.cate}]</span>
             </div>
             <hr>
 
-            <h2><b>[${board.cate}]&nbsp;${board.title }</b></h2>
+            <h2><b>${board.title }</b></h2>
 
             <div class="row" style="margin-top:20px; margin-bottom: 25px;">
                 <div class="col-lg-5">
