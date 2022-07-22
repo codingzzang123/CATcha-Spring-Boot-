@@ -30,10 +30,12 @@ public class ActionController {
         System.out.println("controller - 받은 번호: "+no);
         boardService.delete(boardService.findBoard(no));
         return "redirect:/board";
+//        return "/board";
     }
 
     @PostMapping(value = "/board/edit/{no}")
-    public String updateAction(@PathVariable Integer no, Board board){
+    @ResponseBody
+    public String updateAction(@PathVariable Integer no, @RequestParam("editForm") Board board){
         boardService.update(board);
         return "redirect:/board/"+no;
     }
