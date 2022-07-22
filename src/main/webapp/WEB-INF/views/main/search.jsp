@@ -82,7 +82,7 @@
 
                                     <div>
                                         <div>
-                                            <a href="<c:url value='/search/board?query=${query }&page=1'/>">
+                                            <a href="<c:url value='/search/board?query=${query }&page=0'/>"> <!-- paging 스타트가 얘만 0번이 1번이라.. -->
                                                 <strong style="font-size: large;">Boards</strong>
                                             </a>
                                         </div>
@@ -115,7 +115,7 @@
                                 </thead>
 
                                 <tbody>
-                                    <c:forEach var="content" items="${content }">
+                                    <c:forEach var="content" items="${content.content }">
                                         <tr class="mytr">
                                             <td  style="width:80px; height:50px; word-break:break-all;table-layout:fixed;">
                                                 ${content.no }
@@ -143,89 +143,32 @@
                             </c:if>
 
                             <c:if test="${!empty content}">
+
                                 <div class="css-paging">
                                     <nav aria-label="Page navigation example" class="css-paging">
-                                        <ul class="pagination">
-
-                                            <!-- 페이징 맨앞으로 버튼
-                <li class="page-item"><a class="page-link" href="<c:url value='/search/movie?query=${query }&page=${paging.curPage-1 }'/>">START</a></li> -->
-
-                                            <!-- 페이징 << 버튼 -->
-                                            <c:if test="${paging.curPage ne 1 }">
-                                                <c:choose>
-                                                    <c:when test="${type eq 'movie' }">
-                                                        <li class="page-item"><a class="page-link" href="<c:url value='/search/movie?query=${query }&page=${paging.curPage-1 }'/>">&laquo;</a></li>
-                                                    </c:when>
-                                                    <c:when test="${type eq 'tv' }">
-                                                        <li class="page-item"><a class="page-link" href="<c:url value='/search/tv?query=${query }&page=${paging.curPage-1 }'/>">&laquo;</a></li>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <li class="page-item"><a class="page-link" href="<c:url value='/search/board?query=${query }&page=${paging.curPage-1 }'/>">&laquo;</a></li>
-                                                    </c:otherwise>
-                                                </c:choose>
+                                        <ul class="pagination justify-content-center">
+                                            <c:if test="${pageList.previousPage }">
+                                                <li class="page-item"><a class="page-link" href="/search/board?query=${query }&page=${pageList.number - 1}">&laquo;</a></li>
                                             </c:if>
 
-
-                                            <!-- 페이징 블럭 번호  -->
-                                            <c:forEach begin="${paging.blockStartNum }" end="${paging.blockLastNum }" var="i">
+                                            <c:forEach begin="${startBlockPage}" end="${endBlockPage}" var="i">
                                                 <c:choose>
-                                                    <c:when test="${type eq 'movie' }">
-                                                        <c:choose>
-                                                            <c:when test="${i eq paging.curPage }">
-                                                                <li class="page-item active"><a class="page-link" href="<c:url value='/search/movie?query=${query }&page=${i }'/>">${i }</a></li>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <li class="page-item"><a class="page-link" href="<c:url value='/search/movie?query=${query }&page=${i }'/>">${i }</a></li>
-                                                            </c:otherwise>
-                                                        </c:choose>
+                                                    <c:when test="${pageNumber+1 eq i}"> <!-- pageNumber 시작은 0 , i는 1부터 -->
+                                                        <li class="page-item active"><a class="page-link" href="/search/board?query=${query }&page=${i-1 }">${i}</a></li>
                                                     </c:when>
-
-                                                    <c:when test="${type eq 'tv' }">
-                                                        <c:choose>
-                                                            <c:when test="${i eq paging.curPage }">
-                                                                <li class="page-item active"><a class="page-link" href="<c:url value='/search/tv?query=${query }&page=${i }'/>">${i }</a></li>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <li class="page-item"><a class="page-link" href="<c:url value='/search/tv?query=${query }&page=${i }'/>">${i }</a></li>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </c:when>
-
                                                     <c:otherwise>
-                                                        <c:choose>
-                                                            <c:when test="${i eq paging.curPage }">
-                                                                <li class="page-item active"><a class="page-link" href="<c:url value='/search/board?query=${query }&page=${i }'/>">${i }</a></li>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <li class="page-item"><a class="page-link" href="<c:url value='/search/board?query=${query }&page=${i }'/>">${i }</a></li>
-                                                            </c:otherwise>
-                                                        </c:choose>
+                                                        <li class="page-item"><a class="page-link" href="/search/board?query=${query }&page=${i-1 }">${i}</a></li>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </c:forEach>
 
-
-                                            <!-- 페이징 >> 버튼 -->
-                                            <c:if test="${paging.curPage ne paging.lastPageNum }">
-                                                <c:choose>
-                                                    <c:when test="${type eq 'movie' }">
-                                                        <li class="page-item"><a class="page-link" href="<c:url value='/search/movie?query=${query }&page=${paging.curPage +1 }'/>">&raquo;</a></li>
-                                                    </c:when>
-                                                    <c:when test="${type eq 'tv' }">
-                                                        <li class="page-item"><a class="page-link" href="<c:url value='/search/tv?query=${query }&page=${paging.curPage +1 }'/>">&raquo;</a></li>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <li class="page-item"><a class="page-link" href="<c:url value='/search/board?query=${query }&page=${paging.curPage +1 }'/>">&raquo;</a></li>
-                                                    </c:otherwise>
-                                                </c:choose>
+                                            <c:if test="${pageList.nextPage }">
+                                                <li class="page-item"><a class="page-link" href="/search/board?query=${query }&page=${pageList.number + 1}">&raquo;</a></li>
                                             </c:if>
-
-                                            <!-- 페이징 맨뒤로 버튼
-                <li class="page-item"><a class="page-link" href="<c:url value='/search/movie?query=${query }&page=${now-1 }'/>">END</a></li>-->
-
                                         </ul>
                                     </nav>
                                 </div>
+
                             </c:if>
                         </c:when>
                         <c:otherwise>

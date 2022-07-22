@@ -33,15 +33,20 @@ public class FormController {
                            @PageableDefault(size = 10, sort = "no", direction = Sort.Direction.DESC)Pageable pageable,
                            @RequestParam(required = false, defaultValue = "",name = "s_type")String field,
                            @RequestParam(required = false, defaultValue = "",name = "s_keyword")String searchKeyword){
-        Page<Board> pageList = boardRepository.findAll(pageable);
+        Page<Board> pageList;
 
-        if(field.equals("name")){
-            pageList = boardService.search1(searchKeyword, pageable);
-        }else if(field.equals("title")){
-            pageList = boardService.search2(searchKeyword, pageable);
+        if(field.equals("subject_memo")){
+            pageList = boardService.searchSubjectMemo(searchKeyword,searchKeyword,pageable);
+        }else if(field.equals("subject")){
+            pageList = boardService.searchSubject(searchKeyword, pageable);
+        }else if(field.equals("memo")){
+            pageList = boardService.searchMemo(searchKeyword,pageable);
+        }else if(field.equals("name")){
+            pageList = boardService.searchName(searchKeyword, pageable);
         }else{
             pageList = boardService.findAll(pageable);
         }
+
         int pageNumber = pageList.getPageable().getPageNumber();
         int totalPages = pageList.getTotalPages();
         int pageBlock = 10;

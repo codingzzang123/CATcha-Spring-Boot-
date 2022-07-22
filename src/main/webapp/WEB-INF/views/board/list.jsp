@@ -119,9 +119,10 @@
                 <div class="text-center">
                     <form method="get">
                         <select name="s_type">
-                            <option value="title" selected>제목</option>
-                            <option value="name">글쓴이</option>
-<%--                            <option value="con">내용</option>--%>
+                            <option value="subject_memo">제목+내용</option>
+                            <option value="subject">제목</option>
+                            <option value="memo">내용</option>
+                            <option value="name">작성자</option>
                             <input name="s_keyword" type="text" size="50" value=""><button>검색</button>
                         </select>
                     </form>
@@ -135,34 +136,26 @@
                         <nav aria-label="Page navigation example" class="css-paging">
                             <ul class="pagination justify-content-center">
                                 <!--이전-->
-                                <c:choose>
-                                    <c:when test="${pageList.first}"></c:when>
-                                    <c:otherwise>
-<%--                                        <li class="page-item"><a class="page-link" href="/board?s_type=${param.field}&s_search=${param.searchKeyword}&page=0">처음</a></li>--%>
-                                        <li class="page-item"><a class="page-link" href="/board?s_type=${param.field}&s_search=${param.searchKeyword}&page=${pageList.number - 1}">&laquo;</a></li>
-                                    </c:otherwise>
-                                </c:choose>
+                                <c:if test="${pageList.previousPage }">
+                                    <li class="page-item"><a class="page-link" href="/board?s_type=${param.field}&s_search=${param.searchKeyword}&page=${pageList.number - 1}">&laquo;</a></li>
+                                </c:if>
 
                                 <!--페이지 그룹-->
                                 <c:forEach begin="${startBlockPage}" end="${endBlockPage}" var="i">
                                     <c:choose>
-                                        <c:when test="${pageNumber + 1 eq i}"> <!-- pageNumber 시작은 0 , i는 1부터 -->
-                                            <li class="page-item active"><a class="page-link" href="/board?s_type=${param.field}&s_search=${param.searchKeyword}&page=${i - 1}">${i}</a></li>
+                                        <c:when test="${pageNumber+1 eq i}"> <!-- pageNumber 시작은 0 , i는 1부터 -->
+                                            <li class="page-item active"><a class="page-link" href="/board?s_type=${param.field}&s_search=${param.searchKeyword}&page=${i-1 }">${i}</a></li>
                                         </c:when>
                                         <c:otherwise>
-                                            <li class="page-item"><a class="page-link" href="/board?s_type=${param.field}&s_search=${param.searchKeyword}&page=${i - 1}">${i}</a></li>
+                                            <li class="page-item"><a class="page-link" href="/board?s_type=${param.field}&s_search=${param.searchKeyword}&page=${i-1 }">${i}</a></li>
                                         </c:otherwise>
                                     </c:choose>
                                 </c:forEach>
 
                                 <!--다음-->
-                                <c:choose>
-                                    <c:when test="${pageList.last}"></c:when>
-                                    <c:otherwise>
-                                        <li class="page-item"><a class="page-link" href="/board?s_type=${param.field}&s_search=${param.searchKeyword}&page=${pageList.number + 1}">&raquo;</a></li>
-<%--                                        <li class="page-item"><a class="page-link" href="/board?s_type=${param.field}&s_search=${param.searchKetword}&page=${pageList.totalPages - 1}">마지막</a></li>--%>
-                                    </c:otherwise>
-                                </c:choose>
+                                <c:if test="${pageList.nextPage }">
+                                    <li class="page-item"><a class="page-link" href="/board?s_type=${param.field}&s_search=${param.searchKeyword}&page=${pageList.number + 1}">&raquo;</a></li>
+                                </c:if>
                             </ul>
                         </nav>
                     </div>
