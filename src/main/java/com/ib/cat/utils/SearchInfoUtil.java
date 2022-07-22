@@ -33,6 +33,9 @@ public class SearchInfoUtil {
 //    BoardRepository boardRepository;
 
     public List<ContentsDto> getMovieList(int page, String query){
+        if(query.isEmpty()||query.startsWith(" ")||query.length()==0||query.equals(""))
+            return null;
+
         String apiURL =API_URL+ "search/movie?api_key=" + KEY +"&language=ko-KR&query="+query+"&page="+page;
         List<ContentsDto> movieList = null;
 
@@ -79,6 +82,9 @@ public class SearchInfoUtil {
     }
 
     public List<ContentsDto> getTvList(int page,String query){
+        if(query.isEmpty()||query.startsWith(" ")||query.length()==0||query.equals(""))
+            return null;
+
         String apiURL =API_URL+ "search/tv?api_key=" + KEY +"&language=ko-KR&query="+query+"&page="+page;
         List<ContentsDto> tvList = null;
 
@@ -136,6 +142,9 @@ public class SearchInfoUtil {
 //    }
 
     public SearchCountDto contents(String query){
+        if(query.isEmpty()||query.startsWith(" ")||query.length()==0||query.equals(""))
+            return new SearchCountDto();
+
         String apiMovieURL =API_URL+ "search/movie?api_key=" + KEY +"&language=ko-KR&query="+query;
         String apiTvURL =API_URL+ "search/tv?api_key=" + KEY +"&language=ko-KR&query="+query;
 
