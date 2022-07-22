@@ -21,4 +21,8 @@ public class BoardReplyService {
     public List<BoardReply> listReply(int ref, int boardNo){
         return boardReplyRepository.findByRefAndBoardNoOrderByDepthDesc(ref, boardNo);
     }
+
+    public void deleteComment(int no){
+        boardReplyRepository.delete(boardReplyRepository.findById(no).get());
+    }
 }

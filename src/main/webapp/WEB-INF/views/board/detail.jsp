@@ -137,7 +137,7 @@
                                         </div>
                                         <div style="display: inline-block; width: 40px; height: 40px;">
                                             <c:if test="${auth.name eq comment.writer }">
-                                                <button type="button" data-bs-toggle="modal" data-bs-target="#DelModal" data-test="${comment.no }"
+                                                <button type="button" data-bs-toggle="modal" data-bs-target="#DelComment" data-test="${comment.no }"
                                                         class="btn btn-default btn-xs">&times;</button>
                                             </c:if>
                                         </div>
@@ -145,21 +145,21 @@
                                     </div>
                                     <div id="reply${comment.no}" name="${comment.no}" style="display: none">
                                         <sec:authorize access="!isAuthenticated()">
-                                            <div class="card" style="margin-top: 50px;">
+                                            <div class="card" style="margin-top: 10px;">
                                                 <div class="card-body" style="font-size: small">
                                                     <a href="${pageContext.request.contextPath}/member/login"><b>로그인</b></a>을 하시면 댓글를 등록할 수 있습니다.
                                                 </div>
                                             </div>
                                         </sec:authorize>
                                         <sec:authorize access="isAuthenticated()">
-                                            <div class="card" style="margin-top: 3px;">
+                                            <div class="card" style="margin-top: 10px;">
                                                 <form action="/board/reply" method="post">
                                                     <div class="card-header bi bi-chat-right-dots">
                                                         <b style="font-family: Cambria;">Write a Reply</b>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-lg-11">
-                                                            <textarea id="replay" name="replay" placeholder="답글을 작성해주세요" style="resize: none; font-size: small; height : 100px; width: 1030px; border : none; margin-top : 5px; margin-left: 5px;"></textarea>
+                                                            <textarea id="reply" name="content" placeholder="답글을 작성해주세요" style="resize: none; font-size: small; height : 100px; width: 1030px; border : none; margin-top : 5px; margin-left: 5px;"></textarea>
                                                         </div>
                                                         <div class="col-lg-1">
                                                             <input type="submit" value="등록"  class="btn btn-outline-primary bi bi-pencil-square" style="margin-top: 65px;">
@@ -167,6 +167,7 @@
                                                     </div>
                                                     <input type="hidden" value="${auth.name}" name="writer">
                                                     <input type="hidden" value="${board.no}" name="boardNo">
+                                                    <input type="hidden" value="${comment.no}" name="step">
                                                 </form>
                                             </div>
                                         </sec:authorize>
@@ -179,7 +180,7 @@
             </div>
 
             <sec:authorize access="!isAuthenticated()">
-                <div class="card" style="margin-top: 10px;">
+                <div class="card" style="margin-top: 50px;">
                     <div class="card-header bi bi-chat-right-dots">
                         <b style="font-family: Cambria">Write a Comment</b>
                     </div>
@@ -189,14 +190,14 @@
                 </div>
             </sec:authorize>
             <sec:authorize access="isAuthenticated()">
-                <div class="card" style="margin-top: 10px;">
+                <div class="card" style="margin-top: 50px;">
                     <form action="/board/comment" method="post" onsubmit="return submitComment();">
                         <div class="card-header bi bi-chat-right-dots">
                             <b style="font-family: Cambria;">Write a Comment</b>
                         </div>
                         <div class="row">
                             <div class="col-lg-11">
-                                <textarea id="comment" name="content" placeholder="댓글을 작성해주세요" style="resize: none; font-size: small; height : 100px; width: 1030px; border : none; margin-top : 5px; margin-left: 5px;"></textarea>
+                                <textarea id="content" name="content" placeholder="댓글을 작성해주세요" style="resize: none; font-size: small; height : 100px; width: 1030px; border : none; margin-top : 5px; margin-left: 5px;"></textarea>
                             </div>
                             <div class="col-lg-1">
                                 <input type="submit" id="insertComment" value="등록"  class="btn btn-outline-primary bi bi-pencil-square" style="margin-top: 65px;">
@@ -222,6 +223,23 @@
 
     <input type="hidden" id="userName" value="${auth.name }">
     <input type="hidden" id="flag" value="">
+
+    <!-- 삭제 확인 모달 -->
+    <div class="modal" id="DelComment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" style="font-family: Georgia"><b>댓글를 삭제 하시겠습니까?</b></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="ModalCloseId" class="btn btn-danger" data-bs-dismiss="modal" style= "font-family: Consolas">Close</button>
+                    <input type="hidden" id="deleteModal" value="">
+                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal" style= "font-family: Consolas" id="delete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="${pageContext.request.contextPath}/js/hosun/jquery-3.6.0.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/hosun/main.js"></script>
@@ -433,6 +451,37 @@
         }else if($('#reply'+no).css("display") == "block"){
             $('#reply'+no).css("display", "none")
         }
+    }
+
+    $(document).ready(function(){
+        $('#DelComment').on('show.bs.modal', function (e) {
+            var data = $(e.relatedTarget).data('test');
+            $('#deleteModal').val(data);
+            console.log(data);
+        });
+    });
+
+    $("#delete").click(function(){
+        var d = $('#deleteModal').val()
+        console.log("d : " +d);
+        deleteReply(d);
+    });
+
+    function deleteReply(i){
+        console.log("i : "+ i)
+        $.ajax({
+            url: '${pageContext.request.contextPath}/board/deleteComment',
+            type: 'post',
+            data:{
+                'no':i
+            },success:function (data){
+                console.log("Delete Success");
+                let deleteDiv = document.getElementById(i);
+                deleteDiv.remove();
+            },error:function (){
+                console.log("fail");
+            }
+        });
     }
 </script>
 
