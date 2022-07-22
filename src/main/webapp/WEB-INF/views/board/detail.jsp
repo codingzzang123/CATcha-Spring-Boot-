@@ -93,18 +93,22 @@
                                 뒤로가기
                             </button>
                         </a>
+                        <c:choose>
+                            <c:when test="${auth.name eq board.name}">
+                                <a href='/board/edit/${board.no}'>
+                                    <button type="button" class="btn btn-outline-info">
+                                        수정
+                                    </button>
+                                </a>
+<%--                                <a href='/board/delete/${board.no}'>--%>
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#DelBoard" data-test="${board.no}" class="btn btn-outline-danger">삭제</button>
 
-                        <a href='/board/edit/${board.no}'>
-                            <button type="button" class="btn btn-outline-info">
-                            수정
-                            </button>
-                        </a>
+                            </c:when>
+                            <c:otherwise>
+                            </c:otherwise>
+                        </c:choose>
 
-                        <a href='/board/delete/${board.no}'>
-                            <button type="button" class="btn btn-outline-danger">
-                                삭제
-                            </button>
-                        </a>
+
                     </div>
                 </div>
 
@@ -229,13 +233,29 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel" style="font-family: Georgia"><b>댓글를 삭제 하시겠습니까?</b></h5>
+                    <h5 class="modal-title" id="exampleModalLabel" style="font-family: Georgia"><b>댓글을 삭제 하시겠습니까?</b></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="ModalCloseId" class="btn btn-danger" data-bs-dismiss="modal" style= "font-family: Consolas">Close</button>
                     <input type="hidden" id="deleteModal" value="">
                     <button type="button" class="btn btn-warning" data-bs-dismiss="modal" style= "font-family: Consolas" id="delete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="DelBoard" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" style="font-family: Georgia"><b>이 글을 삭제 하시겠습니까?</b></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="ModalCloseId" class="btn btn-danger" data-bs-dismiss="modal" style= "font-family: Consolas">Close</button>
+                    <input type="hidden" id="deletelModal2" value="">
+                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal" style= "font-family: Consolas" id="deleteBoard">Delete</button>
                 </div>
             </div>
         </div>
@@ -459,6 +479,11 @@
             $('#deleteModal').val(data);
             console.log(data);
         });
+        $('#DelBoard').on('show.bs.modal', function (f) {
+            var data = $(f.relatedTarget).data('test');
+            $('#deletelModal2').val(data);
+            console.log(data);
+        });
     });
 
     $("#delete").click(function(){
@@ -479,6 +504,28 @@
                 let deleteDiv = document.getElementById(i);
                 deleteDiv.remove();
             },error:function (){
+                console.log("fail");
+            }
+        });
+    }
+
+    //글삭제
+    $("#deleteBoard").click(function(){
+        var e = $('#deletelModal2').val()
+        console.log(e);
+        deleteBoard(e);
+    })
+
+    function deleteBoard(i){
+        console.log("i: "+i);
+        $.ajax({
+            url:'${pageContext.request.contextPath}/board/delete',
+            type: 'post',
+            data:{
+                'no' : i
+            }, success:function(data) {
+                console.log("Delete Success");
+            }, error:function(){
                 console.log("fail");
             }
         });

@@ -128,13 +128,11 @@ public class MediaContentsController {
         List<VideoDto> videoList = contentsService.getTrailer(contentsType, contentsNum);
         if (!videoList.isEmpty()) {
             String videoUrl = videoList.get(0).getKey();
-            System.out.println(videoUrl);
+//            System.out.println(videoUrl);
             mav.addObject("videoUrl", videoUrl);
         } else {
             mav.addObject("videoUrl", null);
         }
-
-
         return mav;
     }
 }

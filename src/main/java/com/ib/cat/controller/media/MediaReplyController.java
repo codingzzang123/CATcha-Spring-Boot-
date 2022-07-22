@@ -25,8 +25,8 @@ public class MediaReplyController {
     @RequestMapping(value = "/addReply")
     public String addReply(@ModelAttribute(name = "review") ReviewDto reviewDto){
         mediaReplyService.insert(reviewDto);
-        System.out.println("r.c - reviewDto: "+ reviewDto);
-        System.out.println(mediaReplyService);
+//        System.out.println("r.c - reviewDto: "+ reviewDto);
+//        System.out.println(mediaReplyService);
 
         if(reviewDto.getCode()==0)
             return "redirect:/movie/content/"+reviewDto.getContentsNum();
