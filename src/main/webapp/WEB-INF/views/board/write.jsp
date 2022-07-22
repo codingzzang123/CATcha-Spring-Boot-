@@ -23,7 +23,8 @@
     <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include> <br><br><br>
     <div class="container mx-auto">
         <h1 class="text-2xl mb-10 text-left">Title of Board</h1>
-        <form modelAttribute="writeForm" method="POST" action="/board/write" enctype="multipart/form-data">
+        <form modelAttribute="writeForm" method="POST" action="/board/write" enctype="multipart/form-data"
+        onsubmit="return writeCheck();">
             <div class="board_wrap">
                 <div class="flex justify-start items-center gap-5">
                     <span>카테고리</span>
@@ -35,16 +36,16 @@
                 </div>
                 <input type="hidden" value="${auth.name }" name="name">
                 <div class="flex w-2/3 justify-start mt-5">
-                    <input type="text"  class="p-2 w-full" name="title" placeholder="제목을 입력해주세요">
+                    <input type="text"  class="p-2 w-full" id="title" name="title" placeholder="제목을 입력해주세요" minlength="5">
                 </div>
 
                 <div class="mt-5 flex justify-center items-center">
-                    <textarea class="w-full board_write p-5" name="content" id="" cols="100" rows="10"></textarea>
+                    <textarea class="w-full board_write p-5" name="content" id="" cols="100" rows="10" minlength="10"></textarea>
                 </div>
 
-                <div class="flex w-2/3 justify-start mt-5">
-                    <input type="file" name="file">
-                </div>
+<%--                <div class="flex w-2/3 justify-start mt-5">--%>
+<%--                    <input type="file" name="file">--%>
+<%--                </div>--%>
             </div>
                 <div class="flex justify-end mt-5">
                     <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-black rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center"
@@ -55,6 +56,7 @@
                 </div>
         </form>
     </div>
+
 </body>
 </html>
 
@@ -75,3 +77,17 @@
     }
 
 </style>
+
+<script>
+    function writeCheck(){
+        let title = $("#title").val();
+        let content = $("#content").val();
+
+        if(!title || title=="") {
+            alert("제목을 5글자 이상 입력해주세요");
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>

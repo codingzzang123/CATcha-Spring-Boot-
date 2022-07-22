@@ -188,7 +188,7 @@
             <c:when test="${videoUrl eq null}"></c:when>
             <c:otherwise>
                 <div class="trailWrapper">
-                    <button id="bt_toggle" style="text-align: center; border: 1px solid black; width: 150px; border-radius: 5px; margin:0 auto;"><b>트레일러 보기</b></button>
+                    <button id="bt_toggle" style=" background-color:#f3f3f1; text-align: center; border: 1px solid black; width: 150px; border-radius: 2em; margin:0 auto;"><b>트레일러 보기</b></button>
                     <div id="Toggle">
                         <iframe width="100%" height="500" src="https://www.youtube.com/embed/${videoUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
@@ -365,7 +365,7 @@
                                         </c:choose>
                                     </div>
                                     <div style="display: inline-block; width: 100px; height: 40px; text-align: end; margin-bottom: 12px; ">
-                                        <span style="font-size: small; margin-bottom: 3px;">
+                                        <span style="font-size: small; margin-bottom: 3px; min-width: 90px; max-width: 98px; white-space: nowrap;">
                                                 <fmt:formatDate value="${review.regdate }" pattern="MMM dd HH:mm:ss" /><br>by ${review.writer}
                                         </span>
                                     </div>
@@ -403,7 +403,7 @@
                                 onsubmit="return reviewFunction();">
                                 <div class="row" id="row">
                                     <div class="col-lg-11">
-                                        <textarea id="comment" name="content" placeholder="리뷰를 추가해주세요" style="resize: none; font-size: small;" minlength="10"></textarea>
+                                        <textarea id="comment" name="content" placeholder="&nbsp;&nbsp;리뷰를 추가해주세요" style="resize: none; font-size: small;" minlength="10"></textarea>
                                         <div style="margin-left:20px; resize: none; font-size: small;">
                                             <form:label path="rating">평점: </form:label>
                                             <form:select path="rating" id="rating" name="rating" style="width: 105px;" itemValue="">
