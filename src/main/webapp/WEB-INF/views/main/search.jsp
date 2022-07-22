@@ -132,7 +132,7 @@
                                     </c:forEach>
                                 </tbody>
                             </table>
-                            <c:if test="${empty content}">
+                            <c:if test="${empty content.content}">
                                 <div style="display: flex; height: 440px; width: 1000px; min-width: 1000px; max-width: 1000px;">
                                     <div style="margin: auto; vertical-align: center;">
                                         <img src="https://cdn-icons-png.flaticon.com/512/5058/5058046.png" width="60px;" height="60px;">

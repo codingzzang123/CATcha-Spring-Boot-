@@ -7,17 +7,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <link href="/css/hosun/nav.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/hosun/nav.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
     <style>
         * {
@@ -318,7 +319,7 @@
                     <li class="css-1c3wwgb">
                         <div class="css-1xm32e0">
                             <div class="css-1okeg7p">
-                                <form action="<c:url value="/search"/>" method="get" onsubmit="return submit()">
+                                <form onsubmit="return submit()" name="fr" action="<c:url value="/search"/>">
                                     <label class="css-kyr608" id="label">
                                         <div class="search">
                                             <input type="text" autocomplete="off" placeholder="다양한 콘텐츠를 검색해보세요." name="query" class="css-13i5xe6" id="keyword_header">
@@ -327,19 +328,37 @@
                                             <span aria-label="clear" role="button" class="css-14vwb0g"></span>
                                         </div>
                                     </label>
+                                </form>
                                     <script>
                                         function submit(){
-                                            let val = $("input[name='query']").val();
-                                            searchForm.find("input[name='query']").val(val);
+                                            // let val = $("input[name='query']").val();
+                                            // searchForm.find("input[name='query']").val(val);
+                                            //
+                                            // if(val.isEmpty()||val==""||val==null){
+                                            //     // toastr.success('hi');
+                                            //     return false;
+                                            // }else{
+                                            //     return true;
+                                            // }
+                                            // var keyword = document.getElementById('keyword_header').value;
+                                            // if(keyword==null || keyword.isEmpty()){
+                                            //     console.log("keyword = "+keyword);
+                                            //     return false;
+                                            // }else {
+                                            //     console.log("keyword = "+keyword);
+                                            //     return true;
+                                            // }
+                                            var checkInput = document.getElementById('keyword_header').val();
+                                            console.log("val = "+checkInput);
 
-                                            if(val != null){
-                                                return true;
-                                            }else{
+                                            if(checkInput==null){
                                                 return false;
+                                            }else{
+                                                return true;
                                             }
+
                                         }
                                     </script>
-                                </form>
                             </div>
                         </div>
                     </li>
