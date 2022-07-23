@@ -29,14 +29,14 @@ public class TestController {
             System.out.println(b.toString());
 
         /* 2. 전체 댓글 (답글만) 가져오기 */
-        List<BoardReply> test2 = reply.findByRefAndBoardNoOrderByDepthDesc(1,34);
+        List<BoardReply> test2 = reply.findByRefAndBoardNoOrderByRegdateAsc(1,34);
         for(BoardReply b: test2)
             System.out.println(b.toString());
 
         /* 3. 34번 글에 대한 댓글 생성  -> 34번 글 댓글 수 1 증가 */
         BoardReply test3 = new BoardReply();
         test3.setWriter("wendy"); test3.setBoardNo(34); test3.setContent("대댓글1");
-        test3.setDepth(0);
+//        test3.setDepth(0);
         reply.save(test3);
 
         Optional<Board> board = boardRepository.findById(test3.getBoardNo());

@@ -19,7 +19,6 @@ public class CommentController {
         System.out.println("content : " + boardReply.getContent());
         System.out.println("ref : " + boardReply.getRef());
         System.out.println("step : " + boardReply.getStep());
-        System.out.println("depth : " + boardReply.getDepth());
         model.addAttribute("board", boardReply.getBoardNo());
         boardReplyService.insertComment(boardReply);
         return "redirect:/board/"+boardReply.getBoardNo();
@@ -33,15 +32,25 @@ public class CommentController {
         System.out.println("content : " + boardReply.getContent());
         System.out.println("ref : " + boardReply.getRef());
         System.out.println("step : " + boardReply.getStep());
-        System.out.println("depth : " + boardReply.getDepth());
         model.addAttribute("board", boardReply.getBoardNo());
-//        boardReplyService.insertComment(boardReply);
+        boardReplyService.insertComment(boardReply);
         return "redirect:/board/"+boardReply.getBoardNo();
     }
 
     @RequestMapping(value="/board/deleteComment", method = {RequestMethod.POST})
     @ResponseBody
     public void oldPwCheck(@RequestParam("no") int no) {
-        boardReplyService.deleteComment(no);
+        if(boardReplyService.findByNo(no).getRef() == 0 && boardReplyService.commentCheck(no).size() != 0){
+            BoardReply boardReply = boardReplyService.findByNo(no);
+            boardReply.setContent("삭제된 댓글입니다.");
+            boardReplyService.updateComment(boardReply);
+        } else if(boardReplyService.findByNo(no).getRef() == 1 
+                && boardReplyService.commentCheck(boardReplyService.findByNo(no).getStep()).size() == 1
+                && boardReplyService.findByNo(boardReplyService.findByNo(no).getStep()).getContent().equals("삭제된 댓글입니다.")) {
+            boardReplyService.deleteComment(boardReplyService.findByNo(no).getStep());
+            boardReplyService.deleteComment(no);
+        } else{
+            boardReplyService.deleteComment(no);
+        }
     }
 }
