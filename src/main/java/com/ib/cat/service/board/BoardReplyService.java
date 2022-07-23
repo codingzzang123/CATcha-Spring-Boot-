@@ -15,14 +15,21 @@ public class BoardReplyService {
     public void insertComment(BoardReply boardReply) {
         boardReplyRepository.save(boardReply);
     }
+    public void updateComment(BoardReply boardReply) {
+        boardReplyRepository.save(boardReply);
+    }
     public List<BoardReply> listComment(int ref, int boardNo){
         return boardReplyRepository.findByRefAndBoardNoOrderByNoAsc(ref, boardNo);
     }
     public List<BoardReply> listReply(int ref, int boardNo){
-        return boardReplyRepository.findByRefAndBoardNoOrderByDepthDesc(ref, boardNo);
+        return boardReplyRepository.findByRefAndBoardNoOrderByRegdateAsc(ref, boardNo);
     }
-
     public void deleteComment(int no){
         boardReplyRepository.delete(boardReplyRepository.findById(no).get());
+    }
+
+    public BoardReply findByNo(int no){return boardReplyRepository.findById(no).get();}
+    public List<BoardReply> commentCheck(int step){
+        return boardReplyRepository.findByStep(step);
     }
 }

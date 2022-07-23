@@ -25,9 +25,4 @@ public class BoardReply {
     private Timestamp regdate;
     private int ref;
     private int step;
-
-    @SequenceGenerator(name="replyOrder", sequenceName="seq_reply_depth", allocationSize=1)
-    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="replyOrder")
-    private int depth;
-
 }

@@ -36,7 +36,21 @@
         .comment-items{
             margin-top: 12px;
             height: 3.5em;
-            width: auto;
+            width: 1110px;
+            /*display: inline-block;*/
+            border-radius: 1em;
+            border: 1px dotted rgb(27, 26, 26);
+            /*margin-left: 20px;*/
+            padding-left: 20px;
+            padding-top: 5px;
+            align-items:center; display: flex;
+        }
+
+        .reply-items{
+            margin-top: 6px;
+            height: 3.5em;
+            width: 1000px;
+            float: right;
             /*display: inline-block;*/
             border-radius: 1em;
             border: 1px dotted rgb(27, 26, 26);
@@ -129,8 +143,10 @@
                                 </div>
                             </c:when>
                             <c:otherwise>
+<%--                                댓글--%>
                                 <c:forEach var="comment" items="${comment}">
                                     <div class='comment-items' id="${comment.no}" >
+                                    <img src="/img/profile/${comment.imgs}" class="rounded-circle css-memImg" style="width: 3em; height:3em; margin-bottom: 5px;">
                                         <div style="display: inline-block; width: 950px; height: 40px;">
                                             <span style="margin-left: 20px; font-family: Cambria; font-size: medium; cursor: pointer" onclick="showReply(${comment.no})"><b>${comment.content}</b></span>
                                         </div>
@@ -176,6 +192,29 @@
                                             </div>
                                         </sec:authorize>
                                     </div>
+<%--                                    답글--%>
+                                    <c:forEach var="reply" items="${reply}">
+                                        <c:if test="${reply.step eq comment.no}">
+                                            <div class='reply-items' id="${reply.no}" >
+                                                <img src="/img/profile/${reply.imgs}" class="rounded-circle css-memImg" style="width: 3em; height:3em; margin-bottom: 5px;">
+                                                <div style="display: inline-block; width: 950px; height: 40px;">
+                                                    <span style="margin-left: 20px; font-family: Cambria; font-size: medium; cursor: pointer" onclick="showReply(${reply.no})"><b>${reply.content}</b></span>
+                                                </div>
+                                                <div style="display: inline-block; width: 200px; height: 40px; text-align: end; margin-bottom: 12px; ">
+                                                        <span style="font-size: small; margin-bottom: 3px;">
+                                                                <fmt:formatDate value="${reply.regdate }" pattern="MMM dd HH:mm:ss" /><br>by ${reply.writer}
+                                                        </span>
+                                                </div>
+                                                <div style="display: inline-block; width: 40px; height: 40px;">
+                                                    <c:if test="${auth.name eq reply.writer }">
+                                                        <button type="button" data-bs-toggle="modal" data-bs-target="#DelComment" data-test="${reply.no }"
+                                                                class="btn btn-default btn-xs">&times;</button>
+                                                    </c:if>
+                                                </div>
+                                                <input type="hidden" id="${reply.no}" name="${reply.no}" value="${reply.no}">
+                                            </div>
+                                        </c:if>
+                                    </c:forEach>
                                 </c:forEach>
                             </c:otherwise>
                         </c:choose>
@@ -501,8 +540,8 @@
                 'no':i
             },success:function (data){
                 console.log("Delete Success");
-                let deleteDiv = document.getElementById(i);
-                deleteDiv.remove();
+                document.getElementById(i);
+                window.location.reload()
             },error:function (){
                 console.log("fail");
             }

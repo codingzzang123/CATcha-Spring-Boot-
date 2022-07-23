@@ -33,6 +33,7 @@ public class MemberService implements UserDetailsService {
     public int nameCheck(String name) {
         return memberRepository.countByName(name);
     }
+    public Member findByName(String name){return memberRepository.findByName(name);}
     public int emailCheck(String id, String email) {
         String checkEmail = memberRepository.findById(id).get().getEmail();
         if(checkEmail.equals(email)){
