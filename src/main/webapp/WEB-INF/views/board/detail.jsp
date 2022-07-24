@@ -59,6 +59,13 @@
             padding-top: 5px;
             align-items:center; display: flex;
         }
+        .rere{
+            border:1px solid #ccc;
+            border-radius:5px;
+            margin-bottom:5px;
+            background-color:#dee2e6;
+
+        }
     </style>
 </head>
 <body>
@@ -134,7 +141,7 @@
             <div class="css-lufi3b" style="margin-top: 25px;">
                 <div class="css-1qq59e8">
                     <span class="css-16qa0p7" style="font-size: xx-large;">Comment</span>
-                    <div id="result" scroll=auto style="overflow-x:hidden; margin-bottom: 30px;" class="review-body">
+                    <div id="result" style="overflow-x:hidden; margin-bottom: 30px;" class="review-body">
 
                         <c:choose>
                             <c:when test="${empty comment}">
@@ -152,8 +159,9 @@
                                         </div>
                                         <div style="display: inline-block; width: 100px; height: 40px; text-align: end; margin-bottom: 12px; ">
                                                 <span style="font-size: small; margin-bottom: 3px;">
-                                                        <fmt:formatDate value="${comment.regdate }" pattern="MMM dd HH:mm:ss" /><br>by ${comment.writer}
+                                                        <fmt:formatDate value="${comment.regdate }" pattern="MMM dd HH:mm" />
                                                 </span>
+                                                <p style="font-size: small">${comment.writer}</p>
                                         </div>
                                         <div style="display: inline-block; width: 40px; height: 40px;">
                                             <c:if test="${auth.name eq comment.writer }">
@@ -195,22 +203,34 @@
 <%--                                    답글--%>
                                     <c:forEach var="reply" items="${reply}">
                                         <c:if test="${reply.step eq comment.no}">
-                                            <div class='reply-items' id="${reply.no}" >
-                                                <img src="/img/profile/${reply.imgs}" class="rounded-circle css-memImg" style="width: 3em; height:3em; margin-bottom: 5px;">
-                                                <div style="display: inline-block; width: 950px; height: 40px;">
-                                                    <span style="margin-left: 20px; font-family: Cambria; font-size: medium; cursor: pointer" onclick="showReply(${reply.no})"><b>${reply.content}</b></span>
+                                            <div class='row rere' id="${reply.no}">
+
+                                                <div class="col-lg-1 text-end">┖ </div>
+                                                <div class="col-lg-1">${reply.writer}</div>
+                                                <div class="col-lg-7" style="margin-left: 20px;">${reply.content}</div>
+                                                <div class="col-lg-1 text-end" style="font-size: small;"><fmt:formatDate value="${reply.regdate }" pattern="MMM dd HH:mm" /></div>
+                                                <div class="col-lg-1 text-end">
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#DelComment" data-test="${reply.no }"
+                                                                                       class="btn btn-default btn-xs">&times;</button>
                                                 </div>
-                                                <div style="display: inline-block; width: 200px; height: 40px; text-align: end; margin-bottom: 12px; ">
-                                                        <span style="font-size: small; margin-bottom: 3px;">
-                                                                <fmt:formatDate value="${reply.regdate }" pattern="MMM dd HH:mm:ss" /><br>by ${reply.writer}
-                                                        </span>
-                                                </div>
-                                                <div style="display: inline-block; width: 40px; height: 40px;">
-                                                    <c:if test="${auth.name eq reply.writer }">
-                                                        <button type="button" data-bs-toggle="modal" data-bs-target="#DelComment" data-test="${reply.no }"
-                                                                class="btn btn-default btn-xs">&times;</button>
-                                                    </c:if>
-                                                </div>
+
+
+<%--                                                <img src="/img/profile/${reply.imgs}" class="rounded-circle css-memImg" style="width: 3em; height:3em; margin-bottom: 5px;">--%>
+<%--                                                <div style="display: inline-block; width: 950px; height: 40px;">--%>
+<%--                                                    <span style="margin-left: 20px; font-family: Cambria; font-size: medium; cursor: pointer" onclick="showReply(${reply.no})"><b>${reply.content}</b></span>--%>
+<%--                                                </div>--%>
+<%--                                                <div style="display: inline-block; width: 200px; height: 40px; text-align: end; margin-bottom: 12px; ">--%>
+<%--                                                        <span style="font-size: small; margin-bottom: 3px;">--%>
+<%--                                                                <fmt:formatDate value="${reply.regdate }" pattern="MMM dd HH:mm" />--%>
+<%--                                                        </span>--%>
+<%--                                                    <p style="font-size: small">by ${reply.writer}</p>--%>
+<%--                                                </div>--%>
+<%--                                                <div style="display: inline-block; width: 40px; height: 40px;">--%>
+<%--                                                    <c:if test="${auth.name eq reply.writer }">--%>
+<%--                                                        <button type="button" data-bs-toggle="modal" data-bs-target="#DelComment" data-test="${reply.no }"--%>
+<%--                                                                class="btn btn-default btn-xs">&times;</button>--%>
+<%--                                                    </c:if>--%>
+<%--                                                </div>--%>
                                                 <input type="hidden" id="${reply.no}" name="${reply.no}" value="${reply.no}">
                                             </div>
                                         </c:if>

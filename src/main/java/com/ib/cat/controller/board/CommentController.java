@@ -14,11 +14,7 @@ public class CommentController {
 
     @PostMapping("/board/comment")
     public String comment(BoardReply boardReply, Model model){
-        System.out.println("no : " + boardReply.getBoardNo());
-        System.out.println("writer : " + boardReply.getWriter());
-        System.out.println("content : " + boardReply.getContent());
-        System.out.println("ref : " + boardReply.getRef());
-        System.out.println("step : " + boardReply.getStep());
+
         model.addAttribute("board", boardReply.getBoardNo());
         boardReplyService.insertComment(boardReply);
         return "redirect:/board/"+boardReply.getBoardNo();
@@ -27,11 +23,7 @@ public class CommentController {
     @PostMapping("/board/reply")
     public String reply(BoardReply boardReply, Model model){
         boardReply.setRef(1);
-        System.out.println("no : " + boardReply.getBoardNo());
-        System.out.println("writer : " + boardReply.getWriter());
-        System.out.println("content : " + boardReply.getContent());
-        System.out.println("ref : " + boardReply.getRef());
-        System.out.println("step : " + boardReply.getStep());
+
         model.addAttribute("board", boardReply.getBoardNo());
         boardReplyService.insertComment(boardReply);
         return "redirect:/board/"+boardReply.getBoardNo();
