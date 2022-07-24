@@ -71,13 +71,19 @@ public class WebSockAlertHandler extends TextWebSocketHandler {
 
                 TextMessage tmpMsg = new TextMessage(
                         "<strong>"+replyWriter+"</strong>"+"님이 [" +
-                                "<strong>"+ title+"</strong>" +"] 게시글에<br> 좋아요❤를 눌렀습니다."
+                                "<strong>"+ title+"</strong>" +"] 게시글에<br> 좋아요를 눌렀습니다."
                 );
                 boardWriterSession.sendMessage(tmpMsg);
             }else if("comment".equals(cmd)&&boardWriterSession !=null){
                 TextMessage tmpMsg = new TextMessage(
                         "<strong>"+replyWriter+"</strong>"+"님이 [" +
                                 "<strong>"+ title+"</strong>" +"] 게시글에<br> 댓글을 달았습니다."
+                );
+                boardWriterSession.sendMessage(tmpMsg);
+            }else if("reply".equals(cmd)&&boardWriterSession !=null){
+                TextMessage tmpMsg = new TextMessage(
+                        "<strong>"+replyWriter+"</strong>님이 [<strong>"+ title+"</strong>] 댓글에"+
+                                "<br>답글을 달았습니다."
                 );
                 boardWriterSession.sendMessage(tmpMsg);
             }
