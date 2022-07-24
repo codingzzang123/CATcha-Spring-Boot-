@@ -151,7 +151,7 @@
                             </c:when>
                             <c:otherwise>
 <%--                                댓글--%>
-                                <c:forEach var="comment" items="${comment}">
+                                <c:forEach var="comment" items="${comment}" >
                                     <div class='comment-items' id="${comment.no}" >
                                     <img src="/img/profile/${comment.imgs}" class="rounded-circle css-memImg" style="width: 3em; height:3em; margin-bottom: 5px;">
                                         <div style="display: inline-block; width: 950px; height: 40px;">
@@ -181,13 +181,13 @@
                                         </sec:authorize>
                                         <sec:authorize access="isAuthenticated()">
                                             <div class="card" style="margin-top: 10px;">
-                                                <form action="/board/reply" method="post">
+                                                <form action="/board/reply" method="post" onsubmit="return submitReply(${comment.no});">
                                                     <div class="card-header bi bi-chat-right-dots">
                                                         <b style="font-family: Cambria;">Write a Reply</b>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-lg-11">
-                                                            <textarea id="reply" name="content" placeholder="답글을 작성해주세요" style="resize: none; font-size: small; height : 100px; width: 1030px; border : none; margin-top : 5px; margin-left: 5px;"></textarea>
+                                                            <textarea id="reply${comment.no}" name="content" placeholder="답글을 작성해주세요" style="resize: none; font-size: small; height : 100px; width: 1030px; border : none; margin-top : 5px; margin-left: 5px;"></textarea>
                                                         </div>
                                                         <div class="col-lg-1">
                                                             <input type="submit" value="등록"  class="btn btn-outline-primary bi bi-pencil-square" style="margin-top: 65px;">
@@ -196,6 +196,8 @@
                                                     <input type="hidden" value="${auth.name}" name="writer">
                                                     <input type="hidden" value="${board.no}" name="boardNo">
                                                     <input type="hidden" value="${comment.no}" name="step">
+                                                    <input type="hidden" value="${comment.writer}" id="target${comment.no}">
+                                                    <input type="hidden" value="${comment.content}" id="title${comment.no}">
                                                 </form>
                                             </div>
                                         </sec:authorize>
@@ -213,24 +215,6 @@
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#DelComment" data-test="${reply.no }"
                                                                                        class="btn btn-default btn-xs">&times;</button>
                                                 </div>
-
-
-<%--                                                <img src="/img/profile/${reply.imgs}" class="rounded-circle css-memImg" style="width: 3em; height:3em; margin-bottom: 5px;">--%>
-<%--                                                <div style="display: inline-block; width: 950px; height: 40px;">--%>
-<%--                                                    <span style="margin-left: 20px; font-family: Cambria; font-size: medium; cursor: pointer" onclick="showReply(${reply.no})"><b>${reply.content}</b></span>--%>
-<%--                                                </div>--%>
-<%--                                                <div style="display: inline-block; width: 200px; height: 40px; text-align: end; margin-bottom: 12px; ">--%>
-<%--                                                        <span style="font-size: small; margin-bottom: 3px;">--%>
-<%--                                                                <fmt:formatDate value="${reply.regdate }" pattern="MMM dd HH:mm" />--%>
-<%--                                                        </span>--%>
-<%--                                                    <p style="font-size: small">by ${reply.writer}</p>--%>
-<%--                                                </div>--%>
-<%--                                                <div style="display: inline-block; width: 40px; height: 40px;">--%>
-<%--                                                    <c:if test="${auth.name eq reply.writer }">--%>
-<%--                                                        <button type="button" data-bs-toggle="modal" data-bs-target="#DelComment" data-test="${reply.no }"--%>
-<%--                                                                class="btn btn-default btn-xs">&times;</button>--%>
-<%--                                                    </c:if>--%>
-<%--                                                </div>--%>
                                                 <input type="hidden" id="${reply.no}" name="${reply.no}" value="${reply.no}">
                                             </div>
                                         </c:if>
@@ -506,6 +490,7 @@
     function submitComment(){
         var check = $("textarea#comment").val().length;
         if(check < 1){
+            alert('1글자 이상 써야 합니다.')
             return false;
         }else{
             insertCommentAlert();
@@ -518,8 +503,7 @@
     var beforeNo = null;
 
     function showReply(no){
-        console.log(no);
-        console.log(beforeNo);
+
         if($('#reply'+no).css("display") == "none"){
             $('#reply'+no).css("display", "block")
             if($('#reply'+beforeNo).css("display") == "block" && no != beforeNo){
@@ -536,36 +520,71 @@
         $('#DelComment').on('show.bs.modal', function (e) {
             var data = $(e.relatedTarget).data('test');
             $('#deleteModal').val(data);
-            console.log(data);
         });
         $('#DelBoard').on('show.bs.modal', function (f) {
             var data = $(f.relatedTarget).data('test');
             $('#deletelModal2').val(data);
-            console.log(data);
         });
     });
 
     $("#delete").click(function(){
         var d = $('#deleteModal').val()
-        console.log("d : " +d);
         deleteReply(d);
     });
 
     function deleteReply(i){
-        console.log("i : "+ i)
         $.ajax({
             url: '${pageContext.request.contextPath}/board/deleteComment',
             type: 'post',
             data:{
                 'no':i
             },success:function (data){
-                console.log("Delete Success");
                 document.getElementById(i);
                 window.location.reload()
             },error:function (){
                 console.log("fail");
             }
         });
+    }
+
+    /* 답글에 대한 알림 */
+    function submitReply(no){
+
+        var check = $('textarea#reply'+no).val().length;
+
+        if(check < 1){
+            alert('1글자 이상 써야 합니다.')
+            return false;
+        }else{
+            insertReplyAlert(no);
+            return true;
+        }
+    }
+
+    function insertReplyAlert(no){
+
+        var targetUser = $('#target'+no).val();
+        var title = $('#title'+no).val();
+        let insertObject ={
+            'subName':targetUser,
+            'pubName':'${auth.name }',
+            'bno':'${board.no }',
+            'code':2
+        }
+        $.ajax({
+            type: "put",
+            data: {
+                object : JSON.stringify(insertObject)
+            },
+            url: "${pageContext.request.contextPath}/alert/reply/insert",
+            success: function (data) {
+                console.log("Success update(Comment Insert)");
+                let socketMsg = "reply,"+'${auth.name },'+targetUser+","+ title; // " ..댓글에 auth.name유저가 댓글을 달았습니다"
+                console.log(socketMsg);
+                socket.send(socketMsg);
+            }
+        });
+
     }
 
     //글삭제
