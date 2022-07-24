@@ -565,25 +565,27 @@
 
         var targetUser = $('#target'+no).val();
         var title = $('#title'+no).val();
-        let insertObject ={
-            'subName':targetUser,
-            'pubName':'${auth.name }',
-            'bno':'${board.no }',
-            'code':2
-        }
-        $.ajax({
-            type: "put",
-            data: {
-                object : JSON.stringify(insertObject)
-            },
-            url: "${pageContext.request.contextPath}/alert/reply/insert",
-            success: function (data) {
-                console.log("Success update(Comment Insert)");
-                let socketMsg = "reply,"+'${auth.name },'+targetUser+","+ title; // " ..댓글에 auth.name유저가 댓글을 달았습니다"
-                console.log(socketMsg);
-                socket.send(socketMsg);
+        if(targetUser != '${auth.name}'){
+            let insertObject ={
+                'subName':targetUser,
+                'pubName':'${auth.name }',
+                'bno':'${board.no }',
+                'code':2
             }
-        });
+            $.ajax({
+                type: "put",
+                data: {
+                    object : JSON.stringify(insertObject)
+                },
+                url: "${pageContext.request.contextPath}/alert/reply/insert",
+                success: function (data) {
+                    console.log("Success update(Comment Insert)");
+                    let socketMsg = "reply,"+'${auth.name },'+targetUser+","+ title; // " ..댓글에 auth.name유저가 댓글을 달았습니다"
+                    console.log(socketMsg);
+                    socket.send(socketMsg);
+                }
+            });
+        }
 
     }
 
