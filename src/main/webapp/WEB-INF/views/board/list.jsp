@@ -27,7 +27,14 @@
         <div class="container mt-5">
             <span style="font-style: italic; font-family: Inter; border: 1px dotted #d3d3d3;
                     font-size: xxx-large; padding-left: 10px; padding-right: 15px; border-radius: 2em; ">CATcha Community</span>
-
+            <br>
+            <div style="padding: 5px;">
+            <a class="categ" href="/board?category=none&s_type=&s_search=&page=0" style="background-color: #f3f3f1; border-radius: 2em; padding: 5px; border: 1px solid #cccccc;">전체보기</a>
+            <a class="categ" href="/board?category=일반&s_type=&s_search=&page=0" style="background-color: #f3f3f1; border-radius: 2em; padding: 5px; border: 1px solid #cccccc;">일반</a>
+            <a class="categ" href="/board?category=영화&s_type=&s_search=&page=0" style="background-color: #f3f3f1; border-radius: 2em; padding: 5px; border: 1px solid #cccccc;">영화</a>
+            <a class="categ" href="/board?category=TV&s_type=&s_search=&page=0" style="background-color: #f3f3f1; border-radius: 2em; padding: 5px; border: 1px solid #cccccc;">TV</a>
+            <input type="hidden" name="category" value="${param.category}">
+            </div>
 
             <table class="table table-hover" style="margin-top: 20px;">
                 <thead class="text-center">
@@ -132,11 +139,15 @@
                             <option value="subject">제목</option>
                             <option value="memo">내용</option>
                             <option value="name">작성자</option>
+
                             <input name="s_keyword" type="text" size="50" value=""><button>검색</button>
+                            <input type="hidden" name="category" value="${param.category}">
                         </select>
                     </form>
                 </div>
             </div>
+            <input type="hidden" id="s_type" name="s_type" value="${param.field}">
+            <input type="hidden" id="s_keyword" name="s_keyword" value="${param.searchKeyword}">
 
             <div class="row">
                 <div class="col-lg-1"></div>
@@ -146,24 +157,24 @@
                             <ul class="pagination justify-content-center">
                                 <!--이전-->
                                 <c:if test="${pageList.previousPage }">
-                                    <li class="page-item"><a class="page-link" href="/board?s_type=${param.field}&s_search=${param.searchKeyword}&page=${pageList.number - 1}">&laquo;</a></li>
+                                    <li class="page-item"><a class="page-link" href="/board?s_type=${param.s_type}&s_keyword=${param.s_keyword}&page=${pageList.number - 1}&category=${param.category}">&laquo;</a></li>
                                 </c:if>
 
                                 <!--페이지 그룹-->
                                 <c:forEach begin="${startBlockPage}" end="${endBlockPage}" var="i">
                                     <c:choose>
                                         <c:when test="${pageNumber+1 eq i}"> <!-- pageNumber 시작은 0 , i는 1부터 -->
-                                            <li class="page-item active"><a class="page-link" href="/board?s_type=${param.field}&s_search=${param.searchKeyword}&page=${i-1 }">${i}</a></li>
+                                            <li class="page-item active"><a class="page-link" href="/board?s_type=${param.s_type}&s_keyword=${param.s_keyword}&page=${i-1 }&category=${param.category}">${i}</a></li>
                                         </c:when>
                                         <c:otherwise>
-                                            <li class="page-item"><a class="page-link" href="/board?s_type=${param.field}&s_search=${param.searchKeyword}&page=${i-1 }">${i}</a></li>
+                                            <li class="page-item"><a class="page-link" href="/board?s_type=${param.s_type}&s_keyword=${param.s_keyword}&page=${i-1 }&category=${param.category}">${i}</a></li>
                                         </c:otherwise>
                                     </c:choose>
                                 </c:forEach>
 
                                 <!--다음-->
                                 <c:if test="${pageList.nextPage }">
-                                    <li class="page-item"><a class="page-link" href="/board?s_type=${param.field}&s_search=${param.searchKeyword}&page=${pageList.number + 1}">&raquo;</a></li>
+                                    <li class="page-item"><a class="page-link" href="/board?s_type=${param.s_type}&s_keyword=${param.s_keyword}&page=${pageList.number + 1}&category=${param.category}">&raquo;</a></li>
                                 </c:if>
                             </ul>
                         </nav>

@@ -40,4 +40,13 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
 
     Page<Board> findByNameContaining (String searchKeyword, Pageable pageable);
 
+    Page<Board> findByCate(String category, Pageable pageable);
+    Page<Board> findByCateAndContentContainingOrTitleContainingIgnoreCase(String category, String keyword, String keyword2, Pageable pageable);
+//    @Query(value="select * from board b where b.cate = :category and (b.title like %:keyword% b.content like %:keyword2%)")
+//    Page<Board> findByCateAndContentContainingOrTitleContainingIgnoreCase(String category, String keyword, String keyword2, Pageable pageable);
+    Page<Board> findByCateAndTitleContaining (String category, String searchKeyword, Pageable pageable);
+    Page<Board> findByCateAndContentContaining(String category, String keyword, Pageable pageable);
+    Page<Board> findByCateAndNameContaining(String category, String searchKeyword, Pageable pageable);
+
+//    Page<Board> findByContentContainingOrTitleContainingIgnoreCaseAndCate(String keyword, String keyword1, Pageable pageable, String cate);
 }
