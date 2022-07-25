@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.security.Principal;
 
 @Controller
@@ -74,14 +73,6 @@ public class LoginController {
         auth.setAuth(member.getAuth());
 
         httpSession.setAttribute("auth", auth);
-
-        httpServletResponse.setContentType("text/html; charset=UTF-8");
-        PrintWriter out = httpServletResponse.getWriter();
-        out.println("<script>");
-        out.println("alert('로그인 되었습니다.')");
-        out.println("history.go(-2)");
-        out.println("</script>");
-        out.flush();
         return "redirect:/main";
     }
     @GetMapping("/member/apiSession")
@@ -97,14 +88,6 @@ public class LoginController {
         auth.setAuth(member.getAuth());
 
         httpSession.setAttribute("auth", auth);
-
-        httpServletResponse.setContentType("text/html; charset=UTF-8");
-        PrintWriter out = httpServletResponse.getWriter();
-        out.println("<script>");
-        out.println("alert('로그인 되었습니다.')");
-        out.println("history.go(-2)");
-        out.println("</script>");
-        out.flush();
         return "redirect:/main";
     }
 }

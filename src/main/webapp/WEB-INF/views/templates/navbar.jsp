@@ -401,7 +401,7 @@
                                 <li><a class="dropdown-item" href="${pageContext.request.contextPath}/member">프로필 보기</a></li>
                                 <hr>
                                 <li><a class="dropdown-item" href="${pageContext.request.contextPath}/memberlike/${auth.id}">관심목록</a></li>
-                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#settingModal">정보 수정</a></li>
+                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#settingModal" style="cursor: pointer">정보 수정</a></li>
                                 <hr>
                                 <li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout">로그아웃</a></li>
                             </ul>
@@ -424,6 +424,14 @@
                 <div class="modal-content">
                     <jsp:include page="/WEB-INF/views/member/setting.jsp" />
                 </div>
+            </div>
+        </div>
+    </div>
+    <%--                        모달창--%>
+    <div id="deleteModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="deleteModal">
+        <div class="modal-dialog modal-login">
+            <div class="modal-content">
+                <jsp:include page="/WEB-INF/views/member/delete.jsp" />
             </div>
         </div>
     </div>

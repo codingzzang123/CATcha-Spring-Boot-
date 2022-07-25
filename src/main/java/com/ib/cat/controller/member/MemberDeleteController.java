@@ -16,6 +16,6 @@ public class MemberDeleteController {
     public String delete(String check_id){
         Member member = memberService.findById(check_id);
         memberService.memberDelete(member);
-        return "redirect:/main";
+        return "redirect:/logout";
     }
 }
