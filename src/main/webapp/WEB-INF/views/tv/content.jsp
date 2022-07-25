@@ -26,7 +26,10 @@
         <script src="js/jieun/star-rating.js" type="text/javascript">
 
     <script src="https://kit.fontawesome.com/325cf61a47.js" crossorigin="anonymous"></script>
-    <title>컨텐츠 디테일 화면</title>
+    <link href="/img/main/title.png" rel="shortcut icon" type="image/x-icon">
+    <title>
+        ${contents.title}(<fmt:formatDate value="${contents.releaseDate}" pattern="yyyy"/>) - CATcha(TV)
+    </title>
 
     <style>
         .css-leftImg{

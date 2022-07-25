@@ -12,7 +12,9 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <html>
 <head>
-    <title>Search</title>
+    <link href="/img/main/title.png" rel="shortcut icon" type="image/x-icon">
+    <title>
+        ${query} : CATcha 통합검색</title>
     <style>
 
 

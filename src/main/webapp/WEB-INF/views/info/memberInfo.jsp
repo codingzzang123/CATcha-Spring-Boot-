@@ -4,7 +4,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <title>Title</title>
+    <link href="/img/main/title.png" rel="shortcut icon" type="image/x-icon">
+    <title>프로필 - ${auth.name }</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <link href="/css/hosun/main.css" rel="stylesheet"/>

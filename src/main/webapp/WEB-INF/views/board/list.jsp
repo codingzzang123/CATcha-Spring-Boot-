@@ -15,7 +15,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>목록</title>
+    <link href="/img/main/title.png" rel="shortcut icon" type="image/x-icon">
+    <title>커뮤니티 포털 - CATcha</title>
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
     <link href="/css/hosun/main.css" rel="stylesheet"/>
     <link href="/css/jieun/contentList.css" rel="stylesheet"/>
@@ -45,8 +46,8 @@
     <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include>
     <section class="css-7klu3x" id="wrapper">
         <div class="container mt-5">
-            <span style="font-style: italic; font-family: Inter; border: 1px dotted #d3d3d3;
-                    font-size: xxx-large; padding-left: 10px; padding-right: 15px; border-radius: 2em; ">CATcha Community</span>
+            <div style="margin-bottom: 5px;"><span style="font-style: italic; font-family: Inter; border: 1px dotted #d3d3d3;
+                    font-size: xxx-large; padding-left: 10px; padding-right: 15px; border-radius: 2em; ">CATcha Community</span></div>
 
             <br>
             <div style="padding: 5px;">
