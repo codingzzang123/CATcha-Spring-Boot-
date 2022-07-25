@@ -46,10 +46,6 @@
                 <div style="display: inline-block"><strong>&nbsp;&nbsp;&nbsp;Boards&nbsp;&nbsp;&nbsp;&nbsp;</strong>
                 <span class="badge rounded-pill bg-warning text-dark btn btn-mini" style="min-width: 30px; max-width: 60px; height: 30px; text-align: center; vertical-align: middle;
                                                         font-size: large;" id="board"></span></div>
-
-<%--                <span style="margin-left: 20px;">영화 :  </span><input type="button" id="movie" value="" class="css-circle" style="width: 30px;"/>--%>
-<%--                <span style="margin-left: 20px;">TV :  </span><input type="button" id="tv" value="" class="css-circle" style="width: 30px;"/>--%>
-<%--                <span style="margin-left: 20px;">게시판 :  </span><input type="button" id="board" value="" class="css-circle" style="width: 30px;"/>--%>
             </div>
 
             <div id="result"><!-- datas --></div>
@@ -58,25 +54,25 @@
 
     <input type="hidden" id="memberId" name="memberId" value="${auth.id }">
 
-    <!-- 삭제 대한 모달 -->
-    <div class="modal" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel" style="font-family: Georgia"><b>Please check again</b></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <h5>관심목록에서 제거 하시겠습니까?</h5>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="ModalCloseId" class="btn btn-danger" data-bs-dismiss="modal" style= "font-family: Consolas">Close</button>
-                    <input type="hidden" id="deleteModal" value="">
-                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal" style= "font-family: Consolas" id="delete">Delete</button>
+        <!-- 삭제 대한 모달 -->
+        <div class="modal" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel" style="font-family: Georgia"><b>Please check again</b></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5>관심목록에서 제거 하시겠습니까?</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="ModalCloseId" class="btn btn-danger" data-bs-dismiss="modal" id="close" style= "font-family: Consolas">Close</button>
+                        <input type="hidden" id="deleteModal" value="">
+                        <button type="button" class="btn btn-warning" data-bs-dismiss="modal" style= "font-family: Consolas" id="delete">Delete</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
     <script>
         const prefix = "https://image.tmdb.org/t/p/original";
@@ -107,9 +103,9 @@
                     console.log(data);
                     if(data.length != 0){
                         ckcode = data[0].code;
-                        if(code == 0){
+                        if(ckcode == 0){
                             path = "/movie/content/";
-                        }else if(code == 1){
+                        }else if(ckcode == 1){
                             path = "/tv/content/";
                         }else{
                             path = "/board/";
@@ -135,7 +131,7 @@
                                 data[i].overview+
                                 "</div></a>"+
                                 "</div>"+
-                                "<div id='testbtn'><button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#Modal' data-test='"+ data[i].contentsNum +"'>삭제</button></div>"+
+                                "<div id='testbtn'><button type='button' class='btn btn-danger' onclick=deleteLike("+ data[i].contentsNum +")>삭제</button></div>"+
                                 "</div>"+
                                 "</div>"+
                                 "</div>");
@@ -148,10 +144,6 @@
             });
         }
 
-        function testc(){
-            code=0;
-            getList();
-        }
 
         $("#movie").click(function(){
             code = 0;
@@ -169,9 +161,18 @@
         });
 
         $("#delete").click(function(){
-            var d = $('#deleteModal').val()
+            console.log("click");
+            var d = $('#deleteModal').val();
+            console.log("d : "+ d);
             deleteLike(d);
         });
+
+        $("#close").click(function(){
+            console.log("click");
+
+        });
+
+
 
         function deleteLike(i){
             console.log(i);
