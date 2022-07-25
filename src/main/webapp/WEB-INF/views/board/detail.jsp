@@ -35,8 +35,9 @@
         /*}*/
         .comment-items{
             margin-top: 12px;
+            margin-bottom: 3px;
             height: 3.5em;
-            width: 1110px;
+            width: auto;
             /*display: inline-block;*/
             border-radius: 1em;
             border: 1px dotted rgb(27, 26, 26);
@@ -64,6 +65,7 @@
             border-radius:5px;
             margin-bottom:5px;
             background-color:#dee2e6;
+            height: 41px;
 
         }
     </style>
@@ -103,26 +105,15 @@
                 </div>
                 <div class="col-lg-6 text-end" style="margin-top: 15px;">
 
-
-                    <c:choose>
-                        <c:when test="${!empty auth }">
+                    <c:if test="${!empty auth}">
+                        <c:if test="${board.name ne auth.name}">
                             <div style="display: inline-block;margin-right: 5px;">
-                                <button type="button" id="b1" <c:if test="${board.name ne auth.name }"> onclick="like()"</c:if> class="btn btn-default btn-xs" >
+                                <button type="button" id="b1" onclick="like()" class="btn btn-default btn-xs" >
                                     <img src="" style="width: 50px; height: 50px; cursor:pointer; border:0px;" id="ex">
                                 </button>
                             </div>
-                        </c:when>
-                        <c:when test="${board.name ne auth.name }">
-                            <div style="display: inline-block;margin-right: 5px;">
-                                <button type="button" id="b1" <c:if test="${board.name ne auth.name }"> onclick="like()"</c:if> class="btn btn-default btn-xs" >
-                                    <img src="" style="width: 50px; height: 50px; cursor:pointer; border:0px;" id="ex">
-                                </button>
-                            </div>
-                        </c:when>
-                    </c:choose>
-
-
-
+                        </c:if>
+                    </c:if>
 
                     <div style="display: inline-block;">
                         <a href='/board'>
@@ -224,12 +215,14 @@
                                             <div class='row rere' id="${reply.no}">
 
                                                 <div class="col-lg-1 text-end">┖ </div>
-                                                <div class="col-lg-1">${reply.writer}</div>
-                                                <div class="col-lg-7" style="margin-left: 20px;">${reply.content}</div>
+                                                <div class="col-lg-1" style="border-radius: 1em; font-weight: bold;">${reply.writer}</div>
+                                                <div class="col-lg-7" style="margin-left: 25px; font-weight: bolder;">${reply.content}</div>
                                                 <div class="col-lg-1 text-end" style="font-size: small;"><fmt:formatDate value="${reply.regdate }" pattern="MMM dd HH:mm" /></div>
                                                 <div class="col-lg-1 text-end">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#DelComment" data-test="${reply.no }"
+                                                    <c:if test="${auth.name eq reply.writer }">
+                                                        <button type="button" data-bs-toggle="modal" data-bs-target="#DelComment" data-test="${reply.no }"
                                                                                        class="btn btn-default btn-xs">&times;</button>
+                                                    </c:if>
                                                 </div>
                                                 <input type="hidden" id="${reply.no}" name="${reply.no}" value="${reply.no}">
                                             </div>
