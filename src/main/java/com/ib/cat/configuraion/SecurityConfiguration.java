@@ -32,6 +32,11 @@ public class SecurityConfiguration{
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/member/setting","/member/change","/board/write","/board/edit/**").authenticated()
+                .antMatchers("/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
                 .formLogin()
                 .loginPage("/member/login")
                 .usernameParameter("id")
@@ -40,7 +45,7 @@ public class SecurityConfiguration{
                 .defaultSuccessUrl("/member/session")
                 .and()
                         .logout()
-                        .logoutSuccessUrl("/main")
+                        .logoutSuccessUrl("/member/logout")
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .invalidateHttpSession(true);
         http.sessionManagement()

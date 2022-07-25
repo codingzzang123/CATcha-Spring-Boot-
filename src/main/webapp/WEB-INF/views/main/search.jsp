@@ -9,6 +9,7 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <html>
 <head>
     <title>Search</title>
@@ -28,6 +29,7 @@
             -webkit-box-orient: vertical;
             overflow: hidden; text-overflow: ellipsis;
         }
+
 
     </style>
     <link href="/css/hosun/main.css" rel="stylesheet"/>
@@ -55,7 +57,7 @@
                                 <div style="border:1px solid white; border-radius: 5px; width: 180px; text-align: center; padding:10px;"
                                     id="searchResults">
 
-                                    <div>
+                                    <div <c:if test="${type eq 'movie' }">class="bg-warning text-dark" style="border-radius: 5px;"</c:if> >
                                         <div>
                                             <a href="<c:url value='/search/movie?query=${query }&page=1'/>">
                                                 <strong style="font-size: large;">Movies</strong>
@@ -68,7 +70,7 @@
                                         </div>
                                     </div>
 
-                                    <div>
+                                    <div <c:if test="${type eq 'tv' }">class="bg-warning text-dark" style="border-radius: 5px;"</c:if> >
                                         <div>
                                             <a href="<c:url value='/search/tv?query=${query }&page=1'/>">
                                                 <strong style="font-size: large;">TV shows</strong>
@@ -81,7 +83,7 @@
                                         </div>
                                     </div>
 
-                                    <div>
+                                    <div <c:if test="${type eq 'board' }">class="bg-warning text-dark" style="border-radius: 5px;"</c:if> >
                                         <div>
                                             <a href="<c:url value='/search/board?query=${query }&page=0'/>"> <!-- paging 스타트가 얘만 0번이 1번이라.. -->
                                                 <strong style="font-size: large;">Boards</strong>
@@ -107,28 +109,66 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr class="mytr">
-                                        <th style="width:80px; height:50px; scope="col">No</th>
-                                        <th style="width:250px; height:50px; scope="col">Title</th>
-                                        <th style="width:250px; height:50px; scope="col">Content</th>
-                                        <th style="width:150px; height:50px; scope="col">Writer</th>
-                                        <th style="width:205px; height:50px; scope="col">Regdate</th>
+                                        <th style="height: 50px;" scope="col">Title</th>
+                                        <th scope="col">Content</th>
+                                        <th scope="col">Writer</th>
+                                        <th scope="col">Regdate</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     <c:forEach var="content" items="${content.content }">
-                                        <tr class="mytr">
-                                            <td  style="width:80px; height:50px; word-break:break-all;table-layout:fixed;">
-                                                ${content.no }
-                                            </td>
+                                        <tr class="mytr" style="font-size: 1em">
                                             <td class="media-frame" style="width:250px; height:50px; word-break:break-all;table-layout:fixed;">
                                                 <a href="<c:url value='/board/${content.no }'/>">
-                                                        ${content.title }
+                                                    <c:choose>
+                                                        <c:when test="${fn:length(content.title) > 15}">
+                                                            ${fn:substring(content.title,0,15)}...
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            ${content.title }
+                                                        </c:otherwise>
+                                                    </c:choose>
                                                 </a>
                                             </td>
-                                            <td  style="width:250px; height:50px; word-break:break-all;table-layout:fixed;">${content.content }</>
-                                            <td  style="width:150px; height:50px; word-break:break-all;table-layout:fixed;">${content.name }</>
-                                            <td  style="width:205px; height:50px; word-break:break-all;table-layout:fixed;">${content.regdate }</>
+                                            <td  style="width:600px; height:50px; word-break:break-all;table-layout:fixed;">
+                                                <a href="<c:url value='/board/${content.no }'/>">
+                                                    <c:choose>
+                                                        <c:when test="${fn:length(content.content) > 40}">
+                                                            ${fn:substring(content.content,0,40)}...
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            ${content.content }
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </a>
+                                            </td>
+                                            <td  style="width:150px; height:50px; word-break:break-all;table-layout:fixed;">
+                                                <c:choose>
+                                                    <c:when test="${fn:length(content.name) > 14}">
+                                                        ${fn:substring(content.name,0,12)}...
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        ${content.name }
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
+                                            <td  style="width:100px; height:50px; word-break:break-all;table-layout:fixed;">
+
+                                                <fmt:parseDate value="${today }" var="now2" pattern="yyyy-MM-dd"/>
+                                                <fmt:parseDate value="${content.regdate }" var="regdate2" pattern="yyyy-MM-dd"/>
+
+                                                <fmt:parseNumber value="${now2.time / (1000*60*60*24)}" integerOnly="true" var="nowDate"/>
+                                                <fmt:parseNumber value="${regdate2.time / (1000*60*60*24)}" integerOnly="true" var="regDate"/>
+
+                                                <c:if test="${(nowDate - regDate) gt 0}">
+                                                    <fmt:formatDate value="${content.regdate }" pattern="MM/dd"/>
+                                                </c:if>
+                                                <c:if test="${(nowDate - regDate) eq 0}">
+                                                    <fmt:formatDate value="${content.regdate }" pattern="hh:mm"/>
+                                                </c:if>
+
+                                            </td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
@@ -173,7 +213,7 @@
                             </c:if>
                         </c:when>
                         <c:otherwise>
-                            <table class="table table-hover">
+                            <table class="table table-hover"> <!-- 미디어  -->
                                 <thead>
                                 <tr class="mytr">
                                     <th style="width:100px; height:50px; scope="col"></th>
@@ -186,18 +226,24 @@
                                     <tr class="mytr" style="width:250px; height:180px; word-break:break-all;table-layout:fixed;">
                                         <td class="media-frame">
                                             <strong>
-                                                <a href="<c:url value='/movie/content/${content.contentsNum }'/>">
-                                                    <img class="test" src="${Image_URL }${content.posterPath }" style="width: 140px; height: 180px;">
-                                                </a>
+                                                <c:choose>
+                                                    <c:when test="${!empty content.posterPath }">
+                                                        <img class="test" src="${Image_URL }${content.posterPath }" style="width: 140px; height: 180px;">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <img class="test" src="/img/media/cinema_default.png" style="width: 140px; height: 180px;">
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </strong>
                                         </td>
 
                                         <td class="media-frame" style="width:750px; height:180px; word-break:break-all;table-layout:fixed;">
                                             <strong style="font-size: x-large;">
-                                                <a href="<c:url value='/movie/content/${content.contentsNum }'/>">${content.title }</a>
+                                                <c:choose>
+                                                    <c:when test="${type eq 'movie' }"><a href="<c:url value='/movie/content/${content.contentsNum }'/>">${content.title }</a></c:when>
+                                                    <c:when test="${type eq 'tv' }"><a href="<c:url value='/tv/content/${content.contentsNum }'/>">${content.title }</a></c:when>
+                                                </c:choose>
                                             </strong>
-
-<%--                                            <strong>${Math.ceil((content.voteAverage)/2*10)/10}</strong>--%>
                                             <br>
                                             <strong style="font-size: large; color: #aaaaaa;"><fmt:formatDate value="${content.releaseDate }" pattern="y년 MMM dd일 EEE HH:mm" /></strong>
 
@@ -227,16 +273,6 @@
                                         <span style="font-size: medium; font-style: italic;">&nbsp;&nbsp;검색 결과가 없습니다.</span><br>
                                     </div>
                                 </div>
-<%--                            <tr>--%>
-<%--                        <td class="media-frame" style="width:750px; height:180px; word-break:break-all;table-layout:fixed;">--%>
-<%--                                <div style="display: flex; height: 440px; width: 1000px; min-width: 1000px; max-width: 1000px;">--%>
-<%--                                    <div style="margin: auto; vertical-align: center;">--%>
-<%--                                        <img src="https://cdn-icons-png.flaticon.com/512/5058/5058046.png" width="60px;" height="60px;">--%>
-<%--                                        <br><br>--%>
-<%--                                        <span style="font-size: medium; font-style: italic;">&nbsp;&nbsp;검색 결과가 없습니다.</span><br>--%>
-<%--                                    </div>--%>
-<%--                                </div>--%>
-<%--                        </td></tr>--%>
                             </c:if>
 
                             <c:if test="${!empty contents}">
@@ -252,9 +288,6 @@
                                                     <c:when test="${type eq 'tv' }">
                                                         <li class="page-item"><a class="page-link" href="<c:url value='/search/tv?query=${query }&page=${paging.curPage-1 }'/>">&laquo;</a></li>
                                                     </c:when>
-                                                    <c:otherwise>
-                                                        <li class="page-item"><a class="page-link" href="<c:url value='/search/board?query=${query }&page=${paging.curPage-1 }'/>">&laquo;</a></li>
-                                                    </c:otherwise>
                                                 </c:choose>
                                             </c:if>
 
@@ -283,17 +316,6 @@
                                                             </c:otherwise>
                                                         </c:choose>
                                                     </c:when>
-
-                                                    <c:otherwise>
-                                                        <c:choose>
-                                                            <c:when test="${i eq paging.curPage }">
-                                                                <li class="page-item active"><a class="page-link" href="<c:url value='/search/board?query=${query }&page=${i }'/>">${i }</a></li>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <li class="page-item"><a class="page-link" href="<c:url value='/search/board?query=${query }&page=${i }'/>">${i }</a></li>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </c:otherwise>
                                                 </c:choose>
                                             </c:forEach>
 
@@ -306,9 +328,6 @@
                                                     <c:when test="${type eq 'tv' }">
                                                         <li class="page-item"><a class="page-link" href="<c:url value='/search/tv?query=${query }&page=${paging.curPage +1 }'/>">&raquo;</a></li>
                                                     </c:when>
-                                                    <c:otherwise>
-                                                        <li class="page-item"><a class="page-link" href="<c:url value='/search/board?query=${query }&page=${paging.curPage +1 }'/>">&raquo;</a></li>
-                                                    </c:otherwise>
                                                 </c:choose>
                                             </c:if>
                                         </ul>

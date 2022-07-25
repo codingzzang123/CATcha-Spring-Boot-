@@ -7,6 +7,7 @@ import com.ib.cat.service.board.BoardService;
 import com.ib.cat.service.main.SearchService;
 import com.ib.cat.utils.PagingUtil;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,33 +38,40 @@ public class SearchController {
     @Autowired
     PagingUtil pagingUtil;
 
+
+
 @RequestMapping(value = {"/search", "/search/{path}"})
     public String searchFrom(Model model, @PathVariable Optional<String> path,
-                             @RequestParam(required = false, value="query",defaultValue = "")String query,
+                             @RequestParam(required = false, value="query")String query,
                              @RequestParam(value="page", defaultValue="1")Integer page,
-                             @PageableDefault(size = 10, sort = "no", direction = Sort.Direction.DESC) Pageable pageable){
+                             @PageableDefault(size = 10, sort = "no", direction = Sort.Direction.DESC) Pageable pageable,
+                             HttpServletRequest request){
 
-        if(query.isEmpty()||query.startsWith(" ")||query==null||query.length()==0)
-            query="!@#$%^&*";
+        if(query.isEmpty()||query.startsWith(" ")||query==null||query.length()==0) {
+            query = "!@#$%^&*";
+            return "redirect:" + request.getHeader("Referer");
+        }
+
         String resultPath="";
+        String type = null;
         if (path.isPresent())
             resultPath = path.get();
+        else
+            resultPath = "movie";
 
-        SearchCountDto scd = new SearchCountDto();
-        scd = searchService.scd(query); // query가 포함된 movie,tv 수 -> query가 빈 문자열이면 null
-        scd.setBoard(searchService.boardTuples(query)); // query가 포함된 게시물의 수
+        SearchCountDto searchCountDto = searchService.searchCountDto(query);
 
         List<ContentsDto> contents = new ArrayList<>();
-        String type = null;
 
-        if (resultPath.equals("") || resultPath.equals("movie") || resultPath == null) {
+
+        if (resultPath.equals("movie")) {
             contents = searchService.movie(page, query);
-            pagingUtil.startPaging(page, scd.getMovie());
+            pagingUtil.startPaging(page, searchCountDto.getMovie());
             type = "movie";
 
         } else if (resultPath.equals("tv")) {
             contents = searchService.tv(page, query);
-            pagingUtil.startPaging(page, scd.getTv());
+            pagingUtil.startPaging(page, searchCountDto.getTv());
             type = "tv";
 
         } else {
@@ -89,9 +97,12 @@ public class SearchController {
         model.addAttribute("page", page);
         model.addAttribute("query", query);
         model.addAttribute("type", type);
-        model.addAttribute("scd", scd);
+        model.addAttribute("scd", searchCountDto);
         model.addAttribute("paging", pagingUtil);
+
+        model.addAttribute("today", new Timestamp(System.currentTimeMillis()));
         return "main/search";
 
     }
+
 }

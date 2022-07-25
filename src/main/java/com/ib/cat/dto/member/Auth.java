@@ -11,4 +11,5 @@ public class Auth {
     private String imgs;
     private String email;
     private Timestamp regdate;
+    private String auth;
 }

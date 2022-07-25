@@ -102,11 +102,27 @@
                 <div class="col-lg-3">
                 </div>
                 <div class="col-lg-6 text-end" style="margin-top: 15px;">
-                    <div style="display: inline-block;margin-right: 5px;">
-                        <button type="button" id="b1" <c:if test="${board.name ne auth.name }"> onclick="like()"</c:if> class="btn btn-default btn-xs" >
-                            <img src="" style="width: 50px; height: 50px; cursor:pointer; border:0px;" id="ex">
-                        </button>
-                    </div>
+
+
+                    <c:choose>
+                        <c:when test="${!empty auth }">
+                            <div style="display: inline-block;margin-right: 5px;">
+                                <button type="button" id="b1" <c:if test="${board.name ne auth.name }"> onclick="like()"</c:if> class="btn btn-default btn-xs" >
+                                    <img src="" style="width: 50px; height: 50px; cursor:pointer; border:0px;" id="ex">
+                                </button>
+                            </div>
+                        </c:when>
+                        <c:when test="${board.name ne auth.name }">
+                            <div style="display: inline-block;margin-right: 5px;">
+                                <button type="button" id="b1" <c:if test="${board.name ne auth.name }"> onclick="like()"</c:if> class="btn btn-default btn-xs" >
+                                    <img src="" style="width: 50px; height: 50px; cursor:pointer; border:0px;" id="ex">
+                                </button>
+                            </div>
+                        </c:when>
+                    </c:choose>
+
+
+
 
                     <div style="display: inline-block;">
                         <a href='/board'>

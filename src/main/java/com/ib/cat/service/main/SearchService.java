@@ -37,10 +37,6 @@ public class SearchService {
         return list;
     }
 
-    public SearchCountDto scd(String query) {
-        return searchInfoUtil.contents(query);
-
-    }
 
     public List<ContentsDto> movie(Integer page, String query){
         return searchInfoUtil.getMovieList(page, query);
@@ -63,9 +59,22 @@ public class SearchService {
     }
 
     public Integer boardTuples(String query){
-        if(query.equals("")||query.length()==0||query.isEmpty()||query.startsWith(" "))
-            return 0;
-
         return boardRepository.countByTitleContainingOrContentContainingIgnoreCase(query,query);
+    }
+
+    public int movieTuples(String query){
+        return searchInfoUtil.countMovies(query);
+    }
+
+    public int tvTuples(String query){
+        return searchInfoUtil.countTVs(query);
+    }
+
+    public SearchCountDto searchCountDto(String query){
+        SearchCountDto searchCountDto = new SearchCountDto();
+        searchCountDto.setMovie(movieTuples(query));
+        searchCountDto.setTv(tvTuples(query));
+        searchCountDto.setBoard(boardTuples(query));
+        return searchCountDto;
     }
 }

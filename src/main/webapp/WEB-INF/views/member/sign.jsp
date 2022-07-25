@@ -217,7 +217,7 @@
         if(!idReg.test(id) || id == null){
           $("#id_check").prop("disabled", true);
           $("#id_check").text("영소문자와 숫자를 조합해 6~12자리로 이루어져야합니다.");
-          $("#id_check").css("color", "grey");
+          $("#id_check").css("color", "red");
         }else if(data == 1){
           $("#id_check").prop("disabled", true);
           $("#id_check").text("사용중인 아이디 입니다.");
@@ -235,7 +235,7 @@
 
   function checkPw(){
     var inputed = $('#pass').val();
-    var passReg = /^^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,14}$/;
+    var passReg = /^^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&~^])[A-Za-z\d@$!%*#?&~^]{8,14}$/;
     $("#pw_check").css("font-size", "12px");
 
     if(passReg.test(inputed)){
@@ -246,7 +246,7 @@
 
     }else if(!passReg.test(inputed)){
       $("#pw_check").prop("disabled", true);
-      $("#pw_check").text("영소문자와 숫자,특수문자를 조합해 8~14자리로 이루어져야 합니다.");
+      $("#pw_check").text("영소문자와 숫자,특수문자(@,$,!,%,*,#,?,&,~,<,^)를 조합해 8~14자리로 이루어져야 합니다.");
       $("#pw_check").css("color", "red");
     }
   }

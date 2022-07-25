@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Title</title>
@@ -28,22 +29,40 @@
                 <label>이메일</label>
                 <input class="form-control" style="border-radius: 10px;" type="email" value="${auth.email}" name="email"  readonly >
             </div>
+            <c:choose>
+                <c:when test="${auth.auth == '1'}">
+                    <div class="form-group mt-3">
+                        <label>비밀번호 변경</label>
+                        <input class="form-control" style="border-radius: 10px;" type="password" placeholder="기존 비밀번호를 입력해주세요." name="oldPw" id="oldPw" oninput="oldPwCheck()" >
+                        <div id="oldPw_Check"></div>
+                    </div>
 
-            <div class="form-group mt-3">
-                <label>비밀번호 변경</label>
-                <input class="form-control" style="border-radius: 10px;" type="password" placeholder="기존 비밀번호를 입력해주세요." name="oldPw" id="oldPw" oninput="oldPwCheck()" >
-                <div id="oldPw_Check"></div>
-            </div>
+                    <div class="form-group mt-2">
+                        <input class="form-control" style="border-radius: 10px;" type="password" placeholder="변경할 비밀번호를 입력해주세요." name="newPw" id="newPw" oninput="checkNewPw()">
+                        <div id="newPw_check"></div>
+                    </div>
 
-            <div class="form-group mt-2">
-                <input class="form-control" style="border-radius: 10px;" type="password" placeholder="변경할 비밀번호를 입력해주세요." name="newPw" id="newPw" oninput="checkNewPw()">
-                <div id="newPw_check"></div>
-            </div>
+                    <div class="form-group mt-2">
+                        <input class="form-control" style="border-radius: 10px;" type="password" placeholder="변경할 비밀번호를 재입력해주세요." name="regPw" id="regPw" oninput="matchNewPw()">
+                        <div id="regPw_check"></div>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="form-group mt-3">
+                        <label>비밀번호 변경</label>
+                        <input class="form-control" style="border-radius: 10px;" type="password" placeholder="기존 비밀번호를 입력해주세요." name="oldPw" readonly>
+                    </div>
 
-            <div class="form-group mt-2">
-                <input class="form-control" style="border-radius: 10px;" type="password" placeholder="변경할 비밀번호를 재입력해주세요." name="regPw" id="regPw" oninput="matchNewPw()">
-                <div id="regPw_check"></div>
-            </div>
+                    <div class="form-group mt-2">
+                        <input class="form-control" style="border-radius: 10px;" type="password" placeholder="변경할 비밀번호를 입력해주세요." name="newPw" readonly>
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <input class="form-control" style="border-radius: 10px;" type="password" placeholder="변경할 비밀번호를 재입력해주세요." name="regPw" readonly>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+
 
             <div class="form-group mt-3">
                 <label>닉네임</label>
@@ -53,10 +72,19 @@
             <input type="hidden" id="idCheck" name="id" value="${auth.id}">
 
             <div class="form-group text-end mt-2">
+                <input type="button" id="delete" class="btn btn-danger" style="float: left" data-bs-toggle="modal" data-bs-target="#deleteModal" value="회원 탈퇴">
                 <input type="button" id="change" class="btn btn-dark" style="font-family: Consolas; display: inline;" value="확인" onclick="changeInfo()"/>
                 <button type="button" id="ModalCloseId" class="btn btn-danger" data-bs-dismiss="modal" style= "font-family: Consolas; display: inline">Close</button>
             </div>
         </form>
+    </div>
+    <%--                        모달창--%>
+    <div id="deleteModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-login">
+            <div class="modal-content">
+                <jsp:include page="/WEB-INF/views/member/delete.jsp" />
+            </div>
+        </div>
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

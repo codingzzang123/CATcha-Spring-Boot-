@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.DateFormat;
@@ -26,15 +27,9 @@ public class SearchInfoUtil {
 
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private final String date = "0001-01-01";
-    @Autowired
-    SearchCountDto scd;
 
-//    @Autowired
-//    BoardRepository boardRepository;
 
     public List<ContentsDto> getMovieList(int page, String query){
-        if(query.isEmpty()||query.startsWith(" ")||query.length()==0||query.equals(""))
-            return null;
 
         String apiURL =API_URL+ "search/movie?api_key=" + KEY +"&language=ko-KR&query="+query+"&page="+page;
         List<ContentsDto> movieList = null;
@@ -74,6 +69,8 @@ public class SearchInfoUtil {
                     vo.setPosterPath(contents.get("poster_path").toString());
                 }
                 movieList.add(vo);
+
+                if(bf != null) bf.close();
             }
         }catch(Exception e) {
 
@@ -82,8 +79,6 @@ public class SearchInfoUtil {
     }
 
     public List<ContentsDto> getTvList(int page,String query){
-        if(query.isEmpty()||query.startsWith(" ")||query.length()==0||query.equals(""))
-            return null;
 
         String apiURL =API_URL+ "search/tv?api_key=" + KEY +"&language=ko-KR&query="+query+"&page="+page;
         List<ContentsDto> tvList = null;
@@ -94,7 +89,6 @@ public class SearchInfoUtil {
             BufferedReader bf;
 
             bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
-
 
             String result = bf.readLine();
             JSONParser jsonParser = new JSONParser();
@@ -123,6 +117,8 @@ public class SearchInfoUtil {
                 }
 
                 tvList.add(vo);
+
+                if(bf != null) bf.close();
             }
         }catch(Exception e) {
 
@@ -130,49 +126,50 @@ public class SearchInfoUtil {
         return tvList;
     }
 
-//    public List<MainDTO> getBoardList(int page,String query){
-//        int start = (page-1) * 20 + 1;
-//        int end = page * 20;
-//
-//        SearchBoardDTO sbd = new SearchBoardDTO(start,end,query);
-//
-//        List<MainDTO> boardList = dao.searchBoard(sbd);
-//
-//        return boardList;
-//    }
-
-    public SearchCountDto contents(String query){
-        if(query.isEmpty()||query.startsWith(" ")||query.length()==0||query.equals(""))
-            return new SearchCountDto();
-
-        String apiMovieURL =API_URL+ "search/movie?api_key=" + KEY +"&language=ko-KR&query="+query;
-        String apiTvURL =API_URL+ "search/tv?api_key=" + KEY +"&language=ko-KR&query="+query;
-
+    public int countMovies(String query){
+        String apiURL = API_URL+ "search/movie?api_key=" + KEY +"&language=ko&query="+query;
+        int result=0;
         try {
-            URL url = new URL(apiMovieURL);
+            URL url = new URL(apiURL);
             BufferedReader bf;
 
             bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
 
-            String result = bf.readLine();
+            String page = bf.readLine();
             JSONParser jsonParser = new JSONParser();
-            JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
-            scd.setMovie(Integer.parseInt(jsonObject.get("total_results").toString()));
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(page);
+            result = Integer.parseInt(jsonObject.get("total_results").toString());
 
-            url = new URL(apiTvURL);
-
-            bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
-
-            result = bf.readLine();
-            jsonParser = new JSONParser();
-            jsonObject = (JSONObject) jsonParser.parse(result);
-            scd.setTv(Integer.parseInt(jsonObject.get("total_results").toString()));
+            if(bf != null) bf.close();
 
         }catch(Exception e) {
             e.printStackTrace();
+            result = 0;
         }
-
-//        scd.setBoard(boardRepository.countByTitleLike(query));
-        return scd;
+        return  result;
     }
+
+    public int countTVs(String query){
+        String apiURL = API_URL+ "search/tv?api_key=" + KEY +"&language=ko&query="+query;
+        int result=0;
+        try {
+            URL url = new URL(apiURL);
+            BufferedReader bf;
+
+            bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+
+            String page = bf.readLine();
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(page);
+            result = Integer.parseInt(jsonObject.get("total_results").toString());
+
+            if(bf != null) bf.close();
+
+        }catch(Exception e) {
+            e.printStackTrace();
+            result = 0;
+        }
+        return  result;
+    }
+
 }
