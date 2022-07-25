@@ -160,8 +160,9 @@
                             <option value="subject">제목</option>
                             <option value="memo">내용</option>
                             <option value="name">작성자</option>
+
                             <input class="boardSearch" name="s_keyword" type="text" size="50" value="" >
-                            <button type="button" class="btn btn-outline-info" style="margin-left: 1px;">검색</button>
+                            <button type="submit" class="btn btn-outline-info" style="margin-left: 1px;">검색</button>
                             <input type="hidden" name="category" value="${param.category}">
                         </select>
                     </form>
