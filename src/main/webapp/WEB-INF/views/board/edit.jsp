@@ -64,7 +64,7 @@
                     </td>
                 </div>-->
 
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                     <a class="btn btn-outline-secondary" type="button" href="${pageContext.request.contextPath}/board/${board.no}">뒤로 가기</a>
                     <!-- 수정 완료 버튼 미 구현  -->
                     <button class="btn btn-outline-primary" type="submit">수정완료</button>
