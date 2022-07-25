@@ -17,8 +17,8 @@
     <link href="/css/hosun/main.css" rel="stylesheet"/>
     <link href="/css/jieun/contentList.css" rel="stylesheet"/>
 <%--    <link href="/css/jieun/paging.css" rel="stylesheet"/>--%>
-
-    <title>TV List</title>
+    <link href="/img/main/title.png" rel="shortcut icon" type="image/x-icon"><!-- title 이미지 -->
+    <title>Tv List - CATcha</title>
 </head>
 <body>
     <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include><br>

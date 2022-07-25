@@ -14,6 +14,8 @@
   <meta charset="UTF-8">
     <link href="/css/hosun/main.css" rel="stylesheet"/>
     <link href="/css/jieun/contentList.css" rel="stylesheet"/>
+  <link href="/img/main/title.png" rel="shortcut icon" type="image/x-icon">
+  <title>CATcha 회원가입</title>
     <style>
       .custom-input{
         display: block;

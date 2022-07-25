@@ -12,7 +12,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
+    <link href="/img/main/title.png" rel="shortcut icon" type="image/x-icon">
+    <title>CATcha 로그인</title>
     <style>
         .custom-input{
             display: block;

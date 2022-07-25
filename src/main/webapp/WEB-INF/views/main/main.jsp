@@ -12,9 +12,9 @@
 
 <html>
 <head>
-    <title>Main Page</title>
 
-
+    <title>CATcha</title>
+    <link href="/img/main/title.png" rel="shortcut icon" type="image/x-icon">
 </head>
 <body>
     <jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/templates/navbar.jsp"/>
