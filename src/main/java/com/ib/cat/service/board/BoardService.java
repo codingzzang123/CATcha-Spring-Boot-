@@ -45,7 +45,7 @@ public class BoardService {
     }
 
 
-    public void update(Board board){
+    public void boardUpdate(Board board){
         boardRepository.save(board);
     }
 
