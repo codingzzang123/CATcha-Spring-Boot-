@@ -33,20 +33,60 @@ public class FormController {
     public String listForm(Model model,
                            @PageableDefault(size = 10, sort = "no", direction = Sort.Direction.DESC)Pageable pageable,
                            @RequestParam(required = false, defaultValue = "",name = "s_type")String field,
-                           @RequestParam(required = false, defaultValue = "",name = "s_keyword")String searchKeyword){
+                           @RequestParam(required = false, defaultValue = "",name = "s_keyword")String searchKeyword,
+                           @RequestParam(value="category", defaultValue="none") String cate){
         Page<Board> pageList;
+        System.out.println(cate);
 
-        if(field.equals("subject_memo")){
-            pageList = boardService.searchSubjectMemo(searchKeyword,searchKeyword,pageable);
-        }else if(field.equals("subject")){
-            pageList = boardService.searchSubject(searchKeyword, pageable);
-        }else if(field.equals("memo")){
-            pageList = boardService.searchMemo(searchKeyword,pageable);
-        }else if(field.equals("name")){
-            pageList = boardService.searchName(searchKeyword, pageable);
-        }else{
-            pageList = boardService.findAll(pageable);
+        if (cate.equals("none")) { /* 전체보기 */
+            System.out.println("전체보기");
+            if(field.equals("subject_memo")){
+                pageList = boardService.searchSubjectMemo(searchKeyword,searchKeyword,pageable);
+            }else if(field.equals("subject")){
+                pageList = boardService.searchSubject(searchKeyword, pageable);
+            }else if(field.equals("memo")){
+                pageList = boardService.searchMemo(searchKeyword,pageable);
+            }else if(field.equals("name")){
+                pageList = boardService.searchName(searchKeyword, pageable);
+            }else{
+                pageList = boardService.findAll(pageable);
+                System.out.println("여기?");
+                System.out.println("field: "+field);
+                System.out.println("searchKeyword: "+searchKeyword);
+            }
+        } else { /* 말머리 선택 */
+            System.out.println("선택");
+            if(field.equals("subject_memo")) {
+                pageList = boardService.searchCateAndSubjectMemo(cate,searchKeyword,searchKeyword,pageable);
+                System.out.println("searchCateAndSubjectMemo:"+searchKeyword);
+            } else if (field.equals("subject")) {
+                pageList = boardService.searchCateAndSubject(cate, searchKeyword, pageable);
+                System.out.println("searchCateAndSubject:"+searchKeyword);
+            } else if (field.equals("memo")) {
+                pageList = boardService.searchCateAndMemo(cate, searchKeyword, pageable);
+                System.out.println("searchCateAndMemo:"+searchKeyword);
+            } else if (field.equals("name")) {
+                pageList = boardService.searchCateAndName(cate, searchKeyword, pageable);
+                System.out.println("searchCateAndName:"+searchKeyword);
+            } else {
+                pageList = boardService.findAllCate(cate, pageable);
+                System.out.println("field: "+field);
+                System.out.println("searchKeyword: "+searchKeyword);
+            }
         }
+
+
+//        if(field.equals("subject_memo")){
+//            pageList = boardService.searchSubjectMemo(searchKeyword,searchKeyword,pageable);
+//        }else if(field.equals("subject")){
+//            pageList = boardService.searchSubject(searchKeyword, pageable);
+//        }else if(field.equals("memo")){
+//            pageList = boardService.searchMemo(searchKeyword,pageable);
+//        }else if(field.equals("name")){
+//            pageList = boardService.searchName(searchKeyword, pageable);
+//        }else{
+//            pageList = boardService.findAll(pageable);
+//        }
 
         int pageNumber = pageList.getPageable().getPageNumber();
         int totalPages = pageList.getTotalPages();
