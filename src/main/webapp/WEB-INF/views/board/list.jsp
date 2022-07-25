@@ -20,6 +20,26 @@
     <link href="/css/hosun/main.css" rel="stylesheet"/>
     <link href="/css/jieun/contentList.css" rel="stylesheet"/>
 
+    <style>
+        .boardSearch:hover {
+            border : 2px solid skyblue;
+        }
+
+        .boardSearch:focus {
+            background : aliceblue;
+        }
+        select {
+            box-sizing: border-box;
+            width: 120px;
+            padding: 4px;
+            font-size: 14px;
+            border-radius: 6px;
+            margin-right: 3px;
+        }
+
+
+
+    </style>
 </head>
 <body>
     <jsp:include page="/WEB-INF/views/templates/navbar.jsp"></jsp:include>
@@ -132,7 +152,8 @@
                             <option value="subject">제목</option>
                             <option value="memo">내용</option>
                             <option value="name">작성자</option>
-                            <input name="s_keyword" type="text" size="50" value=""><button>검색</button>
+                            <input class="boardSearch" name="s_keyword" type="text" size="50" value="" >
+                            <button type="button" class="btn btn-outline-info" style="margin-left: 1px;">검색</button>
                         </select>
                     </form>
                 </div>
