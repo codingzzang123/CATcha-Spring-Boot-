@@ -140,9 +140,7 @@
                             <option value="memo">내용</option>
                             <option value="name">작성자</option>
 
-                            <input name="s_keyword" type="text" size="50" value="">
-                            <button>검색</button>
-                            <input type="hidden" name="category" value="${param.category}">
+                            <input name="s_keyword" type="text" size="50" value=""><button>검색</button>
                         </select>
                     </form>
                 </div>
