@@ -70,6 +70,8 @@
                     <button class="btn btn-outline-primary" type="submit">수정완료</button>
                 </div>
 
+                <input type="hidden" id="no" name="no" value="${board.no}">
+
 
 <%--                <div class="flex justify-end mt-5">--%>
 <%--                    <a class="inline-block w-24 border border-gray-500 bg-gray-500 text-black rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline text-center"--%>

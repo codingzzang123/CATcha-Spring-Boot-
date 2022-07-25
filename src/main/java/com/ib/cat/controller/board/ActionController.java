@@ -27,20 +27,28 @@ public class ActionController {
     @PostMapping(value = "/board/delete")
     @ResponseBody
     public String deleteAction(@RequestParam("no") Integer no){
-        System.out.println("controller - 받은 번호: "+no);
         boardService.delete(boardService.findBoard(no));
         return "redirect:/board";
-//        return "/board";
     }
+    @PostMapping (value = "/board/edit")
+    public String updateAction(@RequestParam("no") Integer no, @ModelAttribute("editForm") Board board){
+        Board tmpBoard = boardService.findBoard(no);
+        tmpBoard.setCate(board.getCate());
+        tmpBoard.setContent(board.getContent());
+        tmpBoard.setTitle(board.getTitle());
+        boardService.boardUpdate(tmpBoard);
 
-    @PostMapping(value = "/board/edit/{no}")
-    @ResponseBody
-    public String updateAction(@PathVariable Integer no, @RequestParam("editForm") Board board){
-        boardService.update(board);
         return "redirect:/board/"+no;
     }
+    @PostMapping(value="/board/write")
+    public String write(@ModelAttribute("writeForm") Board board) {
+        board.setImgo("default");
+        board.setImgs("default");
+        boardService.insert(board);
+        return "redirect:/board";
+    }
 
-//    @PostMapping(value = "/board/write")
+    //    @PostMapping(value = "/board/write")
 //    public String write(Board board,
 //                        MultipartFile file) throws IllegalStateException, IOException {
 //
@@ -54,14 +62,6 @@ public class ActionController {
 //        boardService.insert(board);
 //        return "redirect:/board";
 //    }
-
-    @PostMapping(value="/board/write")
-    public String write(@ModelAttribute("writeForm") Board board) {
-        board.setImgo("default");
-        board.setImgs("default");
-        boardService.insert(board);
-        return "redirect:/board";
-    }
 
 }
 
