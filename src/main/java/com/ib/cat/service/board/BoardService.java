@@ -42,12 +42,12 @@ public class BoardService {
     public Page<Board> findAllCate( String cate, Pageable pageable) {
         return boardRepository.findByCate(cate, pageable);
     }
-    public Page<Board> searchCateAndSubjectMemo(String cate, String keyword,String Keyword,Pageable pageable){
-        return boardRepository.findByCateAndContentContainingOrTitleContainingIgnoreCase(cate,keyword,keyword, pageable);
-    }
-//    public Page<Board> searchCateAndSubjectMemo(String keyword,String Keyword,Pageable pageable, String cate){
-//        return boardRepository.findByContentContainingOrTitleContainingIgnoreCaseAndCate(keyword,keyword, pageable,cate);
+//    public Page<Board> searchCateAndSubjectMemo(String cate, String keyword,String Keyword,Pageable pageable){
+//        return boardRepository.findByCateAndContentContainingOrTitleContainingIgnoreCase(cate,keyword,keyword, pageable);
 //    }
+    public Page<Board> searchCateAndSubjectMemo(String cate, String keyword,String Keyword,Pageable pageable){
+        return boardRepository.findByCateAndContentContainingOrTitleContainingIgnoreCase(cate, keyword,keyword, pageable);
+    }
     public Page<Board> searchCateAndSubject(String cate, String searchKeyword, Pageable pageable) {
         return boardRepository.findByCateAndTitleContaining(cate, searchKeyword, pageable);
     }
