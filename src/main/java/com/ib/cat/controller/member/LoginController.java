@@ -12,7 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.security.Principal;
 
 @Controller
 public class LoginController {
@@ -27,7 +31,10 @@ public class LoginController {
     String google_redirect_uri = "http://localhost:8080/googlecallback";
 
     @GetMapping("member/login")
-    public String getLogin(Model model){
+    public String getLogin(Model model, HttpSession httpSession){
+        if(httpSession.getAttribute("auth") != null){
+            return "redirect:/main";
+        }
         String naver = naverService.getRegUrl();
 
         String kakao = "https://kauth.kakao.com/oauth/authorize?"
@@ -54,7 +61,7 @@ public class LoginController {
     }
 
     @GetMapping("/member/session")
-    public String getSession(HttpSession httpSession){
+    public String getSession(HttpSession httpSession, HttpServletResponse httpServletResponse) throws IOException {
         Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String id = ((User) object).getUsername();
         Member member = memberService.findById(id);
@@ -64,22 +71,40 @@ public class LoginController {
         auth.setImgs(member.getImgs());
         auth.setEmail(member.getEmail());
         auth.setRegdate(member.getRegdate());
+        auth.setAuth(member.getAuth());
 
         httpSession.setAttribute("auth", auth);
+
+        httpServletResponse.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = httpServletResponse.getWriter();
+        out.println("<script>");
+        out.println("alert('로그인 되었습니다.')");
+        out.println("history.go(-2)");
+        out.println("</script>");
+        out.flush();
         return "redirect:/main";
     }
     @GetMapping("/member/apiSession")
-    public String getApiSession(HttpSession httpSession){
-        Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String id = (String) object;
+    public String getApiSession(HttpSession httpSession, Principal principal, HttpServletResponse httpServletResponse) throws IOException {
+        String id = principal.getName();
         Member member = memberService.findById(id);
         Auth auth = new Auth();
         auth.setId(id);
         auth.setName(member.getName());
         auth.setImgs(member.getImgs());
+        auth.setEmail(member.getEmail());
         auth.setRegdate(member.getRegdate());
+        auth.setAuth(member.getAuth());
 
         httpSession.setAttribute("auth", auth);
+
+        httpServletResponse.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = httpServletResponse.getWriter();
+        out.println("<script>");
+        out.println("alert('로그인 되었습니다.')");
+        out.println("history.go(-2)");
+        out.println("</script>");
+        out.flush();
         return "redirect:/main";
     }
 }
