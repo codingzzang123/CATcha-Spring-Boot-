@@ -184,7 +184,7 @@
 <%--                    <div class="video-popup-closer"></div>--%>
 <%--                </div>--%>
                 <div class="trailWrapper">
-                    <button id="bt_toggle" style="text-align: center; border: 1px solid black; width: 150px; border-radius: 5px; margin:0 auto;"><b>트레일러 보기</b></button>
+                    <button id="bt_toggle" style=" background-color:#f3f3f1; text-align: center; border: 1px solid black; width: 150px; border-radius: 2em; margin:0 auto;"><b>트레일러 보기</b></button>
                     <div id="Toggle">
                         <iframe width="100%" height="500" src="https://www.youtube.com/embed/${videoUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>

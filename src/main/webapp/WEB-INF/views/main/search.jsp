@@ -45,7 +45,7 @@
 
                         <div style="border:1px solid white; border-radius: 5px; width: 200px; text-align: center; padding:3px;">
                             <h2 style="font-style: italic;"><strong>Search Results</strong></h2>
-                            <div style="background-color: white; border:1px solid burlywood;border-radius: 2em; width: 200px; text-align: center; padding:10px; margin-top: 15px;">
+                            <div style="background-color: white; border:1px solid #cccccc; border-radius: 2em; width: 200px; text-align: center; padding:10px; margin-top: 15px;">
                                 <span style="font-style: italic; font-size: medium;"><String>Keyword ${query }</String></span>
                                 <div name="category" id="category">
                                 <!-- empty -->

@@ -31,7 +31,7 @@
                         <form action="${pageContext.request.contextPath}/tv/list">
                             <div style="border:1px solid white; border-radius: 5px; width: 200px; text-align: center; padding:3px;">
                                 <h2>TV</h2>
-                                <div style="background-color: white; border:1px solid burlywood;border-radius: 2em; width: 200px; text-align: center; padding:10px; margin-top: 15px;">
+                                <div style="background-color: white; border:1px solid #cccccc; border-radius: 2em; width: 200px; text-align: center; padding:10px; margin-top: 15px;">
                                     <h5>How to sort</h5>
                                 <select name="category" id="category">
                                 <option value="popularity.desc" <c:if test="${category eq 'popularity.desc'}">selected="selected"</c:if>>인기도 내림차순</option>
