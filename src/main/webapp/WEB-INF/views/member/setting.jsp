@@ -44,7 +44,7 @@
 
                     <div class="form-group mt-2">
                         <input class="form-control" style="border-radius: 10px;" type="password" placeholder="변경할 비밀번호를 재입력해주세요." name="regPw" id="regPw" oninput="matchNewPw()">
-                        <div id="regPw_check"></div>
+                        <div id="regnewPw_check"></div>
                     </div>
                 </c:when>
                 <c:otherwise>
@@ -72,26 +72,19 @@
             <input type="hidden" id="idCheck" name="id" value="${auth.id}">
 
             <div class="form-group text-end mt-2">
-                <input type="button" id="delete" class="btn btn-danger" style="float: left" data-bs-toggle="modal" data-bs-target="#deleteModal" value="회원 탈퇴">
+                <input type="button" id="delete" class="btn btn-danger" style="float: left" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#deleteModal" value="회원 탈퇴">
                 <input type="button" id="change" class="btn btn-dark" style="font-family: Consolas; display: inline;" value="확인" onclick="changeInfo()"/>
                 <button type="button" id="ModalCloseId" class="btn btn-danger" data-bs-dismiss="modal" style= "font-family: Consolas; display: inline">Close</button>
             </div>
         </form>
     </div>
-    <%--                        모달창--%>
-    <div id="deleteModal" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-login">
-            <div class="modal-content">
-                <jsp:include page="/WEB-INF/views/member/delete.jsp" />
-            </div>
-        </div>
-    </div>
+
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript">
-    var oldPw_Check = false;
-    var newPw_Check = false;
-    var regPw_Check = false;
+    var oldPw_Check = true;
+    var newPw_Check = true;
+    var regPw_Check = true;
     var img_Check = true;
 
     function readURL(input) {
@@ -123,15 +116,19 @@
             data:{oldPw,id:oldPw,id},
             success:function(data){
                 if (data==1){
-                    $("#oldPw_Check").prop("disabled", true);
+                    $("#oldPw_Check").css("display", "block");
                     $("#oldPw_Check").text("알맞은 비밀번호입니다.");
                     $("#oldPw_Check").css("color", "green");
                     oldPw_Check = true;
                 }else if(data == 0){
-                    $("#oldPw_Check").prop("disabled", true);
+                    $("#oldPw_Check").css("display", "block");
                     $("#oldPw_Check").text("틀린 비밀번호입니다.");
                     $("#oldPw_Check").css("color", "red");
                     oldPw_Check = false;
+                }
+                if(oldPw == ""){
+                    $("#oldPw_Check").css("display", "none");
+                    oldPw_Check = true;
                 }
             }
         });
@@ -139,39 +136,49 @@
 
     function checkNewPw(){
         var newPw = $('#newPw').val();
-        var passReg = /^^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,14}$/;
+        var passReg = /^^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&~^])[A-Za-z\d@$!%*#?&~^]{8,14}$/;
         $("#newPw_check").css("font-size", "8px");
 
         if(passReg.test(newPw)){
-            $("#newPw_check").prop("disabled", true);
+            $("#newPw_check").css("display", "block");
             $("#newPw_check").text("사용가능한 비밀번호 입니다.");
             $("#newPw_check").css("color", "green");
             newPw_Check = true;
             matchPw();
         }else if(!passReg.test(newPw)){
-            $("#newPw_check").prop("disabled", true);
-            $("#newPw_check").text("영소문자와 숫자,특수문자를 조합해 8~14자리로 이루어져야 합니다.");
+            $("#newPw_check").css("display", "block");
+            $("#newPw_check").text("영소문자와 숫자,특수문자(@,$,!,%,*,#,?,&,~,<,^)를 조합해 8~14자리로 이루어져야 합니다.");
             $("#newPw_check").css("color", "red");
             newPw_Check = false;
+        }
+        if(newPw == ""){
+            $("#newPw_check").css("display", "none");
+            newPw_Check = true;
         }
     }
 
     function matchNewPw() {
-        var passReg = /^^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,14}$/;
+        var passReg = /^^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&~^])[A-Za-z\d@$!%*#?&~^]{8,14}$/;
         var newPw = $('#newPw').val();
         var regPw = $('#regPw').val();
-        $("#regPw_check").css("font-size", "8px");
+        $("#regnewPw_check").css("font-size", "8px");
+        console.log(newPw == regPw && regPw != "");
+        console.log(newPw != regPw || passReg.test(regPw));
 
         if(newPw == regPw && regPw != ""){
-            $("#regPw_check").prop("disabled", true);
-            $("#regPw_check").text("알맞은 비밀번호입니다.");
-            $("#regPw_check").css("color", "green");
+            $("#regnewPw_check").css("display", "block");
+            $("#regnewPw_check").text("알맞은 비밀번호입니다.");
+            $("#regnewPw_check").css("color", "green");
             regPw_Check = true;
         }else if(newPw != regPw || passReg.test(regPw)){
-            $("#regPw_check").prop("disabled", true);
-            $("#regPw_check").text("비밀번호 틀립니다");
-            $("#regPw_check").css("color", "red");
+            $("#regnewPw_check").css("display", "block");
+            $("#regnewPw_check").text("비밀번호 틀립니다");
+            $("#regnewPw_check").css("color", "red");
             regPw_Check = false;
+        }
+        if(regPw == ""){
+            $("#regnewPw_check").css("display", "none");
+            regPw_Check = true;
         }
     }
 

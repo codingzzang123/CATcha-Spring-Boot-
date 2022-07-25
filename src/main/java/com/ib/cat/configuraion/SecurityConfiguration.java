@@ -45,7 +45,7 @@ public class SecurityConfiguration{
                 .defaultSuccessUrl("/member/session")
                 .and()
                         .logout()
-                        .logoutSuccessUrl("/member/logout")
+                        .logoutSuccessUrl("/main")
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .invalidateHttpSession(true);
         http.sessionManagement()
