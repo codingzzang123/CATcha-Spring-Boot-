@@ -35,7 +35,7 @@ public class CookieUtil {
         cookie.setDomain("localhost");
         cookie.setPath("/");
         // 일단 1시간 저장
-        cookie.setMaxAge(60*60);
+        cookie.setMaxAge(60*60*24);
         cookie.setSecure(true);
         response.addCookie(cookie);
     }

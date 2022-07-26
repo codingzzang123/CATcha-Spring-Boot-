@@ -30,7 +30,7 @@
 <%--        <h1 class="text-2xl mb-10 text-left">Title of Board</h1>--%>
 
 <%--        <form method="POST" action="/board/edit">--%>
-        <form modelAttribute="editForm" method="POST" action="/board/edit">
+        <form modelAttribute="editForm" method="POST" action="/board/edit" onsubmit="return writeCheck();">
             <div class="board_wrap" style="margin-top:20px; margin-bottom: 25px;">
                 <div class="flex justify-start items-center gap-5">
                     카테고리
@@ -45,7 +45,7 @@
 <%--                <div class="flex w-2/3 justify-start mt-5">--%>
 <%--                    <input type="text"  class="p-2 w-full" placeholder="제목을 입력해주세요" value="${board.title}">--%>
 <%--                </div>--%>
-                <div class="input-group mb-3">
+                <div class="input-group mb-3 mt-3">
                     <input type="text" class="form-control" id="title" name="title" value="${board.title}" minlength="5" >
                 </div>
 
@@ -83,6 +83,35 @@
             </div>
         </form>
     </div>
+    <script>
+        function writeCheck(){
+            let title = $("#title").val();
+            let content = $("#content").val();
+
+            if(!title || title=="") {
+                alert("제목을 입력해주세요");
+                return false;
+            }
+
+            if(!content || content=="") {
+                alert("내용을 입력해주세요");
+                return false;
+            }
+
+            if(title.length > 25) {
+                alert("제목은 25글자 이내로 작성해주세요");
+                return false;
+            }
+
+            if(content.length > 200) {
+                alert("내용은 200글자 이내로 작성해주세요");
+                return false;
+            }
+
+            return true;
+
+        }
+    </script>
 </body>
 </html>
 <style>
