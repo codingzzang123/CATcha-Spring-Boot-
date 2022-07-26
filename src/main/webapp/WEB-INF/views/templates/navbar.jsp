@@ -115,7 +115,7 @@
                 toast += "&times;</button></div>";
                 toast += "<div class='toast-body'>" + data + "</div></div>";
                 $("#msgStack").append(toast);   // msgStack div에 생성한 toast 추가
-                $(".toast").toast({"animation": true, "autohide": false});
+                $(".toast").toast({"animation": true, "autohide": true});
                 $('.toast').toast('show');
                 // $("#newNoticeCnt").text($("#newNoticeCnt").text()*1+1); //알림 받았을때 카운트 +1증가
                 AlertCount();
@@ -330,23 +330,7 @@
                                 </form>
                                     <script>
                                         function submit(){
-                                            // let val = $("input[name='query']").val();
-                                            // searchForm.find("input[name='query']").val(val);
-                                            //
-                                            // if(val.isEmpty()||val==""||val==null){
-                                            //     // toastr.success('hi');
-                                            //     return false;
-                                            // }else{
-                                            //     return true;
-                                            // }
-                                            // var keyword = document.getElementById('keyword_header').value;
-                                            // if(keyword==null || keyword.isEmpty()){
-                                            //     console.log("keyword = "+keyword);
-                                            //     return false;
-                                            // }else {
-                                            //     console.log("keyword = "+keyword);
-                                            //     return true;
-                                            // }
+
                                             var checkInput = document.getElementById('keyword_header').val();
                                             console.log("val = "+checkInput);
 
@@ -397,18 +381,16 @@
                                 <img src="/img/profile/${auth.imgs}" class="rounded-circle" height="45px;" width="45px;">
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li class="dropdown-item">${auth.name}</li>
+                                <li class="dropdown-item">${auth.name}</li><hr>
                                 <li><a class="dropdown-item" href="${pageContext.request.contextPath}/member">프로필 보기</a></li>
-                                <hr>
+
                                 <li><a class="dropdown-item" href="${pageContext.request.contextPath}/memberlike/${auth.id}">관심목록</a></li>
                                 <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#settingModal" style="cursor: pointer">정보 수정</a></li>
                                 <hr>
                                 <li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout">로그아웃</a></li>
                             </ul>
                         </li>
-
                     </sec:authorize>
-
                 </ul>
             </div>
         </div>
@@ -417,27 +399,27 @@
 
 <body>
 
-    <div id="msgStack">
-        <%--                        모달창--%>
-        <div id="settingModal" class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-login">
-                <div class="modal-content">
-                    <jsp:include page="/WEB-INF/views/member/setting.jsp" />
-                </div>
-            </div>
-        </div>
-    </div>
-    <%--                        모달창--%>
-    <div id="deleteModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="deleteModal">
-        <div class="modal-dialog modal-login">
-            <div class="modal-content">
-                <jsp:include page="/WEB-INF/views/member/delete.jsp" />
-            </div>
-        </div>
-    </div>
+    <div id="msgStack"><!-- 알림 박스 들어가는 영역 --></div>
 
 </body>
 
+                            모달창
+<%--    <div id="settingModal" class="modal fade" tabindex="-1" role="dialog">--%>
+<%--        <div class="modal-dialog modal-login">--%>
+<%--            <div class="modal-content">--%>
+<%--                <jsp:include page="/WEB-INF/views/member/setting.jsp" />--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </div>--%>
+
+<%--    &lt;%&ndash;                        모달창&ndash;%&gt;--%>
+<%--    <div id="deleteModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="deleteModal">--%>
+<%--        <div class="modal-dialog modal-login">--%>
+<%--            <div class="modal-content">--%>
+<%--                <jsp:include page="/WEB-INF/views/member/delete.jsp" />--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </div>--%>
 
 
 

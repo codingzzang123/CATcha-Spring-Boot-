@@ -501,10 +501,13 @@
         if(check < 1){
             alert('1글자 이상 써야 합니다.')
             return false;
-        }else{
-            insertCommentAlert();
-            return true;
         }
+        if(check > 70){
+            alert('70글자 이내로 작성해주세요.')
+            return false;
+        }
+        insertCommentAlert();
+        return true;
     }
 
 
@@ -564,10 +567,13 @@
         if(check < 1){
             alert('1글자 이상 써야 합니다.')
             return false;
-        }else{
-            insertReplyAlert(no);
-            return true;
         }
+        if(check > 60){
+            alert('60글자 이내로 작성해주세요.')
+            return false;
+        }
+        insertReplyAlert(no);
+        return true;
     }
 
     function insertReplyAlert(no){

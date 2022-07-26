@@ -110,11 +110,27 @@
         let title = $("#title").val();
         let content = $("#content").val();
 
-        if(!title || title=="") {
+        if(!title || title=="" || title.length < 5) {
             alert("제목을 5글자 이상 입력해주세요");
             return false;
-        } else {
-            return true;
         }
+
+        if(!content || content=="") {
+            alert("내용을 입력해주세요");
+            return false;
+        }
+
+        if(title.length > 25) {
+            alert("제목은 25글자 이내로 작성해주세요");
+            return false;
+        }
+
+        if(content.length > 200) {
+            alert("내용은 200글자 이내로 작성해주세요");
+            return false;
+        }
+
+        return true;
+
     }
 </script>
