@@ -291,7 +291,7 @@
                 <div class="modal-footer">
                     <button type="button" id="ModalCloseId" class="btn btn-danger" data-bs-dismiss="modal" style= "font-family: Consolas">Close</button>
                     <input type="hidden" id="deleteModal" value="">
-                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal" style= "font-family: Consolas" id="delete">Delete</button>
+                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal" style= "font-family: Consolas" id="deleteComment">Delete</button>
                 </div>
             </div>
         </div>
@@ -526,9 +526,10 @@
         }else if($('#reply'+no).css("display") == "block"){
             $('#reply'+no).css("display", "none")
         }
-    }
+    }3
 
     $(document).ready(function(){
+        console.log("2")
         $('#DelComment').on('show.bs.modal', function (e) {
             var data = $(e.relatedTarget).data('test');
             $('#deleteModal').val(data);
@@ -539,12 +540,13 @@
         });
     });
 
-    $("#delete").click(function(){
+    $("#deleteComment").click(function(){
         var d = $('#deleteModal').val()
         deleteReply(d);
     });
 
     function deleteReply(i){
+        console.log("1")
         $.ajax({
             url: '${pageContext.request.contextPath}/board/deleteComment',
             type: 'post',

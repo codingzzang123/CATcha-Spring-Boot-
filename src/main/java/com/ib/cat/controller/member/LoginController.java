@@ -12,7 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.Principal;
@@ -30,7 +30,10 @@ public class LoginController {
     String google_redirect_uri = "http://localhost:8080/googlecallback";
 
     @GetMapping("member/login")
-    public String getLogin(Model model, HttpSession httpSession){
+    public String getLogin(Model model, HttpSession httpSession, HttpServletRequest httpServletRequest){
+        String path = httpServletRequest.getSession().getServletContext().getRealPath("/resources/static/img/profile/");
+        System.out.println(path);
+        System.out.println(System.getProperty("user.dir")+"/src/main/resources/static/img/profile/");
         if(httpSession.getAttribute("auth") != null){
             return "redirect:/main";
         }
@@ -60,7 +63,7 @@ public class LoginController {
     }
 
     @GetMapping("/member/session")
-    public String getSession(HttpSession httpSession, HttpServletResponse httpServletResponse) throws IOException {
+    public String getSession(HttpSession httpSession) throws IOException {
         Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String id = ((User) object).getUsername();
         Member member = memberService.findById(id);
@@ -76,7 +79,7 @@ public class LoginController {
         return "redirect:/main";
     }
     @GetMapping("/member/apiSession")
-    public String getApiSession(HttpSession httpSession, Principal principal, HttpServletResponse httpServletResponse) throws IOException {
+    public String getApiSession(HttpSession httpSession, Principal principal) {
         String id = principal.getName();
         Member member = memberService.findById(id);
         Auth auth = new Auth();

@@ -17,6 +17,7 @@
   <link href="/img/main/title.png" rel="shortcut icon" type="image/x-icon">
   <title>CATcha 회원가입</title>
     <style>
+
       .custom-input{
         display: block;
         width: 500px;
@@ -108,6 +109,7 @@
                 <p style="font-size: small;">CATcha 사이트를 계정 가입은 무료이며 쉽습니다. 시작하려면 아래 양식을 작성하세요. 계속하려면 JavaScript가 필요합니다..</p>
                 <div clsss="main-form">
                   <form action="/member/insert" method="post"  name="signForm" enctype="multipart/form-data">
+
                     <div style="margin-top: 10px;">
                       <label for="id">아이디</label>
                       <input class="custom-input" type="text" id="id" name="id" placeholder="아이디를 입력해주세요." required oninput = "checkId()">
@@ -143,8 +145,8 @@
                       <div class="filebox">
                         <input class="upload-name" style="font-size: small;" value="" placeholder="첨부파일">
                         <label for="file" style="font-size: smaller;">파일선택</label>
-                        <input type="file" id="file" name="file" accept="image/jpg, image/jpeg,image/png" onchange="fileCheck(file)">
-                        <div class="eheck_font" id="file_check"></div>
+                        <input type="file" id="file" name="file" accept="image/jpg, image/jpeg, image/png" onchange="fileCheck(this)">
+                        <div id="fileCheck"></div>
                       </div>
                     </div>
 
@@ -187,8 +189,6 @@
   var img_check = true;
   function allCheck(){
     var signForm = document.signForm;
-    var inputed = $('#pass').val();
-    var reinputed = $('#repwd').val();
     if(id_check == true &&
             pw_check == true &&
             pwReg_check == true &&
@@ -208,7 +208,7 @@
   }
 
   function checkId(){
-    var idReg = /^[0-9a-zA-Z][0-9a-zA-Z]{6,12}$/;
+    var idReg = /^[0-9a-zA-Z][0-9a-zA-Z]{5,11}$/;
     var id = $('#id').val();//id값이 "id"인 입력란의 값을 저장
     $("#id_check").css("font-size", "12px");
     $.ajax({
@@ -237,7 +237,7 @@
 
   function checkPw(){
     var inputed = $('#pass').val();
-    var passReg = /^^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&~^])[A-Za-z\d@$!%*#?&~^]{8,14}$/;
+    var passReg = /^^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&~^])[A-Za-z\d@$!%*#?&~^]{7,13}$/;
     $("#pw_check").css("font-size", "12px");
 
     if(passReg.test(inputed)){
@@ -254,7 +254,7 @@
   }
 
   function matchPw() {
-    var passReg = /^^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,14}$/;
+    var passReg = /^^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{7,13}$/;
     var inputed = $('#pass').val();
     var reinputed = $('#repwd').val();
     $("#pw_match").css("font-size", "12px");
@@ -272,7 +272,7 @@
   }
 
   function checkName(){
-    var nameReg = /^(?=.*[A-Za-z0-9가-힣])[A-Za-z0-9가-힣]{2,16}$/;
+    var nameReg = /^(?=.*[A-Za-z0-9가-힣])[A-Za-z0-9가-힣]{2,10}$/;
     var name = $('#name').val(); //id값이 "id"인 입력란의 값을 저장
     $("#name_check").css("font-size", "12px");
 
@@ -283,8 +283,8 @@
       success:function(data){
         if(!nameReg.test(name)){
           $("#name_check").prop("disabled", true);
-          $("#name_check").text("영어 또는 숫자 또는 한글을 조합해 2~16자리로 이루어져야 합니다.");
-          $("#name_check").css("color", "grey");
+          $("#name_check").text("영어 또는 숫자 또는 한글을 조합해 2~10자리로 이루어져야 합니다.");
+          $("#name_check").css("color", "red");
         }else if(data == 1){
           $("#name_check").prop("disabled", true);
           $("#name_check").text("사용불가능한 아이디 입니다.");
@@ -317,7 +317,8 @@
   }
 
   function fileCheck(obj) {
-    $("#file_check").css("font-size", "12px");
+      console.log("1")
+    $("#fileCheck").css("font-size", "12px");
     var file_kind = obj.value.lastIndexOf('.');
     var file_name = obj.value.substring(file_kind+1,obj.length);
     var file_type = file_name.toLowerCase();
@@ -325,14 +326,16 @@
     check_file_type=['jpg','png','jpeg'];
 
     if(check_file_type.indexOf(file_type)==-1){
-      $("#file_check").prop("disabled", true);
-      $("#file_check").text("맞지 않은 확장자 입니다.");
-      $("#file_check").css("color", "red");
+      console.log("3")
+      $("#fileCheck").css("display", "block");
+      $("#fileCheck").text("jpg, png, jpeg 확장자만 가능합니다.");
+      $("#fileCheck").css("color", "red");
       img_check = false;
     }else{
-      $("#file_check").prop("disabled", true);
-      $("#file_check").text("정상적인 확장자입니다.");
-      $("#file_check").css("color", "green");
+      console.log("2")
+      $("#fileCheck").css("display", "block");
+      $("#fileCheck").text("정상적인 확장자입니다.");
+      $("#fileCheck").css("color", "green");
       img_check = true;
     }
   }

@@ -19,9 +19,9 @@
                 <b style="font-family: Cambria; font-size: 40px; ">정보 수정</b>
             </div>
             <div style="text-align: center;">
-                <label for="file" ><img id="img" src="/img/profile/${auth.imgs}" style=" cursor: pointer; border-radius: 130px; height: 130px; width: 130px; position: relative"></label>
-                <label for="file"><img id="camara" src="/img/icon/camara.png" style=" cursor: pointer; border-radius: 40px; height: 40px; width: 40px;position: absolute;left: 280px; top: 180px"></label>
-                <input type="file" id="file" name="file" onchange="readURL(file);" hidden>
+                <label for="profile" ><img id="img" src="/img/profile/${auth.imgs}" style=" cursor: pointer; border-radius: 130px; height: 130px; width: 130px; position: relative"></label>
+                <label for="profile"><img id="camara" src="/img/icon/camara.png" style=" cursor: pointer; border-radius: 40px; height: 40px; width: 40px;position: absolute;left: 280px; top: 180px"></label>
+                <input type="file" id="profile" name="profile" onchange="readURL(this);" hidden>
                 <div id="file_check"></div>
             </div>
 
@@ -33,7 +33,7 @@
                 <c:when test="${auth.auth == '1'}">
                     <div class="form-group mt-3">
                         <label>비밀번호 변경</label>
-                        <input class="form-control" style="border-radius: 10px;" type="password" placeholder="기존 비밀번호를 입력해주세요." name="oldPw" id="oldPw" oninput="oldPwCheck()" >
+                        <input class="form-control" style="border-radius: 10px;" type="password" placeholder="기존 비밀번호를 입력해주세요." name="oldPw"0 id="oldPw" oninput="oldPwCheck()" >
                         <div id="oldPw_Check"></div>
                     </div>
 
@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="form-group mt-2">
-                        <input class="form-control" style="border-radius: 10px;" type="password" placeholder="변경할 비밀번호를 재입력해주세요." name="regPw" id="regPw" oninput="matchNewPw()">
+                        <input class="form-control" style="border-radius: 10px;" type="password" placeholder="변경할 비밀번호를 재입력해주세요." name="regNewPw" id="regNewPw" oninput="matchNewPw()">
                         <div id="regnewPw_check"></div>
                     </div>
                 </c:when>
@@ -58,7 +58,7 @@
                     </div>
 
                     <div class="form-group mt-2">
-                        <input class="form-control" style="border-radius: 10px;" type="password" placeholder="변경할 비밀번호를 재입력해주세요." name="regPw" readonly>
+                        <input class="form-control" style="border-radius: 10px;" type="password" placeholder="변경할 비밀번호를 재입력해주세요." name="regNewPw" readonly>
                     </div>
                 </c:otherwise>
             </c:choose>
@@ -72,7 +72,7 @@
             <input type="hidden" id="idCheck" name="id" value="${auth.id}">
 
             <div class="form-group text-end mt-2">
-                <input type="button" id="delete" class="btn btn-danger" style="float: left" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#deleteModal" value="회원 탈퇴">
+                <input type="button" id="delete" class="btn btn-danger" style="float: left" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#memberDeleteModal" value="회원 탈퇴">
                 <input type="button" id="change" class="btn btn-dark" style="font-family: Consolas; display: inline;" value="확인" onclick="changeInfo()"/>
                 <button type="button" id="ModalCloseId" class="btn btn-danger" data-bs-dismiss="modal" style= "font-family: Consolas; display: inline">Close</button>
             </div>
@@ -84,7 +84,7 @@
 <script type="text/javascript">
     var oldPw_Check = true;
     var newPw_Check = true;
-    var regPw_Check = true;
+    var regNewPw_Check = true;
     var img_Check = true;
 
     function readURL(input) {
@@ -160,30 +160,30 @@
     function matchNewPw() {
         var passReg = /^^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&~^])[A-Za-z\d@$!%*#?&~^]{8,14}$/;
         var newPw = $('#newPw').val();
-        var regPw = $('#regPw').val();
+        var regNewPw = $('#regNewPw').val();
         $("#regnewPw_check").css("font-size", "8px");
-        console.log(newPw == regPw && regPw != "");
-        console.log(newPw != regPw || passReg.test(regPw));
+        console.log(newPw == regNewPw && regNewPw != "");
+        console.log(newPw != regNewPw || passReg.test(regNewPw));
 
-        if(newPw == regPw && regPw != ""){
+        if(newPw == regNewPw && regNewPw != ""){
             $("#regnewPw_check").css("display", "block");
             $("#regnewPw_check").text("알맞은 비밀번호입니다.");
             $("#regnewPw_check").css("color", "green");
-            regPw_Check = true;
-        }else if(newPw != regPw || passReg.test(regPw)){
+            regNewPw_Check = true;
+        }else if(newPw != regNewPw || passReg.test(regNewPw)){
             $("#regnewPw_check").css("display", "block");
             $("#regnewPw_check").text("비밀번호 틀립니다");
             $("#regnewPw_check").css("color", "red");
-            regPw_Check = false;
+            regNewPw_Check = false;
         }
-        if(regPw == ""){
+        if(regNewPw == ""){
             $("#regnewPw_check").css("display", "none");
-            regPw_Check = true;
+            regNewPw_Check = true;
         }
     }
 
     function changeInfo(){
-        if(oldPw_Check == true && newPw_Check == true && regPw_Check == true && img_Check == true){
+        if(oldPw_Check == true && newPw_Check == true && regNewPw_Check == true && img_Check == true){
             changeForm.submit();
 
         }else{
