@@ -115,7 +115,7 @@
             return false;
         }
 
-        if(!content || content=="") {
+        if(content=="") {
             alert("내용을 입력해주세요");
             return false;
         }

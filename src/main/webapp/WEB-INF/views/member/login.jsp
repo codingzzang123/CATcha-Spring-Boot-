@@ -98,7 +98,7 @@
                                 <div>
                                     <div><a href="${kakao}"><img src="/img/icon/kakao_icon.png" width="45" height="45"></a></div>
                                     <div style="margin-left: 15px;"><a href="${naver}"><img src="/img/icon/naver_icon.png" width="45" height="45"></a></div>
-                                    <div style="margin-left: 15px;"><a href="#"><img src="/img/icon/google_icon.png" width="45" height="45"></a></div>
+                                    <div style="margin-left: 15px;"><a href="#" onclick="service()"><img src="/img/icon/google_icon.png" width="45" height="45"></a></div>
                                 </div>
                             </div>
                             <div>
@@ -176,5 +176,9 @@
             authCheck();
         }
     })
+
+    function service(){
+        alert("서비스 준비중 입니다.");
+    }
 </script>
 </html>

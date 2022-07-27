@@ -73,7 +73,6 @@ public class LoginAjaxController {
     @RequestMapping(value="/member/oldPwCheck", method = {RequestMethod.POST})
     @ResponseBody
     public int oldPwCheck(@RequestParam("oldPw") String oldPw, @RequestParam("id") String id) {
-        System.out.println("실행");
         Member member = memberService.findById(id);
         System.out.println(passwordEncoder.matches(oldPw, member.getPw()));
         if(passwordEncoder.matches(oldPw, member.getPw())){
