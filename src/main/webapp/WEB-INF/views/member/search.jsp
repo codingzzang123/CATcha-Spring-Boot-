@@ -35,7 +35,7 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="eheck_font" id="check"></div>
+                    <div class="eheck_font" id="searchPw_check"></div>
                 </div>
 
                 <div class="form-group text-end mt-2">
@@ -49,16 +49,16 @@
 <script type="text/javascript">
     function checkId(){
         var id = $('#idModal').val();//id값이 "id"인 입력란의 값을 저장
-        $("#check").css("font-size", "12px");
+        $("#searchPw_check").css("font-size", "12px");
         $.ajax({
             url:'/member/idCheck', //Controller에서 인식할 주소
             type:'post', //POST 방식으로 전달
             data:{id:id},
             success:function(data){
                 if(data == 0){
-                    $("#check").prop("disabled", true);
-                    $("#check").text("아이디, 이메일을 잘못 입력하였습니다. 다시 확인해주세요.");
-                    $("#check").css("color", "red");
+                    $("#searchPw_check").prop("disabled", true);
+                    $("#searchPw_check").text("아이디, 이메일을 잘못 입력하였습니다. 다시 확인해주세요.");
+                    $("#searchPw_check").css("color", "red");
                 }else if(data == 1){
                     checkEmail();
                 }
@@ -69,21 +69,21 @@
     function checkEmail(){
         var email = $('#emailModal').val();
         var id = $('#idModal').val();
-        $("#check").css("font-size", "12px");
+        $("#searchPw_check").css("font-size", "12px");
         $.ajax({
             url:'/member/emailCheck', //Controller에서 인식할 주소
             type:'post', //POST 방식으로 전달
             data:{id, email : id, email},
             success:function(data){
                 if(data == 0){
-                    $("#check").prop("disabled", true);
-                    $("#check").text("아이디, 이메일을 잘못 입력하였습니다. 다시 확인해주세요.");
-                    $("#check").css("color", "red");
+                    $("#searchPw_check").prop("disabled", true);
+                    $("#searchPw_check").text("아이디, 이메일을 잘못 입력하였습니다. 다시 확인해주세요.");
+                    $("#searchPw_check").css("color", "red");
                 }else if(data == 1){
                     sendEmailPw();
-                    $("#check").prop("disabled", true);
-                    $("#check").text("변경된 비밀번호가 이메일로 전송되었습니다. 이메일을 확인해주세요.");
-                    $("#check").css("color", "green");
+                    $("#searchPw_check").prop("disabled", true);
+                    $("#searchPw_check").text("변경된 비밀번호가 이메일로 전송되었습니다. 이메일을 확인해주세요.");
+                    $("#searchPw_check").css("color", "green");
                 }
             },
         });

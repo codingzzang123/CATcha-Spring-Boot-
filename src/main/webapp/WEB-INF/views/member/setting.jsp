@@ -21,8 +21,8 @@
             <div style="text-align: center;">
                 <label for="profile" ><img id="img" src="/img/profile/${auth.imgs}" style=" cursor: pointer; border-radius: 130px; height: 130px; width: 130px; position: relative"></label>
                 <label for="profile"><img id="camara" src="/img/icon/camara.png" style=" cursor: pointer; border-radius: 40px; height: 40px; width: 40px;position: absolute;left: 280px; top: 180px"></label>
-                <input type="file" id="profile" name="profile" onchange="readURL(this);" hidden>
-                <div id="file_check"></div>
+                <input type="file" id="profile" name="profile" onchange="readURL(profile);" hidden>
+                <div id="newFile_check"></div>
             </div>
 
             <div class="form-group mt-2 mb-2">
@@ -50,15 +50,7 @@
                 <c:otherwise>
                     <div class="form-group mt-3">
                         <label>비밀번호 변경</label>
-                        <input class="form-control" style="border-radius: 10px;" type="password" placeholder="기존 비밀번호를 입력해주세요." name="oldPw" readonly>
-                    </div>
-
-                    <div class="form-group mt-2">
-                        <input class="form-control" style="border-radius: 10px;" type="password" placeholder="변경할 비밀번호를 입력해주세요." name="newPw" readonly>
-                    </div>
-
-                    <div class="form-group mt-2">
-                        <input class="form-control" style="border-radius: 10px;" type="password" placeholder="변경할 비밀번호를 재입력해주세요." name="regNewPw" readonly>
+                        <input class="form-control" style="border-radius: 10px;" type="password" placeholder="간편 로그인 유저는 비밀번호를 변경할 수 없습니다." name="oldPw" readonly>
                     </div>
                 </c:otherwise>
             </c:choose>
@@ -87,22 +79,29 @@
     var regNewPw_Check = true;
     var img_Check = true;
 
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('img').src = e.target.result;
-                $("#file_check").css("display", "none");
-                fileCheck(input)
-            };
-            reader.readAsDataURL(input.files[0]);
-            img_Check = true;
-        } else {
-            document.getElementById('img').src = "";
-            $("#file_check").css("display", "block");
-            $("#file_check").text("프로필을 선택해주세요.");
-            $("#file_check").css("color", "red");
+
+
+    function readURL(obj) {
+        $("#newFile_check").css("font-size", "12px");
+        var file_kind = obj.value.lastIndexOf('.');
+        var file_name = obj.value.substring(file_kind+1,obj.length);
+        var file_type = file_name.toLowerCase();
+        var check_file_type=new Array();
+        check_file_type=['jpg','png','jpeg'];
+
+        if(obj.value == ""){
+            $("#newFile_check").css("display", "block");
+            $("#newFile_check").text("프로필을 선택해주세요.");
+            $("#newFile_check").css("color", "red");
             img_Check = false;
+        }else if(check_file_type.indexOf(file_type)==-1){
+            $("#newFile_check").css("display", "block");
+            $("#newFile_check").text("jpg, png, jpeg 확장자만 가능합니다.");
+            $("#newFile_check").css("color", "red");
+            img_Check = false;
+        }else{
+            $("#newFile_check").css("display", "none");
+            img_check = true;
         }
     }
 

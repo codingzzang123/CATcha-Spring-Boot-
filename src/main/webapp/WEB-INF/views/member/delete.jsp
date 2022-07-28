@@ -24,7 +24,7 @@
                     <c:otherwise>
                         <div class="form-group mt-2 mb-3">
                             <label for="pwModal">비밀번호</label>
-                            <input type="password"class="form-control"style="border-radius: 10px;" name="pwModal" placeholder="비밀번호를 입력해주세요." readonly>
+                            <input type="password"class="form-control"style="border-radius: 10px;" name="pwModal" placeholder="간편 로그인 유저는 비밀번호를 입력 안해도 됩니다." readonly>
                         </div>
                     </c:otherwise>
                 </c:choose>
