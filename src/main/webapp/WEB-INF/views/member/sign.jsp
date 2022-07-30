@@ -106,7 +106,7 @@
             <div class="css-pbseb6-StyledHomeListTitleRow" >
               <div style="margin-top: 15px;">
                 <p class="css-16qa0p7" style="font-size: x-large;">회원 가입</p>
-                <p style="font-size: small;">CATcha 사이트를 계정 가입은 무료이며 쉽습니다. 시작하려면 아래 양식을 작성하세요. 계속하려면 JavaScript가 필요합니다..</p>
+                <p style="font-size: small;">CATcha 사이트를 계정 가입은 무료이며 쉽습니다. 시작하려면 아래 양식을 작성하세요.<br> 계속하려면 JavaScript가 필요합니다.</p>
                 <div clsss="main-form">
                   <form action="/member/insert" method="post"  name="signForm" enctype="multipart/form-data">
 

@@ -94,33 +94,17 @@
 
         /* Socket Connect function */
         function connect() {
-            console.log('into connect function');
+
             var ws = new SockJS("/gs-websocket");
-            socket = ws;
-
-            ws.onopen = function (){
-                console.log("open");
-            };
-
-            ws.onclose = function (){
-                console.log("close");
-            };
 
             ws.onmessage = function (evt){
                 var data = evt.data;
 
-                let toast = "<div class='toast' id='toast' data-autohide='false'>";
-                toast += "<div class='toast-header'><strong class='mr-auto text-primary'>알림</strong>";
-                toast += "<small class='text-muted'>just now</small><button type='button' id='test' class='ml-2 mb-1 close' data-bs-dismiss='toast' aria-label='Close'>";
-                toast += "&times;</button></div>";
+                let toast = "<div class='toast'>";
                 toast += "<div class='toast-body'>" + data + "</div></div>";
-                $("#msgStack").append(toast);   // msgStack div에 생성한 toast 추가
-                $(".toast").toast({"animation": true, "autohide": true});
+                $("#msgStack").append(toast);
                 $('.toast').toast('show');
-                // $("#newNoticeCnt").text($("#newNoticeCnt").text()*1+1); //알림 받았을때 카운트 +1증가
-                AlertCount();
             };
-
         }
 
         /* 알림 Bell Click 시 */

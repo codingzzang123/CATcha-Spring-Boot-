@@ -427,8 +427,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="ModalCloseId" class="btn btn-danger" data-bs-dismiss="modal" style= "font-family: Consolas">Close</button>
-                    <input type="hidden" id="deleteModal" value="">
-                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal" style= "font-family: Consolas" id="delete">Delete</button>
+                    <input type="hidden" id="deleteReviewModal" value="">
+                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal" style= "font-family: Consolas" id="deleteReview">Delete</button>
                 </div>
             </div>
         </div>
@@ -453,7 +453,7 @@
     $(document).ready(function(){
         $('#DelModal').on('show.bs.modal', function (e) {
             var data = $(e.relatedTarget).data('test');
-            $('#deleteModal').val(data);
+            $('#deleteReviewModal').val(data);
             console.log(data);
         });
     });
@@ -549,8 +549,8 @@
         }
     }
 
-    $("#delete").click(function(){
-        var d = $('#deleteModal').val()
+    $("#deleteReview").click(function(){
+        var d = $('#deleteReviewModal').val()
         console.log(d);
         deleteReply(d);
     });

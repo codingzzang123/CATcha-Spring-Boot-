@@ -36,7 +36,8 @@
         .comment-items{
             margin-top: 12px;
             margin-bottom: 3px;
-            height: 3.5em;
+            min-height: 3.5em;
+            max-height: 5em;
             width: auto;
             /*display: inline-block;*/
             border-radius: 1em;
@@ -65,7 +66,8 @@
             border-radius:5px;
             margin-bottom:5px;
             background-color:#dee2e6;
-            height: 41px;
+            min-height: 41px;
+            max-height: 82px;
 
         }
     </style>
@@ -161,8 +163,10 @@
                                 <c:forEach var="comment" items="${comment}" >
                                     <div class='comment-items' id="${comment.no}" >
                                     <img src="/img/profile/${comment.imgs}" class="rounded-circle css-memImg" style="width: 3em; height:3em; margin-bottom: 5px;">
-                                        <div style="display: inline-block; width: 950px; height: 40px;">
-                                            <span style="margin-left: 20px; font-family: Cambria; font-size: medium; cursor: pointer" onclick="showReply(${comment.no})"><b>${comment.content}</b></span>
+                                        <div style="display: inline-block; width: 950px; height: auto; padding-left: 15px;">
+                                            <span style="height:auto; margin-left: 20px; font-family: Cambria; font-size: medium; cursor: pointer" onclick="showReply(${comment.no})">
+                                                <b>${comment.content}</b>
+                                            </span>
                                         </div>
                                         <div style="display: inline-block; width: 100px; height: 40px; text-align: end; margin-bottom: 12px; ">
                                                 <span style="font-size: small; margin-bottom: 3px;">
@@ -194,7 +198,7 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-lg-11">
-                                                            <textarea id="reply${comment.no}" name="content" placeholder="답글을 작성해주세요" style="resize: none; font-size: small; height : 100px; width: 1030px; border : none; margin-top : 5px; margin-left: 5px;"></textarea>
+                                                            <textarea id="reply${comment.no}" name="content" placeholder="답글을 작성해주세요" style="resize: none; font-size: small; height : 100px; width: 1030px; border : none; margin-top : 5px; margin-left: 5px; white-space:pre-wrap;"></textarea>
                                                         </div>
                                                         <div class="col-lg-1">
                                                             <input type="submit" value="등록"  class="btn btn-outline-primary bi bi-pencil-square" style="margin-top: 65px;">
@@ -253,7 +257,7 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-11">
-                                <textarea id="comment" name="content" placeholder="댓글을 작성해주세요" style="resize: none; font-size: small; height : 100px; width: 1030px; border : none; margin-top : 5px; margin-left: 5px;"></textarea>
+                                <textarea id="comment" name="content" placeholder="댓글을 작성해주세요" style="resize: none; font-size: small; height : 100px; width: auto; min-width: 1000px; max-width: 1050px; border : none; margin-top : 5px; margin-left: 5px; white-space:pre-wrap;"></textarea>
                             </div>
                             <div class="col-lg-1">
                                 <input type="submit" id="insertComment" value="등록"  class="btn btn-outline-primary bi bi-pencil-square" style="margin-top: 65px;">
@@ -497,19 +501,38 @@
     }
     /* 댓글은 한 글자 이상, 조건맞으면 알림 테이블과 비동기 통신 시작 */
     function submitComment(){
-        var check = $("textarea#comment").val().length;
-        if(check < 1){
-            alert('1글자 이상 써야 합니다.')
+        var check = $("textarea#comment").val();
+        if(check.replace(/\s|　/gi, "").length == 0 || check.length < 1){
+            $("#comment").focus();
+            toastr.warning('댓글의 길이가 너무 짧습니다.','Warning');
             return false;
         }
-        if(check > 70){
-            alert('70글자 이내로 작성해주세요.')
+        if(check.length > 200){
+            $("#comment").focus();
+            toastr.warning('댓글의 길이가 너무 깁니다.','Warning');
             return false;
         }
         insertCommentAlert();
         return true;
     }
 
+    function submitReply(no){
+
+        var check = $('textarea#reply'+no).val();
+
+        if(check.replace(/\s|　/gi, "").length == 0 || check.length < 1){
+            $("#reply").focus();
+            toastr.warning('댓글의 길이가 너무 짧습니다.','Warning');
+            return false;
+        }
+        if(check.length > 200){
+            $("#reply").focus();
+            toastr.warning('댓글의 길이가 너무 깁니다.','Warning');
+            return false;
+        }
+        insertReplyAlert(no);
+        return true;
+    }
 
     //Reply
     var beforeNo = null;
@@ -561,22 +584,7 @@
         });
     }
 
-    /* 답글에 대한 알림 */
-    function submitReply(no){
 
-        var check = $('textarea#reply'+no).val().length;
-
-        if(check < 1){
-            alert('1글자 이상 써야 합니다.')
-            return false;
-        }
-        if(check > 60){
-            alert('60글자 이내로 작성해주세요.')
-            return false;
-        }
-        insertReplyAlert(no);
-        return true;
-    }
 
     function insertReplyAlert(no){
 
@@ -629,6 +637,9 @@
         });
     }
 </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
 </body>
 </html>

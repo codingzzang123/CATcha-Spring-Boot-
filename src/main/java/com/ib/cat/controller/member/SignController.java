@@ -42,22 +42,9 @@ SignController {
 
     @PostMapping("/member/insert")
     public String postSign(@Valid MemberDto memberDto, BindingResult bindingResult, Member member, MultipartFile file, HttpServletRequest httpServletRequest){
-        String[] img = null;
-
-        if(bindingResult.hasErrors()){
-            return "member/sign";
-        }
-//        String path = httpServletRequest.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/img/profile/");
-        String path = System.getProperty("user.dir")+"/src/main/resource/static/img/profile/";
-        if(!file.isEmpty()) {
-            img = fileService.fileUpload(file, path);
-            member.setImgo(img[0]);
-            member.setImgs(img[1]);
-        }
-        member.setAuth(authService.authCode());
+         /* .. */
         member.setPw(passwordEncoder.encode(member.getPw()));
-        mailService.emailSend(member.getEmail(), member.getId(), member.getAuth());
-        memberService.memberInsert(member);
+
         return "redirect:/member/login";
     }
 }

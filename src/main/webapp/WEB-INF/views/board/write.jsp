@@ -14,6 +14,7 @@
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
 
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -84,53 +85,62 @@
     </div>
     </div>
 
+
+
+    <style>
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
+            color:#333;
+        }
+        .board_wrap {
+            background: #f3f3f1;
+            padding:1rem; ;
+        }
+        .board_write::placeholder{
+            display: flex; justify-content: center; align-items: center;
+            text-align: center;
+            vertical-align: center;
+            padding-top:100px;
+        }
+
+    </style>
+
+    <script>
+
+        function writeCheck(){
+            let title = $("#title").val();
+            let content = $("#exampleFormControlTextarea1").val();
+
+            //공백문자x
+            if(title.replace(/\s|　/gi, "").length == 0 || title.length < 5) {
+                $("#title").focus();
+                alert('5글자 이상 입력해주세요.');
+                return false;
+            }
+
+            // 미입력 또는 공백 입력 방지
+            if (content.replace(/\s|　/gi, "").length == 0) {
+                $("#exampleFormControlTextarea1").focus();
+                alert('5글자 이상 입력해주세요.');
+                return false;
+            }
+
+            if(title.length > 100) {
+                $("#title").focus();
+                alert('제목의 길이가 너무 깁니다.');
+                return false;
+            }
+
+            if(content.length > 800) {
+                $("#exampleFormControlTextarea1").focus();
+                alert('제목의 길이가 너무 깁니다.');
+                return false;
+            }
+
+            return true;
+
+        }
+    </script>
+
 </body>
 </html>
-
-<style>
-    * {
-        font-family: 'Noto Sans KR', sans-serif;
-        color:#333;
-    }
-    .board_wrap {
-        background: #f3f3f1;
-        padding:1rem; ;
-    }
-    .board_write::placeholder{
-        display: flex; justify-content: center; align-items: center;
-        text-align: center;
-        vertical-align: center;
-        padding-top:100px;
-    }
-
-</style>
-
-<script>
-    function writeCheck(){
-        let title = $("#title").val();
-        let content = $("#content").val();
-
-        if(!title || title=="" || title.length < 5) {
-            alert("제목을 5글자 이상 입력해주세요");
-            return false;
-        }
-
-        if(content=="") {
-            alert("내용을 입력해주세요");
-            return false;
-        }
-
-        if(title.length > 25) {
-            alert("제목은 25글자 이내로 작성해주세요");
-            return false;
-        }
-
-        if(content.length > 200) {
-            alert("내용은 200글자 이내로 작성해주세요");
-            return false;
-        }
-
-        return true;
-
-    }
-</script>
