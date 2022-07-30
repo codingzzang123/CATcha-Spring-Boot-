@@ -94,17 +94,33 @@
 
         /* Socket Connect function */
         function connect() {
-
+            console.log('into connect function');
             var ws = new SockJS("/gs-websocket");
+            socket = ws;
+
+            ws.onopen = function (){
+                console.log("open");
+            };
+
+            ws.onclose = function (){
+                console.log("close");
+            };
 
             ws.onmessage = function (evt){
                 var data = evt.data;
 
-                let toast = "<div class='toast'>";
+                let toast = "<div class='toast' id='toast' data-autohide='false'>";
+                toast += "<div class='toast-header'><strong class='mr-auto text-primary'>알림</strong>";
+                toast += "<small class='text-muted'>just now</small><button type='button' id='test' class='ml-2 mb-1 close' data-bs-dismiss='toast' aria-label='Close'>";
+                toast += "&times;</button></div>";
                 toast += "<div class='toast-body'>" + data + "</div></div>";
-                $("#msgStack").append(toast);
+                $("#msgStack").append(toast);   // msgStack div에 생성한 toast 추가
+                $(".toast").toast({"animation": true, "autohide": true});
                 $('.toast').toast('show');
+                // $("#newNoticeCnt").text($("#newNoticeCnt").text()*1+1); //알림 받았을때 카운트 +1증가
+                AlertCount();
             };
+
         }
 
         /* 알림 Bell Click 시 */
@@ -182,7 +198,7 @@
 
 
                             alertHTML += "<li class='alertLi' id='li"+data[i].no+"'><div class='alertMain'><div class='alertdiv1'><img class='rounded-circle' src='/img/profile/"+data[i].imgs+"'/></div>"+
-                                        "<div class='alertdiv2'><div><a id='myA"+aID+"' onclick='removeLi("+ aID +")' href="+link+"><span class='alertSpan1'>회원님의 \"<strong style='font-style: italic;'>"+title+"</strong>\" "+" "+type+"<br>"+
+                                "<div class='alertdiv2'><div><a id='myA"+aID+"' onclick='removeLi("+ aID +")' href="+link+"><span class='alertSpan1'>회원님의 \"<strong style='font-style: italic;'>"+title+"</strong>\" "+" "+type+"<br>"+
                                 "<strong>"+data[i].pubName+"</strong>"+innerMessage+"</span></a></div>"+
                                 "<div style='width: 260px; max-width: 280px; margin-top: 5px;'><span style='font-size: small; font-style: italic;'><strong>"+innerDate+"</strong><span>"+
                                 "<button class='ml-2 mb-1 close' onclick='removeLi("+ data[i].no +")'>&times;</button></div>"+
@@ -193,7 +209,7 @@
                         alertHTML = "<div style='text-align: center'>"+
                             "<img style='width: 60px; height: 60px;' src='https://as1.ftcdn.net/v2/jpg/01/71/15/98/1000_F_171159851_rbqcuNaXXvNaZSdXzRlDtpADHt3Xtp6a.jpg'/>"+
                             "<span style='font-size: medium; font-style: italic;'>&nbsp;모든 알림을 확인하셨습니다.</span>"+
-                        "</div>";
+                            "</div>";
                     }
                     document.querySelector('#alertInner').innerHTML = alertHTML;
                 }
@@ -312,20 +328,20 @@
                                         </div>
                                     </label>
                                 </form>
-                                    <script>
-                                        function submit(){
+                                <script>
+                                    function submit(){
 
-                                            var checkInput = document.getElementById('keyword_header').val();
-                                            console.log("val = "+checkInput);
+                                        var checkInput = document.getElementById('keyword_header').val();
+                                        console.log("val = "+checkInput);
 
-                                            if(checkInput==null){
-                                                return false;
-                                            }else{
-                                                return true;
-                                            }
-
+                                        if(checkInput==null){
+                                            return false;
+                                        }else{
+                                            return true;
                                         }
-                                    </script>
+
+                                    }
+                                </script>
                             </div>
                         </div>
                     </li>
@@ -383,27 +399,27 @@
 
 <body>
 
-    <div id="msgStack"><!-- 알림 박스 들어가는 영역 --></div>
+<div id="msgStack"><!-- 알림 박스 들어가는 영역 --></div>
 
 </body>
 
 <%--                            모달창--%>
-        <div id="memberSettingModal" class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-login">
-                <div class="modal-content">
-                    <jsp:include page="/WEB-INF/views/member/setting.jsp" />
-                </div>
-            </div>
-        </div>
-
-    <%--                        모달창--%>
-    <div id="memberDeleteModal" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-login">
-            <div class="modal-content">
-                <jsp:include page="/WEB-INF/views/member/delete.jsp" />
-            </div>
+<div id="memberSettingModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-login">
+        <div class="modal-content">
+            <jsp:include page="/WEB-INF/views/member/setting.jsp" />
         </div>
     </div>
+</div>
+
+<%--                        모달창--%>
+<div id="memberDeleteModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-login">
+        <div class="modal-content">
+            <jsp:include page="/WEB-INF/views/member/delete.jsp" />
+        </div>
+    </div>
+</div>
 
 
 

@@ -71,6 +71,12 @@
                 return false;
             }
 
+            if(title.startsWith(" ")){
+                $("#title").focus();
+                alert('공백 문자열로 시작 할 수 없습니다.');
+                return false;
+            }
+
             // 미입력 또는 공백 입력 방지
             if (content.replace(/\s|　/gi, "").length == 0) {
                 $("#exampleFormControlTextarea1").focus();

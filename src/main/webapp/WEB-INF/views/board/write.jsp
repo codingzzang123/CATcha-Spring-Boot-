@@ -111,10 +111,18 @@
             let title = $("#title").val();
             let content = $("#exampleFormControlTextarea1").val();
 
+
+
             //공백문자x
             if(title.replace(/\s|　/gi, "").length == 0 || title.length < 5) {
                 $("#title").focus();
                 alert('5글자 이상 입력해주세요.');
+                return false;
+            }
+
+            if(title.startsWith(" ")){
+                $("#title").focus();
+                alert('공백 문자열로 시작 할 수 없습니다.');
                 return false;
             }
 
