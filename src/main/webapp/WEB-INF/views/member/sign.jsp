@@ -17,6 +17,7 @@
   <link href="/img/main/title.png" rel="shortcut icon" type="image/x-icon">
   <title>CATcha 회원가입</title>
     <style>
+      input:focus{outline:2px solid #000000;}
 
       .custom-input{
         display: block;
@@ -72,6 +73,7 @@
         border: 1px solid #dddddd;
         border-radius: 2em;
         color: #999999;
+        pointer-events: none;
       }
 
       .filebox label {
@@ -317,7 +319,6 @@
   }
 
   function fileCheck(obj) {
-      console.log("1")
     $("#fileCheck").css("font-size", "12px");
     var file_kind = obj.value.lastIndexOf('.');
     var file_name = obj.value.substring(file_kind+1,obj.length);
@@ -325,14 +326,15 @@
     var check_file_type=new Array();
     check_file_type=['jpg','png','jpeg'];
 
-    if(check_file_type.indexOf(file_type)==-1){
-      console.log("3")
+    if(obj.value == ""){
+      $("#fileCheck").css("display", "none");
+      img_check = true;
+    }else if(check_file_type.indexOf(file_type)==-1){
       $("#fileCheck").css("display", "block");
       $("#fileCheck").text("jpg, png, jpeg 확장자만 가능합니다.");
       $("#fileCheck").css("color", "red");
       img_check = false;
     }else{
-      console.log("2")
       $("#fileCheck").css("display", "block");
       $("#fileCheck").text("정상적인 확장자입니다.");
       $("#fileCheck").css("color", "green");
