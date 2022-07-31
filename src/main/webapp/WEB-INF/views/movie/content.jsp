@@ -211,14 +211,15 @@
             </c:otherwise>
         </c:choose>
 
-        <c:choose>
-            <c:when test="${empty cast}">
-                출연진 정보가 없습니다.
-            </c:when>
-            <c:otherwise>
+        <section>
                 <div class="css-lufi3b">
                     <div class="css-pbseb6-StyledHomeListTitleRow">
                         <p class="css-16qa0p7">주요 출연진</p>
+                        <c:choose>
+                        <c:when test="${empty cast}">
+                            출연진 정보가 없습니다.
+                        </c:when>
+                        <c:otherwise>
                     </div>
                     <div class="css-1qq59e8">
                         <div class="css-1kd6k5d">
@@ -265,9 +266,10 @@
                             </div>
                         </div>
                     </div>
+                    </c:otherwise>
+                    </c:choose>
                 </div>
-            </c:otherwise>
-        </c:choose>
+    </section>
 
 
 
@@ -275,8 +277,14 @@
         <section>
             <div class="css-lufi3b">
                 <div class="css-pbseb6-StyledHomeListTitleRow">
-                        <p class="css-16qa0p7">비슷한 작품</p>
+                    <p class="css-16qa0p7">비슷한 작품</p>
+                    <c:choose>
+                        <c:when test="${empty reco}">
+                            비슷한 작품이 없습니다.
+                        </c:when>
+                        <c:otherwise>
                 </div>
+
                 <div class="css-1qq59e8">
                     <div class="css-1kd6k5d">
                         <div class="css-9dnzub scroll">
@@ -315,6 +323,8 @@
                         </div>
                     </div>
                 </div>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </section>
 
