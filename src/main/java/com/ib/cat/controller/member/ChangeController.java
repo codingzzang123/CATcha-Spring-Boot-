@@ -26,8 +26,8 @@ public class ChangeController {
     public String change(MultipartFile profile, String oldPw, String newPw, String id, HttpSession httpSession, HttpServletRequest httpServletRequest){
         Member member = memberService.findById(id);
 
-//        String path = httpServletRequest.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/img/profile/");
-        String path = System.getProperty("user.dir")+"/src/main/resource/static/img/profile/";
+        String path = httpServletRequest.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/img/profile/");
+//        String path = System.getProperty("user.dir")+"/src/main/resource/static/img/profile/";
         if(!profile.isEmpty()){
             if(!member.getImgs().equals("default.png")){
                 fileService.fileDelete(path,member.getImgs());

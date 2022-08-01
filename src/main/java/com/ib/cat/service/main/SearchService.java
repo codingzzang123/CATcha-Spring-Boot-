@@ -1,16 +1,16 @@
 package com.ib.cat.service.main;
 
-import com.ib.cat.dto.main.BoardTopDto;
 import com.ib.cat.dto.main.SearchBoardDto;
-import com.ib.cat.dto.media.ContentsDto;
 import com.ib.cat.dto.main.SearchCountDto;
+import com.ib.cat.dto.media.ContentsDto;
 import com.ib.cat.entity.Board;
 import com.ib.cat.repository.BoardRepository;
 import com.ib.cat.utils.SearchInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,10 +70,10 @@ public class SearchService {
         return searchInfoUtil.countTVs(query);
     }
 
-    public SearchCountDto searchCountDto(String query){
+    public SearchCountDto searchCountDto(String query) throws UnsupportedEncodingException {
         SearchCountDto searchCountDto = new SearchCountDto();
-        searchCountDto.setMovie(movieTuples(query));
-        searchCountDto.setTv(tvTuples(query));
+        searchCountDto.setMovie(movieTuples(URLEncoder.encode(query, "UTF-8")));
+        searchCountDto.setTv(tvTuples(URLEncoder.encode(query, "UTF-8")));
         searchCountDto.setBoard(boardTuples(query));
         return searchCountDto;
     }

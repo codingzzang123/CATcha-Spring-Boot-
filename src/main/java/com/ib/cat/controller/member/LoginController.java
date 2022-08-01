@@ -31,9 +31,7 @@ public class LoginController {
 
     @GetMapping("member/login")
     public String getLogin(Model model, HttpSession httpSession, HttpServletRequest httpServletRequest){
-        String path = httpServletRequest.getSession().getServletContext().getRealPath("/resources/static/img/profile/");
-        System.out.println(path);
-        System.out.println(System.getProperty("user.dir")+"/src/main/resources/static/img/profile/");
+
         if(httpSession.getAttribute("auth") != null){
             return "redirect:/main";
         }
