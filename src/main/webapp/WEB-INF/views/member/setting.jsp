@@ -88,8 +88,11 @@
         var file_type = file_name.toLowerCase();
         var check_file_type=new Array();
         check_file_type=['jpg','png','jpeg'];
+        var reader = new FileReader();
+        console.log(obj.value)
 
         if(obj.value == ""){
+            console.log("1")
             $("#newFile_check").css("display", "block");
             $("#newFile_check").text("프로필을 선택해주세요.");
             $("#newFile_check").css("color", "red");
@@ -99,10 +102,15 @@
             $("#newFile_check").text("jpg, png, jpeg 확장자만 가능합니다.");
             $("#newFile_check").css("color", "red");
             img_Check = false;
-        }else{
+        }else {
+            reader.onload = function (e) {
+                document.getElementById('img').src = e.target.result;
+            };
+            reader.readAsDataURL(obj.files[0]);
             $("#newFile_check").css("display", "none");
             img_check = true;
         }
+
     }
 
     function oldPwCheck(){
