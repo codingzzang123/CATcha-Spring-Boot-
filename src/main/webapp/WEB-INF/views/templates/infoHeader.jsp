@@ -6,7 +6,9 @@
 
 <section>
     <div class="css-Like-header css-lufi3b" style="align-items:center; display: flex; justify-content:left;">
-        <img src="/img/profile/${auth.imgs}" class="rounded-circle css-memImg" style="margin-left: 30px;">
+        <a href="${pageContext.request.contextPath }/member">
+            <img src="/img/profile/${auth.imgs}" class="rounded-circle css-memImg" style="margin-left: 30px;">
+        </a>
 
         <div style="margin-left: 30px;">
             <div>

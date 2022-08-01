@@ -56,7 +56,7 @@
     <input type="hidden" id="memberId" name="memberId" value="${auth.id }">
 
         <!-- 삭제 대한 모달 -->
-        <div class="modal" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal" id="MemberLikeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -68,8 +68,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="ModalCloseId" class="btn btn-danger" data-bs-dismiss="modal" id="close" style= "font-family: Consolas">Close</button>
-                        <input type="hidden" id="deleteModal" value="">
-                        <button type="button" class="btn btn-warning" data-bs-dismiss="modal" style= "font-family: Consolas" id="delete">Delete</button>
+                        <input type="hidden" id="deleteLikeModal" value="">
+                        <button type="button" class="btn btn-warning" data-bs-dismiss="modal" style= "font-family: Consolas" id="deleteMemberLike">Delete</button>
                     </div>
                 </div>
             </div>
@@ -84,9 +84,12 @@
         $(document).ready(function(){
             getCount();
             getList();
-            $('#Modal').on('show.bs.modal', function (e) {
+            $('#MemberLikeModal').on('show.bs.modal', function (e) {
                 var data = $(e.relatedTarget).data('test');
-                $('#deleteModal').val(data);
+                $('#deleteLikeModal').val(data);
+                console.log('data = '+data);
+                var data2 = $('#deleteLikeModal').val(data);
+                console.log('data22 = '+data2);
             });
         });
 
@@ -127,12 +130,12 @@
                                 "</div>"+
                                 "<div id='test' class='col-lg-9'>"+
                                 "<div id='con'>"+
-                                "<p id='title' style='font: italic bold 1.5em/1em Georgia, serif ;'>"+data[i].title+"</p>"+
+                                "<p id='title' style='font: italic bold 1.5em/1em Georgia ;'>"+data[i].title+"</p>"+
                                 "<a href=\" <c:url value=' " + path+data[i].contentsNum +"'/> \">"+"<div id='con2'>"+
                                 data[i].overview+
                                 "</div></a>"+
                                 "</div>"+
-                                "<div id='testbtn'><button type='button' class='btn btn-danger' onclick=deleteLike("+ data[i].contentsNum +")>삭제</button></div>"+
+                                "<div id='testbtn'><button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#MemberLikeModal' data-test='"+ data[i].contentsNum +"'>삭제</button></div>"+
                                 "</div>"+
                                 "</div>"+
                                 "</div>");
@@ -161,9 +164,9 @@
             getList();
         });
 
-        $("#delete").click(function(){
+        $("#deleteMemberLike").click(function(){
             console.log("click");
-            var d = $('#deleteModal').val();
+            var d = $('#deleteLikeModal').val();
             console.log("d : "+ d);
             deleteLike(d);
         });

@@ -207,7 +207,7 @@
 
                     }else{
                         alertHTML = "<div style='text-align: center'>"+
-                            "<img style='width: 60px; height: 60px;' src='https://as1.ftcdn.net/v2/jpg/01/71/15/98/1000_F_171159851_rbqcuNaXXvNaZSdXzRlDtpADHt3Xtp6a.jpg'/>"+
+                            "<img style='width: 40px; height: 40px;' src='/img/icon/template/ok.png'/>"+
                             "<span style='font-size: medium; font-style: italic;'>&nbsp;모든 알림을 확인하셨습니다.</span>"+
                             "</div>";
                     }

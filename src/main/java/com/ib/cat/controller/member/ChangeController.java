@@ -37,9 +37,8 @@ public class ChangeController {
             member.setImgs(img[1]);
         }
 
-        if(passwordEncoder.matches(oldPw, newPw)){
-            member.setPw(passwordEncoder.encode(newPw));
-        }
+        member.setPw(passwordEncoder.encode(newPw));
+
 
         memberService.memberUpdate(member);
         Auth auth = (Auth) httpSession.getAttribute("auth");
