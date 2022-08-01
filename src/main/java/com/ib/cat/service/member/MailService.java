@@ -7,12 +7,22 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 @Service
 public class MailService {
-    String url = "http://localhost:8080/auth";
+    String serverIp = InetAddress.getLocalHost().getHostAddress();
+    String url = "http://"+ serverIp+":8080/auth";
     @Autowired
     private JavaMailSenderImpl mailSender;
+
+    public MailService() throws UnknownHostException {
+    }
+
+    public void test(){
+        System.out.println(url);
+    }
 
     public void emailSend(String email, String id, String auth) {
         String setFrom = "catchaservice@gmail.com"; // email-config에 설정한 자신의 이메일 주소를 입력

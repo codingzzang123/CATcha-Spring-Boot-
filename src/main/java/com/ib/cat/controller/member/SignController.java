@@ -33,7 +33,7 @@ SignController {
     @Autowired
     AuthService authService;
     @GetMapping("/member/sign")
-    public String getSign(HttpSession httpSession){
+    public String getSign(HttpSession httpSession) {
         if(httpSession.getAttribute("auth") != null){
             return "redirect:/main";
         }

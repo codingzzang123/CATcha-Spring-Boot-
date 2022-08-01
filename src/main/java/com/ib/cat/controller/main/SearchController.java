@@ -51,7 +51,7 @@ public class SearchController {
             query = "!@#$%^&*";
             return "redirect:" + request.getHeader("Referer");
         }
-
+        query = query.replace("\\", "");
         String resultPath="";
         String type = null;
         if (path.isPresent())
