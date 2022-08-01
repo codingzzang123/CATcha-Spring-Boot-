@@ -21,8 +21,8 @@ public class MemberDeleteController {
     public String delete(String check_id, HttpServletRequest httpServletRequest){
         Member member = memberService.findById(check_id);
 
-//        String path = httpServletRequest.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/img/profile/");
-        String path = System.getProperty("user.dir")+"/src/main/resource/static/img/profile/";
+        String path = httpServletRequest.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/img/profile/");
+//        String path = System.getProperty("user.dir")+"/src/main/resource/static/img/profile/";
         if(!member.getImgs().equals("default.png")){
             fileService.fileDelete(path,member.getImgs());
         }
