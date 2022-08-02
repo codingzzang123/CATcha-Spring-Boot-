@@ -237,7 +237,7 @@
                 return betweenTimeDay+"일 전";
             }
 
-            return `${Math.floor(betweenTimeDay / 365)}년전`;
+            return '방금전';
         }
 
 
