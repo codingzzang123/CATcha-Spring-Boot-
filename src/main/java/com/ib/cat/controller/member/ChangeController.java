@@ -36,10 +36,9 @@ public class ChangeController {
             member.setImgo(img[0]);
             member.setImgs(img[1]);
         }
-
-        member.setPw(passwordEncoder.encode(newPw));
-
-
+        if(!newPw.isEmpty()) {
+            member.setPw(passwordEncoder.encode(newPw));
+        }
         memberService.memberUpdate(member);
         Auth auth = (Auth) httpSession.getAttribute("auth");
         if(auth.getAuth().equals("1")){
