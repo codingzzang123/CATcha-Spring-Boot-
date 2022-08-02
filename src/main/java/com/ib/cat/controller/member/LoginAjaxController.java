@@ -74,7 +74,6 @@ public class LoginAjaxController {
     @ResponseBody
     public int oldPwCheck(@RequestParam("oldPw") String oldPw, @RequestParam("id") String id) {
         Member member = memberService.findById(id);
-        System.out.println(passwordEncoder.matches(oldPw, member.getPw()));
         if(passwordEncoder.matches(oldPw, member.getPw())){
             return 1;
         }else {
