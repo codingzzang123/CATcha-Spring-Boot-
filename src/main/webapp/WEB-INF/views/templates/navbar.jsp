@@ -107,6 +107,7 @@
             };
 
             ws.onmessage = function (evt){
+                $("#msgStack").empty();
                 var data = evt.data;
 
                 let toast = "<div class='toast' id='toast' data-autohide='false'>";
@@ -114,7 +115,7 @@
                 toast += "<small class='text-muted'>just now</small><button type='button' id='test' class='ml-2 mb-1 close' data-bs-dismiss='toast' aria-label='Close'>";
                 toast += "&times;</button></div>";
                 toast += "<div class='toast-body'>" + data + "</div></div>";
-                $("#msgStack").append(toast);   // msgStack div에 생성한 toast 추가
+                $("#msgStack").prepend(toast);   // msgStack div에 생성한 toast 추가
                 $(".toast").toast({"animation": true, "autohide": true});
                 $('.toast').toast('show');
                 // $("#newNoticeCnt").text($("#newNoticeCnt").text()*1+1); //알림 받았을때 카운트 +1증가
