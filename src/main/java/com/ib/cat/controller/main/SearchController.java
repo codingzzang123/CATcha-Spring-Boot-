@@ -34,29 +34,19 @@ public class SearchController {
     @Autowired
     PagingUtil pagingUtil;
 
-
-
 @GetMapping(value = {"/search", "/search/{path}"})
     public String searchFrom(Model model, @PathVariable Optional<String> path,
-                             @RequestParam(required = false, value="query")String query,
-                             @RequestParam(value="page", defaultValue="1")Integer page,
+                             @RequestParam String query,
+                             @RequestParam(value="page", defaultValue="1")int page,
                              @PageableDefault(size = 10, sort = "no", direction = Sort.Direction.DESC) Pageable pageable,
                              HttpServletRequest request) throws UnsupportedEncodingException {
 
-        if(query.isEmpty()||query.startsWith(" ")) {
+        if(query.isEmpty()||query.startsWith(" "))
             return "redirect:" + request.getHeader("Referer");
-        }
 
-        String resultPath="";
         String type = null;
-
-        if (path.isPresent())
-            resultPath = path.get();
-        else
-            resultPath = "movie";
-
+        String resultPath= path.isPresent() ?  path.get() : "movie";
         SearchCountDto searchCountDto = searchService.searchCountDto(query);
-
         List<ContentsDto> contents = new ArrayList<>();
 
         if (resultPath.equals("movie")) {
@@ -84,19 +74,16 @@ public class SearchController {
             model.addAttribute("startBlockPage", startBlockPage);
             model.addAttribute("endBlockPage", endBlockPage);
             model.addAttribute("content", pageList);
-
         }
-
         model.addAttribute("contents", contents);
         model.addAttribute("paging", pagingUtil);
         model.addAttribute("page", page);
         model.addAttribute("query", query);
         model.addAttribute("type", type);
         model.addAttribute("scd", searchCountDto);
-
         model.addAttribute("today", new Timestamp(System.currentTimeMillis()));
-        return "main/search";
 
+        return "main/search";
     }
 
 }
