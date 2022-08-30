@@ -24,9 +24,7 @@ public class SearchService {
     BoardRepository boardRepository;
 
     public List<ContentsDto> movie(int page, String query){
-
         List<ContentsDto> list = searchInfoUtil.getMovieList(page, query);
-
         return list;
     }
 
@@ -55,7 +53,14 @@ public class SearchService {
         return list;
     }
 
-    public Integer boardTuples(String query){
+    public SearchCountDto searchCountDto(String query) throws UnsupportedEncodingException {
+        SearchCountDto searchCountDto = new SearchCountDto();
+        searchCountDto.setMovie(movieTuples(URLEncoder.encode(query, "UTF-8")));
+        searchCountDto.setTv(tvTuples(URLEncoder.encode(query, "UTF-8")));
+        searchCountDto.setBoard(boardTuples(query));
+        return searchCountDto;
+    }
+    public int boardTuples(String query){
         return boardRepository.countByTitleContainingOrContentContainingIgnoreCase(query,query);
     }
 
@@ -65,13 +70,5 @@ public class SearchService {
 
     public int tvTuples(String query){
         return searchInfoUtil.countTVs(query);
-    }
-
-    public SearchCountDto searchCountDto(String query) throws UnsupportedEncodingException {
-        SearchCountDto searchCountDto = new SearchCountDto();
-        searchCountDto.setMovie(movieTuples(URLEncoder.encode(query, "UTF-8")));
-        searchCountDto.setTv(tvTuples(URLEncoder.encode(query, "UTF-8")));
-        searchCountDto.setBoard(boardTuples(query));
-        return searchCountDto;
     }
 }

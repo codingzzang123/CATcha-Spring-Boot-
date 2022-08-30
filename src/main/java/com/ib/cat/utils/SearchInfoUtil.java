@@ -34,7 +34,6 @@ public class SearchInfoUtil {
         String apiURL =API_URL+ "search/movie?api_key=" + KEY +"&language=ko-KR&query="+query+"&page="+page;
         List<ContentsDto> movieList = null;
 
-
         try {
             URL url = new URL(apiURL);
             BufferedReader bf;
@@ -72,7 +71,7 @@ public class SearchInfoUtil {
                 if(bf != null) bf.close();
             }
         }catch(Exception e) {
-
+            e.printStackTrace();
         }
         return movieList;
     }
@@ -126,7 +125,7 @@ public class SearchInfoUtil {
 
     public int countMovies(String query){
         String apiURL = API_URL+ "search/movie?api_key=" + KEY +"&language=ko&query="+query;
-        int result=0;
+        int result;
         try {
             URL url = new URL(apiURL);
             BufferedReader bf;
@@ -138,8 +137,7 @@ public class SearchInfoUtil {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(page);
             result = Integer.parseInt(jsonObject.get("total_results").toString());
 
-            if(bf != null) bf.close();
-
+            bf.close();
         }catch(Exception e) {
             e.printStackTrace();
             result = 0;

@@ -32,13 +32,13 @@ public class SearchController {
     BoardService boardService;
 
     @Autowired
-    PagingUtil pagingUtil;
+    PagingUtil pagingUtil; // 영화,TV 데이터들은 DB에 저장된것이 아니라 JSON 형태의 데이터이므로 Pageable 사용 하지않고 직접 페이징로직
 
-@GetMapping(value = {"/search", "/search/{path}"})
+    @GetMapping(value = {"/search", "/search/{path}"})
     public String searchFrom(Model model, @PathVariable Optional<String> path,
                              @RequestParam String query,
-                             @RequestParam(value="page", defaultValue="1")int page,
-                             @PageableDefault(size = 10, sort = "no", direction = Sort.Direction.DESC) Pageable pageable,
+                             @RequestParam(value="page", defaultValue="1")int page, //페이징을 위한 변수
+                             @PageableDefault(size = 10, sort = "no", direction = Sort.Direction.DESC) Pageable pageable, // Pageable객체를 사용한 페이징 처리 ( 게시판(board) 정보는 DB에 저장되어있으므로 )
                              HttpServletRequest request) throws UnsupportedEncodingException {
 
         if(query.isEmpty()||query.startsWith(" "))
@@ -61,8 +61,9 @@ public class SearchController {
 
         } else {
             type = "board";
-            Page<Board> pageList = boardService.searchSubjectMemo(query,pageable);
+            Page<Board> pageList = boardService.searchSubjectContent(query,pageable);
 
+            /* 페이징을 위한 변수 */
             int pageNumber = pageList.getPageable().getPageNumber();
             int totalPages = pageList.getTotalPages();
             int pageBlock = 5;
@@ -85,5 +86,4 @@ public class SearchController {
 
         return "main/search";
     }
-
 }

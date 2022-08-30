@@ -13,79 +13,60 @@ import java.util.*;
 @Component
 public class WebSockAlertHandler extends TextWebSocketHandler {
 
-    /* 로그인 한 user 전체 */ /* 1. 서버에 들어온 유저 닉네임 다 가져와보기 */
-    private List<WebSocketSession> sessions = new ArrayList<WebSocketSession>();
-
-    /* 1:1 통신 */
+    /* 로그인 한 user -> map으로 관리, 1:1 통신 */
     private Map<String,WebSocketSession> userSessionsMap = new HashMap<>();
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        sessions.add(session);
         userSessionsMap.put(currentUserName(session),session);
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        sessions.remove(session);
         userSessionsMap.remove(currentUserName(session),session);
     }
 
     private String currentUserName(WebSocketSession session){
-        Map<String ,Object> httpSession = session.getAttributes();
+        Map<String ,Object> maps = session.getAttributes();
 
-        Collection<Object> values = httpSession.values(); //System.out.println("Collection<Object> : "+values );
-
-        Auth loginUser = (Auth)httpSession.get("auth");
+        /* Login시 session에 등록된 auth객체 가져오기 */
+        Auth loginUser = (Auth)maps.get("auth");
         return loginUser.getName();
     }
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        String msg =  message.getPayload(); //script에서 받은 message
+        String msg =  message.getPayload();
 
         if(StringUtils.isNotEmpty(msg)){
+            StringTokenizer st = new StringTokenizer(msg,",");
 
-            String[] strs = msg.split(",");
-
-            String cmd = strs[0];
-            String replyWriter = strs[1];
-            String boardWriter = strs[2];
-            String title = strs[3];
+            String cmd = st.nextToken();
+            String sender = st.nextToken();
+            String receiver = st.nextToken();
+            String title = st.nextToken();
 
             if(title.length() > 10){
-                title = title.substring(0,Math.min(title.length(),10));
-                title += "..";
+                title = title.substring(0,10) + "..";
             }
+            WebSocketSession receiverSession = userSessionsMap.get(receiver);
 
-            WebSocketSession replyWriterSession =
-                    userSessionsMap.get(replyWriter);
+            String prev = "<strong>"+sender+"</strong>님이 [<strong>"+ title+"</strong>]";
 
-            WebSocketSession boardWriterSession =
-                    userSessionsMap.get(boardWriter);
-
-            System.out.println("replyWriterSession = "+replyWriterSession);
-            System.out.println("boardWriterSession = "+boardWriterSession);
-
-            if ("like".equals(cmd)&&boardWriterSession !=null){
-
-                TextMessage tmpMsg = new TextMessage(
-                        "<strong>"+replyWriter+"</strong>"+"님이 [" +
-                                "<strong>"+ title+"</strong>" +"] 게시글에<br> 좋아요를 눌렀습니다."
-                );
-                boardWriterSession.sendMessage(tmpMsg);
-            }else if("comment".equals(cmd)&&boardWriterSession !=null){
-                TextMessage tmpMsg = new TextMessage(
-                        "<strong>"+replyWriter+"</strong>"+"님이 [" +
-                                "<strong>"+ title+"</strong>" +"] 게시글에<br> 댓글을 달았습니다."
-                );
-                boardWriterSession.sendMessage(tmpMsg);
-            }else if("reply".equals(cmd)&&boardWriterSession !=null){
-                TextMessage tmpMsg = new TextMessage(
-                        "<strong>"+replyWriter+"</strong>님이 [<strong>"+ title+"</strong>] 댓글에"+
-                                "<br>답글을 달았습니다."
-                );
-                boardWriterSession.sendMessage(tmpMsg);
+            if(receiverSession != null){
+                TextMessage tmpMsg = null;
+                switch (cmd){
+                    case "like" :
+                        tmpMsg = new TextMessage(prev + "게시글에<br> 좋아요를 눌렀습니다.");
+                        break;
+                    case "comment" :
+                        tmpMsg = new TextMessage(prev + "게시글에<br> 댓글을 달았습니다." );
+                        break;
+                    case "reply" :
+                        tmpMsg = new TextMessage(prev + "댓글에<br>답글을 달았습니다." );
+                        break;
+                }
+                receiverSession.sendMessage(tmpMsg);
             }
         }
     }

@@ -95,7 +95,7 @@
         /* Socket Connect function */
         function connect() {
             console.log('into connect function');
-            var ws = new SockJS("/gs-websocket");
+            var ws = new SockJS("/cat-websocket");
             socket = ws;
 
             ws.onopen = function (){

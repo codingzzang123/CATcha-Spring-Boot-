@@ -13,7 +13,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new WebSockAlertHandler(), "/gs-websocket")
+        registry.addHandler(new WebSockAlertHandler(), "/cat-websocket")
                 .addInterceptors(new HttpSessionHandshakeInterceptor())
                 .withSockJS();
     }

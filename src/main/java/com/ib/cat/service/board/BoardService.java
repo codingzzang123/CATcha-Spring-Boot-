@@ -26,7 +26,7 @@ public class BoardService {
     }
 
 
-    public Page<Board> searchSubjectMemo(String keyword,Pageable pageable){
+    public Page<Board> searchSubjectContent(String keyword,Pageable pageable){
         return boardRepository.findByContentContainingOrTitleContainingIgnoreCase(keyword,keyword,pageable);
     }
     public Page<Board> searchSubject(String searchKeyword, Pageable pageable){

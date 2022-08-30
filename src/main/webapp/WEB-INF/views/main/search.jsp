@@ -157,11 +157,11 @@
                                             </td>
                                             <td  style="width:100px; height:50px; word-break:break-all;table-layout:fixed;">
 
-                                                <fmt:parseDate value="${today }" var="now2" pattern="yyyy-MM-dd"/>
-                                                <fmt:parseDate value="${content.regdate }" var="regdate2" pattern="yyyy-MM-dd"/>
+                                                <fmt:parseDate value="${today }" var="now" pattern="yyyy-MM-dd"/>
+                                                <fmt:parseDate value="${content.regdate }" var="regdate" pattern="yyyy-MM-dd"/>
 
-                                                <fmt:parseNumber value="${now2.time / (1000*60*60*24)}" integerOnly="true" var="nowDate"/>
-                                                <fmt:parseNumber value="${regdate2.time / (1000*60*60*24)}" integerOnly="true" var="regDate"/>
+                                                <fmt:parseNumber value="${now.time / (1000*60*60*24)}" integerOnly="true" var="nowDate"/>
+                                                <fmt:parseNumber value="${regdate.time / (1000*60*60*24)}" integerOnly="true" var="regDate"/>
 
                                                 <c:if test="${(nowDate - regDate) gt 0}">
                                                     <fmt:formatDate value="${content.regdate }" pattern="MM/dd"/>
