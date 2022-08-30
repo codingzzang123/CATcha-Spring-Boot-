@@ -41,7 +41,7 @@ public class FormController {
         if (cate.equals("none")) { /* 전체보기 */
             System.out.println("전체보기");
             if(field.equals("subject_memo")){
-                pageList = boardService.searchSubjectMemo(searchKeyword,searchKeyword,pageable);
+                pageList = boardService.searchSubjectMemo(searchKeyword,pageable);
             }else if(field.equals("subject")){
                 pageList = boardService.searchSubject(searchKeyword, pageable);
             }else if(field.equals("memo")){

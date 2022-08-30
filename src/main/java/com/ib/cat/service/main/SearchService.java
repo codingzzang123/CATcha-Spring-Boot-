@@ -45,9 +45,6 @@ public class SearchService {
     public List<SearchBoardDto> board(String query){
         List<SearchBoardDto> list = new ArrayList<>();
 
-        if(query==null||query.length()==0||query.equals("")||query.equals(""))
-            return null;
-
         List<Board> tmp = boardRepository.findByTitleContainingOrContentContainingIgnoreCase(query,query);
 
         for(Board board : tmp){

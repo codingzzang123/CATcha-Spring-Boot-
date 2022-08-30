@@ -13,14 +13,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -40,20 +36,20 @@ public class SearchController {
 
 
 
-@RequestMapping(value = {"/search", "/search/{path}"}, method= RequestMethod.GET)
+@GetMapping(value = {"/search", "/search/{path}"})
     public String searchFrom(Model model, @PathVariable Optional<String> path,
                              @RequestParam(required = false, value="query")String query,
                              @RequestParam(value="page", defaultValue="1")Integer page,
                              @PageableDefault(size = 10, sort = "no", direction = Sort.Direction.DESC) Pageable pageable,
                              HttpServletRequest request) throws UnsupportedEncodingException {
-        System.out.println("query : "+ URLDecoder.decode(query, "UTF-8"));
-        if(query.isEmpty()||query.startsWith(" ")||query==null||query.length()==0) {
-            query = "!@#$%^&*";
+
+        if(query.isEmpty()||query.startsWith(" ")) {
             return "redirect:" + request.getHeader("Referer");
         }
-        query = query.replace("\\", "");
+
         String resultPath="";
         String type = null;
+
         if (path.isPresent())
             resultPath = path.get();
         else
@@ -75,8 +71,7 @@ public class SearchController {
 
         } else {
             type = "board";
-            /* 게시판 페이징 Attribute 추가 */
-            Page<Board> pageList = boardService.searchSubjectMemo(query,query,pageable);
+            Page<Board> pageList = boardService.searchSubjectMemo(query,pageable);
 
             int pageNumber = pageList.getPageable().getPageNumber();
             int totalPages = pageList.getTotalPages();
@@ -93,11 +88,11 @@ public class SearchController {
         }
 
         model.addAttribute("contents", contents);
+        model.addAttribute("paging", pagingUtil);
         model.addAttribute("page", page);
         model.addAttribute("query", query);
         model.addAttribute("type", type);
         model.addAttribute("scd", searchCountDto);
-        model.addAttribute("paging", pagingUtil);
 
         model.addAttribute("today", new Timestamp(System.currentTimeMillis()));
         return "main/search";

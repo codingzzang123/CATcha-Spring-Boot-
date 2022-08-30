@@ -26,7 +26,7 @@ public class BoardService {
     }
 
 
-    public Page<Board> searchSubjectMemo(String keyword,String Keyword,Pageable pageable){
+    public Page<Board> searchSubjectMemo(String keyword,Pageable pageable){
         return boardRepository.findByContentContainingOrTitleContainingIgnoreCase(keyword,keyword,pageable);
     }
     public Page<Board> searchSubject(String searchKeyword, Pageable pageable){
@@ -42,9 +42,6 @@ public class BoardService {
     public Page<Board> findAllCate( String cate, Pageable pageable) {
         return boardRepository.findByCate(cate, pageable);
     }
-//    public Page<Board> searchCateAndSubjectMemo(String cate, String keyword,String Keyword,Pageable pageable){
-//        return boardRepository.findByCateAndContentContainingOrTitleContainingIgnoreCase(cate,keyword,keyword, pageable);
-//    }
     public Page<Board> searchCateAndSubjectMemo(String cate, String keyword,String Keyword,Pageable pageable){
         return boardRepository.findByCateAndContentContainingOrTitleContainingIgnoreCase(cate, keyword,keyword, pageable);
     }

@@ -37,7 +37,6 @@ public class SearchInfoUtil {
 
         try {
             URL url = new URL(apiURL);
-            System.out.println("URL url = "+ url);
             BufferedReader bf;
 
             bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
@@ -85,7 +84,6 @@ public class SearchInfoUtil {
 
         try {
             URL url = new URL(apiURL);
-            System.out.println("URL url = "+ url);
             BufferedReader bf;
 
             bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
