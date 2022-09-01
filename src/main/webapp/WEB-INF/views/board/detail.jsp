@@ -419,7 +419,7 @@
             data: {
                 object : JSON.stringify(insertObject)
             },
-            url: "${pageContext.request.contextPath}/alert/like/insert",
+            url: "${pageContext.request.contextPath}/alert/like",
             success: function (data) {
                 console.log("Success update(insert)");
                 let socketMsg = "like,"+'${auth.name },'+targetUser+","+ '${board.title }';
@@ -444,7 +444,7 @@
             data: {
                 object : JSON.stringify(deleteObject)
             },
-            url: "${pageContext.request.contextPath}/alert/like/delete",
+            url: "${pageContext.request.contextPath}/alert/like",
             success: function (data) {
                 console.log("Success update(delete)");
             }
@@ -466,7 +466,7 @@
                 data: {
                     object : JSON.stringify(insertObject)
                 },
-                url: "${pageContext.request.contextPath}/alert/reply/insert",
+                url: "${pageContext.request.contextPath}/alert/reply",
                 success: function (data) {
                     console.log("Success update(Comment Insert)");
                     let socketMsg = "comment,"+'${auth.name },'+targetUser+","+ '${board.title }'; // " ..게시글에 auth.name유저가 댓글을 달았습니다"
@@ -492,7 +492,7 @@
                 data: {
                     object : JSON.stringify(deleteObject)
                 },
-                url: "${pageContext.request.contextPath}/alert/reply/delete",
+                url: "${pageContext.request.contextPath}/alert/reply",
                 success: function (data) {
                     console.log("Success update(delete)");
                 }
